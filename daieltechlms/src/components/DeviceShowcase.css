@@ -1,0 +1,144 @@
+.device-showcase-container {
+    position: relative;
+    /* Instead of absolute, it now sits beside BrieflyAboutUs in a flex row */
+    flex: 1;
+    max-width: 750px;
+    height: auto;
+    aspect-ratio: 16/10;
+    z-index: 10;
+    pointer-events: auto;
+    margin-right: 0;
+}
+
+.device-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* White/Light Theme */
+    background: #f0f2f5;
+    border: 1px solid #d1d5db;
+    border-radius: 18px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        0 0 0 1px #fff inset;
+    /* Inner highlight */
+    overflow: hidden;
+
+    /* Straighten the laptop: No 3D Rotation */
+    transform: none;
+
+    /* Simulating a "chin" or bottom bezel */
+    border-bottom: 24px solid #e0e0e0;
+}
+
+/* Camera Dot */
+.device-camera {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: #333;
+    border-radius: 50%;
+    z-index: 20;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.device-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* Fill the frame (chin is handled by border) */
+    background: #fff;
+    overflow: hidden;
+    border-radius: 16px;
+    /* Match frame curve internal */
+}
+
+/* Image Animations: Left to Right Slide */
+
+/* Common State */
+.device-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensure full visibility or cover */
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+
+/* 1. Waiting State (Ready): Sit to the LEFT (-100%) */
+.device-image.ready {
+    transform: translateX(-100%);
+    z-index: 1;
+    opacity: 0;
+    /* Hide while jumping back */
+    transition: none;
+    /* Instant reset when moving from Exit -> Ready (in theory, but React logic cycles linearly) */
+}
+
+/* Wait, with normal cycling 0->1->2->0:
+   When 2 is active, 0 becomes 'ready' (waiting).
+   If 0 was 'exit' (at +100%), it needs to jump to -100% instantly.
+   The 'ready' class logic handles this.
+*/
+
+/* 2. Active State: Center (0%) */
+.device-image.active {
+    transform: translateX(0);
+    z-index: 2;
+    opacity: 1;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 3. Exit State: Move to RIGHT (+100%) */
+.device-image.exit {
+    transform: translateX(100%);
+    z-index: 1;
+    opacity: 1;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+
+/* Device Glare (Subtle for white) */
+.device-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, transparent 40%);
+    z-index: 15;
+    pointer-events: none;
+}
+
+
+/* Responsive */
+@media (max-width: 1280px) and (min-width: 761px) {
+    .device-showcase-container {
+        max-width: 600px;
+    }
+
+    .device-frame {
+        border-bottom: 16px solid #e0e0e0;
+        /* Smaller chin on tablets */
+    }
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+    .device-showcase-container {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .device-frame {
+        transform: none;
+    }
+}

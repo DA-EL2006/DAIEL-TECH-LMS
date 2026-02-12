@@ -1,0 +1,267 @@
+/* Find fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.briefly-section {
+    position: relative;
+    width: 100%;
+    /* Ensure it covers the area */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 60px 0;
+    /* Add vertical padding for the section */
+}
+
+.briefly-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Very dark overlay */
+    z-index: 1;
+}
+
+
+
+.briefly-about-container {
+    position: relative;
+    z-index: 2;
+    /* Ensure content is above overlay */
+    background-color: rgba(255, 255, 255, 0.752);
+    padding: 40px;
+
+    border-radius: 8px;
+    overflow: hidden;
+    /* This keeps the inner content clean, but might clip the outer glow if margin isn't sufficient */
+    /* Width logic: ~1/3 of page on desktop, full on mobile */
+    /* Width logic: ~1/3 of page on desktop, full on mobile */
+    width: 40%;
+    min-width: 320px;
+    height: auto;
+    min-height: 400px;
+    /* Base minimum height */
+    /* Minimum width constraint */
+
+
+    /* LEFT ALIGNED as requested */
+    margin: 0;
+
+
+    /* Removing generic box-shadow to focus on the border glow */
+    box-shadow: none;
+    font-family: 'Poppins', 'DM Sans', Helvetica, sans-serif;
+
+}
+
+/* ... existing media query ... */
+
+/* Header Styling */
+.briefly-header {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    /* Clamp font size */
+    font-weight: 700;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Poppins', 'DM Sans', sans-serif;
+}
+
+/* Typing Text Styling */
+/* Typing Text Styling */
+.briefly-text {
+    font-family: 'DM Sans', 'Poppins', Helvetica, sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    /* Clamp font size */
+    line-height: 1.6;
+
+    /* Rainbow Text Gradient */
+    background: linear-gradient(135deg, #ff0000, #ff7f00, #cccc00, #00b300, #0000ff, #4b0082, #9400d3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    min-height: 150px;
+    /* Increased height */
+    white-space: pre-wrap;
+}
+
+/* Cursor Animation */
+.cursor {
+    display: inline-block;
+    width: 2px;
+    background-color: black;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* 
+  Animated Border implementation using spans.
+*/
+
+
+/* ... existing code ... */
+
+/* 
+  Animated Border implementation using spans.
+  Refining for a "single glowing head" effect.
+  We use a shorter travel duration per side to keep it moving, 
+  and sync the delays perfectly.
+*/
+.briefly-about-container span {
+    position: absolute;
+    display: block;
+    border-radius: 4px;
+    /* Soften the glowing head */
+}
+
+/* Top Line */
+.briefly-about-container span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 4px;
+    /* Slightly thicker for the glow */
+    /* Gradient from transparent to bright head */
+    background: linear-gradient(90deg, transparent, #fff);
+    /* Strong glow on the head */
+    box-shadow: 0 0 10px #fff, 0 0 20px var(--color-primary, #0053E4);
+    animation: animate1 4s linear infinite;
+}
+
+@keyframes animate1 {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        left: 100%;
+        opacity: 0;
+        /* Fade out as it leaves */
+    }
+}
+
+/* Right Line */
+.briefly-about-container span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #fff);
+    box-shadow: 0 0 10px #fff, 0 0 20px var(--color-primary, #0053E4);
+    animation: animate2 4s linear infinite;
+    animation-delay: 1s;
+    /* 1/4 of 4s */
+}
+
+@keyframes animate2 {
+    0% {
+        top: -100%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+/* Bottom Line */
+.briefly-about-container span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(270deg, transparent, #fff);
+    box-shadow: 0 0 10px #fff, 0 0 20px var(--color-primary, #0053E4);
+    animation: animate3 4s linear infinite;
+    animation-delay: 2s;
+    /* 2/4 of 4s */
+}
+
+@keyframes animate3 {
+    0% {
+        right: -100%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        right: 100%;
+        opacity: 0;
+    }
+}
+
+/* Left Line */
+.briefly-about-container span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #fff);
+    box-shadow: 0 0 10px #fff, 0 0 20px var(--color-primary, #0053E4);
+    animation: animate4 4s linear infinite;
+    animation-delay: 3s;
+    /* 3/4 of 4s */
+}
+
+@keyframes animate4 {
+    0% {
+        bottom: -100%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        bottom: 100%;
+        opacity: 0;
+    }
+}
+
+
+/* Responsive for Mobile/Tablet/Fold */
+@media (max-width: 760px) {
+    .briefly-about-container {
+        width: 100%;
+        min-width: auto;
+        /* Fix for 344px width */
+        margin: 20px 0;
+        padding: 25px;
+        /* Tighter padding for mobile */
+        height: auto;
+        min-height: 300px;
+    }
+}

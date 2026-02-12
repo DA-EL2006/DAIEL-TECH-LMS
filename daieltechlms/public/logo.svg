@@ -1,0 +1,23 @@
+<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="60" fill="none"/>
+  
+  <!-- Book/Learning Icon -->
+  <g transform="translate(10, 10)">
+    <!-- Book spine -->
+    <rect x="5" y="2" width="3" height="36" fill="#0053E4" rx="1"/>
+    <!-- Book cover left -->
+    <rect x="8" y="2" width="14" height="36" fill="#0053E4" rx="2"/>
+    <!-- Book cover right -->
+    <rect x="22" y="2" width="14" height="36" fill="#3D7FFF" rx="2"/>
+    <!-- Book pages highlight -->
+    <line x1="15" y1="8" x2="29" y2="8" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="15" y1="14" x2="29" y2="14" stroke="white" stroke-width="1.5" opacity="0.6"/>
+    <line x1="15" y1="20" x2="29" y2="20" stroke="white" stroke-width="1.5" opacity="0.6"/>
+  </g>
+  
+  <!-- Text Logo -->
+  <text x="55" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#0053E4">
+    DAIEL
+  </text>
+</svg>
