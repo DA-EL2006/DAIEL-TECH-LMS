@@ -22,15 +22,14 @@ body,
 
 /* Navbar */
 .navbar {
-  background: white;
-  /* White background */
-  color: var(--color-primary);
-  /* Brand color text base */
+  background: #0a0e14;
+  color: white;
   padding: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  /* Lighter shadow */
-  position: static;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
   z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-container {
@@ -74,23 +73,23 @@ body,
 }
 
 .nav-link {
-  color: var(--color-primary);
-  /* Brand Color */
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   transition: all 0.2s;
   border: none;
   background: transparent;
   white-space: nowrap;
+  letter-spacing: 0.5px;
 }
 
 .nav-link:hover {
-  background: rgba(0, 83, 228, 0.1);
-  /* Primary color low opacity */
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .nav-dropdown-login,
@@ -113,7 +112,7 @@ body,
 .hamburger-menu span {
   width: 25px;
   height: 3px;
-  background: var(--color-primary);
+  background: white;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -149,7 +148,9 @@ body,
 }
 
 .nav-link-btn:hover {
-  background: rgba(0, 83, 228, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  color: white;
   transform: translateY(-2px);
 }
 
@@ -181,6 +182,7 @@ body,
 .nav-breadcrumb {
   opacity: 0.6;
   margin: 0 5px;
+  color: white;
 }
 
 .nav-course-name {

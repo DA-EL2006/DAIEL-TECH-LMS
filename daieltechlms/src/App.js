@@ -6,6 +6,8 @@ import UnifiedCoursePlayer from './components/UnifiedCoursePlayer';
 import TimestampedAnnotations from './components/TimestampedAnnotations';
 import { saveVideoProgress } from './utils/storage';
 import InfoSection from './components/InfoSection';
+import ExploreOurCourse from './components/ExploreOurCourse';
+
 
 
 function App() {
@@ -92,7 +94,9 @@ function App() {
 
         <main className="app-main">
           <InfoSection />
+          {currentView === 'dashboard' && <ExploreOurCourse />}
           {currentView === 'dashboard' ? (
+
             <Dashboard
               onCourseSelect={handleCourseSelect}
               onVideoSelect={handleVideoSelect}
