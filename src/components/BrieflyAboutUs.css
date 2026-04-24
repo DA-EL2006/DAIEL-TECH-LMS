@@ -1,0 +1,128 @@
+/* Find fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.briefly-section {
+    position: relative;
+    width: 100%;
+    /* Ensure it covers the area */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px 40px;
+    /* Added 40px horizontal padding */
+}
+
+.briefly-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-overlay);
+    z-index: 1;
+}
+
+.briefly-about-container {
+    position: relative;
+    z-index: 2;
+    background-color: transparent !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    backdrop-filter: none !important;
+    width: 60%;
+    min-width: 320px;
+    height: auto;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none !important;
+    font-family: 'Poppins', 'DM Sans', Helvetica, sans-serif;
+}
+
+/* Header Styling */
+.briefly-header {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: clamp(2.2rem, 6vw, 3rem);
+    font-weight: 900;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Poppins', 'DM Sans', sans-serif;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Typing Text Styling */
+.briefly-text {
+    font-family: 'DM Sans', 'Poppins', Helvetica, sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.3;
+
+    /* High-Saturation Rainbow */
+    background: linear-gradient(135deg, #ff0000, #ff8c00, #e6e600, #00ad00, #0000ff, #4b0082, #9b00e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    min-height: 280px;
+    /* Predefined height to prevent jumping */
+    white-space: pre-wrap;
+}
+
+/* Cursor Animation */
+.cursor {
+    display: inline-block;
+    width: 2px;
+    background-color: var(--color-text);
+    animation: blink 1s step-end infinite;
+}
+
+.explore-courses {
+    padding: 100px 40px;
+    /* Increased horizontal padding to 40px */
+    background: var(--color-section-bg);
+    color: var(--color-text);
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+
+/* Responsive for Mobile/Tablet/Fold */
+@media (max-width: 760px) {
+    .briefly-about-container {
+        width: 100%;
+        min-width: auto;
+        margin: 20px 0;
+        padding: 0 !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        height: auto;
+        min-height: auto;
+    }
+
+    .briefly-header {
+        font-size: 2rem;
+        /* Keep it bold on mobile */
+    }
+
+    .briefly-text {
+        font-size: 1.3rem;
+        min-height: 250px;
+        /* Reduced for mobile but still consistent */
+    }
+}
