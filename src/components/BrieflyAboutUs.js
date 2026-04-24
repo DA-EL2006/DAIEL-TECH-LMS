@@ -1,35 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import './BrieflyAboutUs.css';
-
+import React, { useState, useEffect } from "react";
+import "./BrieflyAboutUs.css";
 
 const BrieflyAboutUs = () => {
-  const fullText = "Daiel Tech is a digital skills hub dedicated to training and mentoring young talents with relevant, future-ready tech skills that unlock global opportunities, transform lives, and shape the digital future beyond borders.";
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
+  const fullText =
+    "Daiel Tech is a digital skills hub dedicated to training and mentoring young talents with relevant, future-ready tech skills that unlock global opportunities, transform lives, and shape the digital future beyond borders.";
+  const [displayedText, setDisplayedText] = useState("");
 
   useEffect(() => {
     let timeoutId;
     let index = 0;
-    
+
     const typeText = () => {
       // Use logical check to continue typing
       if (index <= fullText.length) {
         setDisplayedText(fullText.slice(0, index));
         index++;
-        
+
         // Typing speed
         const speed = Math.random() * 30 + 30; // Slightly slower: 30-60ms
         timeoutId = setTimeout(typeText, speed);
       } else {
         // Finished typing
-        setIsTyping(false);
         // Wait before restarting
         timeoutId = setTimeout(() => {
-          setDisplayedText('');
+          setDisplayedText("");
           index = 0;
-          setIsTyping(true);
           typeText();
-        }, 3000); 
+        }, 3000);
       }
     };
 

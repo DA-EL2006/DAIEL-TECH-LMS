@@ -1,51 +1,70 @@
-import React, { useState } from 'react';
-import { 
-  BarChart2, 
-  BookOpen, 
-  CheckCircle, 
-  Clock, 
-  Download, 
-  MessageSquare, 
-  Play, 
-  Settings, 
-  Award, 
-  Users, 
+import React, { useState } from "react";
+import {
+  BarChart2,
+  BookOpen,
+  CheckCircle,
+  Clock,
+  Download,
+  MessageSquare,
+  Play,
+  Settings,
+  Award,
+  Users,
   HelpCircle,
-  ExternalLink,
   Calendar,
   ChevronRight,
   LogOut,
   User,
   Shield,
-  Bell
-} from 'lucide-react';
-import './Dashboard.css';
+  Bell,
+} from "lucide-react";
+import "./Dashboard.css";
 
 const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  
+  const [activeTab, setActiveTab] = useState("dashboard");
+
   // Mock data for the dashboard
   const user = {
-    name: 'David',
+    name: "David",
     streak: 7,
     enrolledCourses: [
-      { id: 1, name: 'Fullstack Web Development', progress: 65, mentor: 'Sarah Johnson' },
-      { id: 2, name: 'UI/UX Design Masterclass', progress: 30, mentor: 'Michael Chen' }
-    ]
+      {
+        id: 1,
+        name: "Fullstack Web Development",
+        progress: 65,
+        mentor: "Sarah Johnson",
+      },
+      {
+        id: 2,
+        name: "UI/UX Design Masterclass",
+        progress: 30,
+        mentor: "Michael Chen",
+      },
+    ],
   };
 
   const assignments = [
-    { id: 1, title: 'React Hooks Deep Dive', deadline: 'Oct 25, 2023', status: 'Pending' },
-    { id: 2, title: 'State Management Design', deadline: 'Oct 20, 2023', status: 'Submitted' }
+    {
+      id: 1,
+      title: "React Hooks Deep Dive",
+      deadline: "Oct 25, 2023",
+      status: "Pending",
+    },
+    {
+      id: 2,
+      title: "State Management Design",
+      deadline: "Oct 20, 2023",
+      status: "Submitted",
+    },
   ];
 
   const sidebarLinks = [
-    { id: 'dashboard', label: 'Dashboard', icon: BarChart2 },
-    { id: 'courses', label: 'My Courses', icon: BookOpen },
-    { id: 'assignments', label: 'Assignments', icon: Calendar },
-    { id: 'community', label: 'Community', icon: Users },
-    { id: 'certificates', label: 'Certificates', icon: Award },
-    { id: 'support', label: 'Support', icon: HelpCircle },
+    { id: "dashboard", label: "Dashboard", icon: BarChart2 },
+    { id: "courses", label: "My Courses", icon: BookOpen },
+    { id: "assignments", label: "Assignments", icon: Calendar },
+    { id: "community", label: "Community", icon: Users },
+    { id: "certificates", label: "Certificates", icon: Award },
+    { id: "support", label: "Support", icon: HelpCircle },
   ];
 
   return (
@@ -53,13 +72,17 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
       {/* Sidebar Navigation */}
       <aside className="dashboard-sidebar">
         <div className="sidebar-header">
-          <img src="/logo-removebg-preview.png" alt="Daiel Tech" className="sidebar-logo" />
+          <img
+            src="/logo-removebg-preview.png"
+            alt="Daiel Tech"
+            className="sidebar-logo"
+          />
         </div>
         <nav className="sidebar-nav">
-          {sidebarLinks.map(link => (
-            <button 
+          {sidebarLinks.map((link) => (
+            <button
               key={link.id}
-              className={`sidebar-link ${activeTab === link.id ? 'active' : ''}`}
+              className={`sidebar-link ${activeTab === link.id ? "active" : ""}`}
               onClick={() => setActiveTab(link.id)}
             >
               <link.icon size={20} />
@@ -84,7 +107,9 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
             <p>Continue your learning journey at Daiel Tech.</p>
           </div>
           <div className="top-bar-actions">
-            <button className="icon-btn" title="Notifications"><Bell size={20} /></button>
+            <button className="icon-btn" title="Notifications">
+              <Bell size={20} />
+            </button>
             <div className="profile-toggle">
               <div className="avatar">D</div>
               <ChevronRight size={16} />
@@ -98,7 +123,9 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
             <section className="progress-card glass-card">
               <div className="card-header">
                 <h3>Overall Progress</h3>
-                <span className="streak-badge"><Award size={16} /> {user.streak} Day Streak</span>
+                <span className="streak-badge">
+                  <Award size={16} /> {user.streak} Day Streak
+                </span>
               </div>
               <div className="progress-stats">
                 <div className="stat-item">
@@ -111,7 +138,7 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
                 </div>
               </div>
               <div className="main-progress-bar">
-                <div className="progress-fill" style={{ width: '65%' }}></div>
+                <div className="progress-fill" style={{ width: "65%" }}></div>
               </div>
             </section>
 
@@ -119,9 +146,14 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
               <div className="next-lesson-info">
                 <span className="section-tag">NEXT LESSON</span>
                 <h3>Advanced State Management</h3>
-                <p><Clock size={14} /> Estimated: 45 mins • Module 4</p>
+                <p>
+                  <Clock size={14} /> Estimated: 45 mins • Module 4
+                </p>
               </div>
-              <button className="continue-btn" onClick={() => onCourseSelect(1)}>
+              <button
+                className="continue-btn"
+                onClick={() => onCourseSelect(1)}
+              >
                 Continue Learning <Play size={16} />
               </button>
             </section>
@@ -134,7 +166,7 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
                   <span>50%</span>
                 </div>
                 <div className="goal-bar">
-                  <div className="goal-bar-fill" style={{ width: '50%' }}></div>
+                  <div className="goal-bar-fill" style={{ width: "50%" }}></div>
                 </div>
               </div>
               <p className="goal-tip">Complete 2 more to reach your goal! 🚀</p>
@@ -148,8 +180,11 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
               <button className="text-btn">View All</button>
             </div>
             <div className="courses-grid">
-              {user.enrolledCourses.map(course => (
-                <div key={course.id} className="course-dashboard-card glass-card">
+              {user.enrolledCourses.map((course) => (
+                <div
+                  key={course.id}
+                  className="course-dashboard-card glass-card"
+                >
                   <div className="course-thumb">
                     <BookOpen size={24} />
                   </div>
@@ -158,7 +193,10 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
                     <p className="mentor">Mentor: {course.mentor}</p>
                     <div className="course-progress">
                       <div className="mini-bar">
-                        <div className="mini-fill" style={{ width: `${course.progress}%` }}></div>
+                        <div
+                          className="mini-fill"
+                          style={{ width: `${course.progress}%` }}
+                        ></div>
                       </div>
                       <span>{course.progress}%</span>
                     </div>
@@ -176,13 +214,15 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
                 <Award size={18} className="text-primary" />
               </div>
               <div className="assignments-list">
-                {assignments.map(item => (
+                {assignments.map((item) => (
                   <div key={item.id} className="assignment-item">
                     <div className="assignment-info">
                       <span className="title">{item.title}</span>
                       <span className="date">Due: {item.deadline}</span>
                     </div>
-                    <span className={`status-badge ${item.status.toLowerCase()}`}>
+                    <span
+                      className={`status-badge ${item.status.toLowerCase()}`}
+                    >
                       {item.status}
                     </span>
                   </div>
@@ -197,7 +237,8 @@ const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
               </div>
               <div className="community-links">
                 <a href="#discord" className="community-btn discord">
-                  <MessageSquare size={18} /> Discord Access <ChevronRight size={14} />
+                  <MessageSquare size={18} /> Discord Access{" "}
+                  <ChevronRight size={14} />
                 </a>
                 <a href="#mentor" className="community-btn mentor">
                   <User size={18} /> Ask a Mentor <ChevronRight size={14} />
