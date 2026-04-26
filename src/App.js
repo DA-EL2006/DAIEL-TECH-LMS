@@ -9,10 +9,14 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
+import CourseDetails from "./components/CourseDetails";
+import VideoPlayer from "./components/VideoPlayer";
 
 function App() {
-  const [currentView, setCurrentView] = useState("landing"); // dashboard | course | landing
+  const [currentView, setCurrentView] = useState("landing"); // dashboard | course | landing | course-details | video-player
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedCourseDetails, setSelectedCourseDetails] = useState(null);
+  const [selectedLessonId, setSelectedLessonId] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("daiel-theme-v2");
@@ -34,9 +38,17 @@ function App() {
     setCurrentView("course");
   };
 
+  const handleCourseDetailsSelect = (courseId) => {
+    setSelectedCourseDetails(courseId);
+    setCurrentView("course-details");
+    window.scrollTo(0, 0);
+  };
+
   const handleVideoSelect = (courseId, videoId) => {
-    setSelectedCourse(courseId);
-    setCurrentView("course");
+    setSelectedCourseDetails(courseId);
+    setSelectedLessonId(videoId);
+    setCurrentView("video-player");
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -57,8 +69,28 @@ function App() {
             <>
               <InfoSection onSignupClick={() => setCurrentView("signup")} />
               <WhatWeOffer onSignupClick={() => setCurrentView("signup")} />
-              <ExploreOurCourse />
+              <ExploreOurCourse 
+                onCourseSelect={handleCourseDetailsSelect}
+                onEnrollClick={() => setCurrentView("signup")} 
+              />
             </>
+          )}
+
+          {currentView === "course-details" && (
+            <CourseDetails 
+              courseId={selectedCourseDetails} 
+              onBack={() => setCurrentView("landing")}
+              onEnrollClick={() => setCurrentView("signup")}
+              onVideoSelect={(lessonId) => handleVideoSelect(selectedCourseDetails, lessonId)}
+            />
+          )}
+
+          {currentView === "video-player" && (
+            <VideoPlayer
+              courseId={selectedCourseDetails}
+              initialLessonId={selectedLessonId}
+              onBack={() => setCurrentView("course-details")}
+            />
           )}
 
           {currentView === "signup" && (

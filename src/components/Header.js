@@ -12,6 +12,27 @@ const Header = ({
   currentView,
   selectedCourse,
 }) => {
+  const handleNavClick = (e, targetId) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    
+    if (currentView !== "landing") {
+      setCurrentView("landing");
+      // Wait for DOM to update before scrolling
+      setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-container">
@@ -34,24 +55,16 @@ const Header = ({
         </button>
 
         <div className={`nav-links ${mobileMenuOpen ? "active" : ""}`}>
-          <a href="#home" className="nav-link">
+          <a href="#home" className="nav-link" onClick={(e) => handleNavClick(e, 'home')}>
             HOME
           </a>
-          <a href="#about" className="nav-link">
+          <a href="#about" className="nav-link" onClick={(e) => handleNavClick(e, 'about')}>
             ABOUT
           </a>
-          <a
-            href="#courses"
-            className="nav-link"
-            onClick={(e) => {
-              e.preventDefault();
-              setCurrentView("landing");
-              setMobileMenuOpen(false);
-            }}
-          >
+          <a href="#explore-courses" className="nav-link" onClick={(e) => handleNavClick(e, 'explore-courses')}>
             COURSES
           </a>
-          <a href="#contact" className="nav-link">
+          <a href="#contact" className="nav-link" onClick={(e) => handleNavClick(e, 'contact')}>
             CONTACT
           </a>
           <button

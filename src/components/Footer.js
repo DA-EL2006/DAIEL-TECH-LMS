@@ -4,7 +4,7 @@ import { ExternalLink, Send, Camera, Play, MessageCircle } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="footer-premium">
+    <footer className="footer-premium" id="contact">
       <div className="footer-container">
         <div className="footer-grid">
           {/* Company Section */}

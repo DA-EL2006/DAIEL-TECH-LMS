@@ -4,6 +4,36 @@
   box-sizing: border-box;
 }
 
+/* Global Theme Variables */
+:root {
+  --color-byte: #0053E4;
+  --color-byte-hover: #0042b8;
+  --color-byte-light: rgba(0, 83, 228, 0.15);
+  --color-byte-glow: rgba(0, 83, 228, 0.5);
+  
+  /* Default Dark Mode (Glossy Black) */
+  --bg-primary: #050505;
+  --bg-surface: rgba(255, 255, 255, 0.03);
+  --bg-surface-hover: rgba(255, 255, 255, 0.08);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --timeline-marker: #050505;
+  --assignment-bg: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(217, 119, 6, 0.05) 100%);
+}
+
+[data-theme='light'] {
+  /* Light Mode */
+  --bg-primary: #FFFFFF;
+  --bg-surface: #F8FAFC;
+  --bg-surface-hover: #F1F5F9;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --text-primary: #1C2B33; /* Slate */
+  --text-secondary: rgba(28, 43, 51, 0.65);
+  --timeline-marker: #FFFFFF;
+  --assignment-bg: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+}
+
 html,
 body,
 #root {

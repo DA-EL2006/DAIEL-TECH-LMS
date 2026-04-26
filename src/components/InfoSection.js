@@ -25,7 +25,7 @@ const InfoSection = ({ onSignupClick }) => {
     }, [currentIndex]);
 
     return (
-        <section className="info-section">
+        <section className="info-section" id="home">
             {/* Background Layers for Dynamic Transition */}
             <div className="bg-layers-container">
                 {/* Base background image (static overlay or default) */}
@@ -46,7 +46,7 @@ const InfoSection = ({ onSignupClick }) => {
             
             <div className="info-content-wrapper">
                 {/* Top Row: Briefly About Us (Now solo or shifted) */}
-                <div className="briefly-row">
+                <div className="briefly-row" id="about">
                     <BrieflyAboutUs />
                 </div>
                 

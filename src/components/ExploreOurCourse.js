@@ -48,10 +48,18 @@ const courses = [
     image: photoshopImg,
     category: 'Professional Design',
     level: 'Intermediate'
+  },
+  {
+    id: 6,
+    title: 'Amazon KDP Writing',
+    description: 'Publish & Earn on Kindle Direct Publishing with zero experience.',
+    image: photoshopImg, // Reusing photoshopImg for now
+    category: 'Publishing & Writing',
+    level: 'Beginner'
   }
 ];
 
-const ExploreOurCourse = () => {
+const ExploreOurCourse = ({ onCourseSelect, onEnrollClick }) => {
   return (
     <section className="explore-courses" id="explore-courses">
       <div className="section-header">
@@ -61,7 +69,12 @@ const ExploreOurCourse = () => {
 
       <div className="courses-grid-layout">
         {courses.map((course) => (
-          <div key={course.id} className="course-premium-card">
+          <div 
+            key={course.id} 
+            className="course-premium-card"
+            onClick={() => onCourseSelect && onCourseSelect(course.id)}
+            style={{ cursor: 'pointer' }}
+          >
             <div className="card-image-wrapper">
               <img src={course.image} alt={course.title} className="course-card-img" />
               <div className="card-category-tag">{course.category}</div>
@@ -73,8 +86,24 @@ const ExploreOurCourse = () => {
               <p className="card-course-desc">{course.description}</p>
               
               <div className="card-footer-actions">
-                <button className="learn-more-btn">Learn More</button>
-                <button className="enroll-btn-premium">Enroll Now</button>
+                <button 
+                  className="learn-more-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCourseSelect && onCourseSelect(course.id);
+                  }}
+                >
+                  Learn More
+                </button>
+                <button 
+                  className="enroll-btn-premium"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEnrollClick && onEnrollClick();
+                  }}
+                >
+                  Enroll Now
+                </button>
               </div>
             </div>
           </div>
