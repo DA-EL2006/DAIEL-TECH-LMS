@@ -150,7 +150,7 @@ const SandboxIDE = ({ onBack }) => {
         };
         
         ${js}
-      <\/script>
+      </script>
     `;
     setPreviewContent(combinedHTML);
     setOutput([]); // Clear console on run

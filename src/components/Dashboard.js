@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  BookOpen, Clock, Play, Award, Terminal, 
-  Search, Flame, ChevronRight, Zap, Target, Book,
+  BookOpen, Clock, Play, Award,
+  Search, Flame, Zap, Target, Book,
   Code, Hexagon, FileText
 } from "lucide-react";
 import "./Dashboard.css";
