@@ -3,7 +3,8 @@ import Editor from '@monaco-editor/react';
 import { 
   Play, RotateCcw, ChevronLeft, Terminal as TerminalIcon, 
   Maximize2, Minimize2, Files, Blocks, Settings, 
-  LayoutTemplate, FileCode2, FileJson2, Download
+  LayoutTemplate, FileCode2, FileJson2, Download,
+  BookOpen, ChevronDown, ChevronRight, CheckSquare
 } from 'lucide-react';
 import './SandboxIDE.css';
 
@@ -90,10 +91,32 @@ console.log('System Initialized.');`
   }
 };
 
+const taskData = {
+  title: "Build a Responsive Grid Layout",
+  module: "Module 1: HTML/CSS Basics",
+  description: `Your task is to build a clean, responsive 3-column card grid using CSS Grid or Flexbox.
+
+The layout should collapse to 1 column on mobile screens. Use semantic HTML5 elements and ensure proper spacing between cards.
+
+**Requirements:**
+- Create a container with 3 card elements
+- Apply a CSS grid with 3 equal columns on desktop
+- Use a media query to stack columns on screens < 768px
+- Each card must have a title, a short paragraph, and a styled button`,
+  objectives: [
+    "Use CSS Grid or Flexbox for layout",
+    "Implement responsive design with media queries",
+    "Write semantic HTML5 markup",
+    "Style cards with consistent spacing and typography",
+  ],
+  hint: "Try using `grid-template-columns: repeat(3, 1fr)` for the desktop grid, then override it inside a `@media (max-width: 768px)` block with `grid-template-columns: 1fr`."
+};
+
 const SandboxIDE = ({ onBack }) => {
   const [files, setFiles] = useState(initialFiles);
   const [activeFile, setActiveFile] = useState("index.html");
-  const [activeSidebarTab, setActiveSidebarTab] = useState("explorer"); // 'explorer' | 'extensions'
+  const [activeSidebarTab, setActiveSidebarTab] = useState("task"); // 'task' | 'explorer' | 'extensions'
+  const [hintVisible, setHintVisible] = useState(false);
   const [activeRightTab, setActiveRightTab] = useState("preview"); // 'preview' | 'console'
   
   const [previewContent, setPreviewContent] = useState("");
@@ -243,6 +266,13 @@ const SandboxIDE = ({ onBack }) => {
         {/* ACTIVITY BAR */}
         <div className="activity-bar">
           <button 
+            className={`activity-icon ${activeSidebarTab === 'task' ? 'active' : ''}`}
+            onClick={() => setActiveSidebarTab('task')}
+            title="Task Instructions"
+          >
+            <BookOpen size={24} strokeWidth={1.5} />
+          </button>
+          <button 
             className={`activity-icon ${activeSidebarTab === 'explorer' ? 'active' : ''}`}
             onClick={() => setActiveSidebarTab('explorer')}
             title="Explorer"
@@ -264,6 +294,54 @@ const SandboxIDE = ({ onBack }) => {
 
         {/* SIDEBAR */}
         <div className="sidebar-pane">
+
+          {/* TASK INSTRUCTIONS PANEL (README.md style) */}
+          {activeSidebarTab === 'task' && (
+            <div className="sidebar-content task-panel">
+              <div className="sidebar-title">TASK INSTRUCTIONS</div>
+              <div className="task-panel-body">
+
+                <div className="task-panel-header">
+                  <div className="task-panel-module">{taskData.module}</div>
+                  <h2 className="task-panel-title">{taskData.title}</h2>
+                </div>
+
+                <div className="task-panel-section">
+                  <p className="task-panel-desc">{taskData.description}</p>
+                </div>
+
+                <div className="task-panel-section">
+                  <div className="task-objectives-label">Objectives</div>
+                  <ul className="task-objectives-list">
+                    {taskData.objectives.map((obj, i) => (
+                      <li key={i} className="task-objective-item">
+                        <CheckSquare size={13} className="obj-icon" />
+                        <span>{obj}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* HINT ACCORDION */}
+                <div className="hint-accordion">
+                  <button 
+                    className="hint-toggle"
+                    onClick={() => setHintVisible(v => !v)}
+                  >
+                    {hintVisible ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                    <span>{hintVisible ? 'Hide Hint' : 'Show Hint'}</span>
+                  </button>
+                  {hintVisible && (
+                    <div className="hint-content">
+                      <p>{taskData.hint}</p>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+            </div>
+          )}
+
           {activeSidebarTab === 'explorer' && (
             <div className="sidebar-content">
               <div className="sidebar-title">EXPLORER</div>

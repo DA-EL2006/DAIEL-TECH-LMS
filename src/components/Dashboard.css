@@ -119,50 +119,6 @@
   transform: translateX(0);
 }
 
-.dash-profile-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.streak-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--dash-text-muted);
-}
-
-.flame-icon {
-  color: #ff512f;
-}
-
-.profile-avatar-wrap {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  cursor: pointer;
-  border-radius: 50%;
-  border: 2px solid var(--dash-solid-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--dash-surface);
-}
-
-.avatar-ring {
-  display: none; /* Removed gradient ring */
-}
-
-.profile-avatar {
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--dash-text-main);
-}
-
 /* MAIN AREA */
 .dash-main-area {
   flex: 1;
@@ -223,6 +179,40 @@
   padding: 4px 8px;
   border-radius: 4px;
   border: 1px solid var(--dash-border);
+}
+
+.hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.streak-indicator-hud {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dash-text-main);
+}
+
+.flame-icon {
+  color: #ff512f;
+}
+
+.profile-avatar-hud {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--dash-border);
+  cursor: pointer;
+}
+
+.profile-avatar-hud img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .time-display {
@@ -447,36 +437,24 @@
   color: var(--dash-accent-mint);
 }
 
-/* Badges */
-.badges-grid {
+/* Skills Tags */
+.skills-tags-grid {
   display: flex;
-  gap: 16px;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: auto;
   margin-bottom: auto;
 }
 
-.badge-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: var(--dash-text-muted);
-  transition: all 0.3s;
-}
-
-.badge-item:hover {
-  transform: translateY(-5px);
-}
-
-.badge-item.react { color: var(--dash-solid-primary); }
-.badge-item.node { color: var(--dash-accent-mint); }
-.badge-item.uiux { color: var(--dash-accent-violet); }
-
-.badge-item span {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--dash-text-main);
+.skill-tag {
+  background: var(--dash-surface-hover);
+  color: var(--dash-solid-primary);
+  border: 1px solid var(--dash-border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 /* Task List */
@@ -491,7 +469,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: 16px;
   background: var(--dash-surface-hover);
   border-radius: 8px;
   border: 1px solid var(--dash-border);
@@ -499,23 +477,47 @@
 
 .task-info {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
+  align-items: flex-start;
+  gap: 12px;
   color: var(--dash-text-main);
 }
 
 .task-icon {
+  color: var(--dash-solid-primary);
+  margin-top: 2px;
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.task-sub {
+  font-size: 12px;
   color: var(--dash-text-muted);
 }
 
-.countdown {
-  font-size: 12px;
+.btn-task-start {
+  background: transparent;
   color: var(--dash-solid-primary);
+  border: 1px solid var(--dash-solid-primary);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.countdown.critical {
-  color: #e53e3e;
+.btn-task-start:hover {
+  background: var(--dash-solid-primary);
+  color: #fff;
 }
 
 /* --- 4. COURSES FEED --- */
@@ -541,15 +543,33 @@
 
 .course-card {
   padding: 0;
-  height: 200px;
+  height: 220px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   background: var(--dash-surface);
+  position: relative;
+  overflow: hidden;
 }
 
-.course-mesh-bg {
-  display: none; /* Removed gradients */
+.course-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.course-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10, 10, 12, 0.95) 0%, rgba(10, 10, 12, 0.4) 100%);
 }
 
 .course-content {
@@ -561,18 +581,19 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding-bottom: 70px; /* Give breathing room for the hover button */
 }
 
 .course-meta h4 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: var(--dash-text-main);
+  color: #ffffff; /* Always white due to dark overlay */
 }
 
 .course-meta p {
   font-size: 13px;
-  color: var(--dash-text-muted);
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 16px;
 }
 
@@ -585,9 +606,9 @@
 
 .progress-track {
   flex: 1;
-  height: 4px;
-  background: var(--dash-surface-hover);
-  border-radius: 2px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
   overflow: hidden;
 }
 
@@ -597,51 +618,39 @@
 }
 
 .progress-percent {
-  font-size: 12px;
-  color: var(--dash-solid-primary);
+  font-size: 13px;
+  color: #ffffff;
   font-weight: 600;
 }
 
-.hover-actions {
+.course-hover-actions {
   position: absolute;
   bottom: 24px;
   left: 24px;
   right: 24px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s;
-}
-
-.course-card:hover .course-progress-container {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.course-card:hover .hover-actions {
-  opacity: 1;
-  transform: translateY(0);
+  z-index: 2;
+  /* Removed hover hide logic, button is always visible but clean */
 }
 
 .action-btn {
   width: 100%;
-  background: var(--dash-surface-hover);
+  background: var(--dash-solid-primary);
   border: 1px solid var(--dash-solid-primary);
-  color: var(--dash-solid-primary);
-  padding: 10px;
+  color: #ffffff;
+  padding: 12px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .action-btn:hover {
-  background: var(--dash-solid-primary);
-  color: #ffffff;
+  background: var(--color-primary-dark);
 }
 
 /* --- 5. TERMINAL FOOTER --- */
