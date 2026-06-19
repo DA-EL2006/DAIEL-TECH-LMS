@@ -19,6 +19,7 @@ function App() {
   const [selectedCourseDetails, setSelectedCourseDetails] = useState(null);
   const [selectedLessonId, setSelectedLessonId] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("daiel-theme-v2");
     if (saved) return saved;
@@ -105,15 +106,24 @@ function App() {
             <Login
               onBack={() => setCurrentView("landing")}
               onSignupClick={() => setCurrentView("signup")}
-              onLoginSuccess={() => setCurrentView("dashboard")}
+              onLoginSuccess={(user) => {
+                setLoggedInUser(user);
+                setCurrentView("dashboard");
+              }}
             />
           )}
 
           {currentView === "dashboard" && (
             <Dashboard
+              loggedInUser={loggedInUser}
               onCourseSelect={handleCourseSelect}
               onVideoSelect={handleVideoSelect}
               onSandboxSelect={() => setCurrentView("sandbox")}
+              onResumeCourse={(courseId) => {
+                setSelectedCourseDetails(courseId);
+                setCurrentView("course-details");
+                window.scrollTo(0, 0);
+              }}
             />
           )}
 

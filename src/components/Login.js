@@ -48,10 +48,9 @@ const Login = ({ onBack, onSignupClick, onLoginSuccess }) => {
       } else {
         // Success
         setLoginSuccess(true);
-        // In a real app, you'd store the user session/token here
         setTimeout(() => {
           if (onLoginSuccess) {
-            onLoginSuccess();
+            onLoginSuccess(user); // pass full user record
           } else {
             onBack();
           }

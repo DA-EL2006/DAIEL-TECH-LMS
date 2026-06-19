@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import "./Dashboard.css";
 
-const Dashboard = ({ onCourseSelect, onVideoSelect, onSandboxSelect }) => {
+const Dashboard = ({ loggedInUser, onCourseSelect, onVideoSelect, onSandboxSelect, onResumeCourse }) => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [searchFocused, setSearchFocused] = useState(false);
@@ -23,9 +23,14 @@ const Dashboard = ({ onCourseSelect, onVideoSelect, onSandboxSelect }) => {
     return "Good Evening";
   };
 
-  // Mock data
+  // Derive first name from logged-in user's fullName, fall back to 'Developer'
+  const firstName = loggedInUser?.fullName
+    ? loggedInUser.fullName.trim().split(' ')[0]
+    : 'Developer';
+
+  // Static data — progress will be dynamic in a future sprint
   const user = {
-    name: "Developer",
+    name: firstName,
     streak: 0,
     completionRate: 0,
     enrolledCourses: [
@@ -223,7 +228,10 @@ const Dashboard = ({ onCourseSelect, onVideoSelect, onSandboxSelect }) => {
                     </div>
                   </div>
                   <div className="course-hover-actions">
-                    <button className="action-btn" onClick={() => onCourseSelect(course.id)}>
+                    <button
+                      className="action-btn"
+                      onClick={() => onResumeCourse ? onResumeCourse(course.id) : onCourseSelect(course.id)}
+                    >
                       <Play size={14} fill="currentColor" /> Resume Course
                     </button>
                   </div>
