@@ -1,281 +1,275 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  BarChart2,
-  BookOpen,
-  CheckCircle,
-  Clock,
-  Download,
-  MessageSquare,
-  Play,
-  Settings,
-  Award,
-  Users,
-  HelpCircle,
-  Calendar,
-  ChevronRight,
-  LogOut,
-  User,
-  Shield,
-  Bell,
+  BookOpen, Clock, Play, Award, Terminal, 
+  Search, Flame, ChevronRight, Zap, Target, Book,
+  Code, Hexagon, FileText
 } from "lucide-react";
 import "./Dashboard.css";
 
-const Dashboard = ({ onCourseSelect, onVideoSelect }) => {
+const Dashboard = ({ onCourseSelect, onVideoSelect, onSandboxSelect }) => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [searchFocused, setSearchFocused] = useState(false);
 
-  // Mock data for the dashboard
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const getGreeting = () => {
+    const hour = currentTime.getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
+
+  // Mock data
   const user = {
     name: "David",
-    streak: 7,
+    streak: 12,
+    completionRate: 68,
     enrolledCourses: [
       {
         id: 1,
-        name: "Fullstack Web Development",
-        progress: 65,
-        mentor: "Sarah Johnson",
+        name: "Advanced React Patterns",
+        instructor: "Sarah Johnson",
+        progress: 75,
+        thumbnail: "react-thumb",
       },
       {
         id: 2,
-        name: "UI/UX Design Masterclass",
-        progress: 30,
-        mentor: "Michael Chen",
+        name: "Fullstack Next.js Ecosystem",
+        instructor: "Michael Chen",
+        progress: 32,
+        thumbnail: "next-thumb",
       },
+      {
+        id: 3,
+        name: "System Design for Scale",
+        instructor: "Alex Rivera",
+        progress: 10,
+        thumbnail: "sys-thumb",
+      }
     ],
   };
 
-  const assignments = [
-    {
-      id: 1,
-      title: "React Hooks Deep Dive",
-      deadline: "Oct 25, 2023",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      title: "State Management Design",
-      deadline: "Oct 20, 2023",
-      status: "Submitted",
-    },
-  ];
-
-  const sidebarLinks = [
-    { id: "dashboard", label: "Dashboard", icon: BarChart2 },
-    { id: "courses", label: "My Courses", icon: BookOpen },
-    { id: "assignments", label: "Assignments", icon: Calendar },
-    { id: "community", label: "Community", icon: Users },
-    { id: "certificates", label: "Certificates", icon: Award },
-    { id: "support", label: "Support", icon: HelpCircle },
+  const navLinks = [
+    { id: "dashboard", label: "Overview", icon: Target },
+    { id: "courses", label: "Learning", icon: BookOpen },
+    { id: "sandboxes", label: "Sandboxes", icon: Code },
+    { id: "achievements", label: "Badges", icon: Award },
   ];
 
   return (
-    <div className="dashboard-container">
-      {/* Sidebar Navigation */}
-      <aside className="dashboard-sidebar">
-        <div className="sidebar-header">
-          <img
-            src="/logo-removebg-preview.png"
-            alt="Daiel Tech"
-            className="sidebar-logo"
-          />
+    <div className="dash-container">
+      {/* 1. GLOBAL NAVIGATION & HUD */}
+      <nav className="dash-sidebar">
+        <div className="dash-logo-mark">
+          <Hexagon size={28} className="logo-icon" />
         </div>
-        <nav className="sidebar-nav">
-          {sidebarLinks.map((link) => (
+        
+        <div className="dash-nav-links">
+          {navLinks.map((link) => (
             <button
               key={link.id}
-              className={`sidebar-link ${activeTab === link.id ? "active" : ""}`}
-              onClick={() => setActiveTab(link.id)}
+              className={`dash-nav-item ${activeTab === link.id ? "active" : ""}`}
+              onClick={() => {
+                setActiveTab(link.id);
+                if (link.id === "sandboxes" && onSandboxSelect) {
+                  onSandboxSelect();
+                }
+              }}
+              title={link.label}
             >
               <link.icon size={20} />
-              <span>{link.label}</span>
+              <span className="nav-label">{link.label}</span>
             </button>
           ))}
-        </nav>
-        <div className="sidebar-footer">
-          <button className="sidebar-link logout-btn">
-            <LogOut size={20} />
-            <span>Logout</span>
-          </button>
         </div>
-      </aside>
 
-      {/* Main Content Area */}
-      <main className="dashboard-main">
-        {/* Top Header Section */}
-        <header className="dashboard-top-bar">
-          <div className="welcome-section">
-            <h1>Welcome back, {user.name} 👋</h1>
-            <p>Continue your learning journey at Daiel Tech.</p>
+        <div className="dash-profile-section">
+          <div className="streak-indicator">
+            <Flame size={16} className="flame-icon" />
+            <span>{user.streak}</span>
           </div>
-          <div className="top-bar-actions">
-            <button className="icon-btn" title="Notifications">
-              <Bell size={20} />
-            </button>
-            <div className="profile-toggle">
-              <div className="avatar">D</div>
-              <ChevronRight size={16} />
+          <div className="profile-avatar-wrap">
+            <div className="avatar-ring"></div>
+            <div className="profile-avatar">D</div>
+          </div>
+        </div>
+      </nav>
+
+      <main className="dash-main-area">
+        {/* Top HUD Area */}
+        <header className="dash-hud">
+          <div className={`cmd-search-bar ${searchFocused ? 'focused' : ''}`}>
+            <Search size={16} className="search-icon" />
+            <input 
+              type="text" 
+              placeholder="Press Cmd+K to search courses, assignments, or code..." 
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+            />
+            <div className="cmd-hint">⌘K</div>
+          </div>
+          <div className="hud-actions">
+            <div className="time-display">
+              {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
         </header>
 
-        <div className="dashboard-content">
-          {/* Section 1 & 2: Overview & Next Steps */}
-          <div className="content-grid-top">
-            <section className="progress-card glass-card">
-              <div className="card-header">
-                <h3>Overall Progress</h3>
-                <span className="streak-badge">
-                  <Award size={16} /> {user.streak} Day Streak
-                </span>
+        <div className="dash-content-wrapper">
+          {/* 2. THE "HERO" INTERACTIVE WELCOME BENTO CARD */}
+          <section className="bento-hero dash-glass-panel">
+            <div className="hero-content">
+              <h1 className="dynamic-greeting">
+                {getGreeting()}, <span className="highlight-text">{user.name}</span>.
+              </h1>
+              <p className="hero-subtitle">System ready. You are 2 lessons away from your weekly goal.</p>
+              
+              <div className="hero-actions">
+                <button className="btn-resume-learning" onClick={() => onCourseSelect(1)}>
+                  <Play size={16} className="play-icon" fill="currentColor" />
+                  Resume Learning
+                </button>
+                <button className="btn-view-path">
+                  View Path
+                </button>
               </div>
-              <div className="progress-stats">
-                <div className="stat-item">
-                  <span className="stat-value">65%</span>
-                  <span className="stat-label">Course Average</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-value">12/24</span>
-                  <span className="stat-label">Modules Done</span>
-                </div>
-              </div>
-              <div className="main-progress-bar">
-                <div className="progress-fill" style={{ width: "65%" }}></div>
-              </div>
-            </section>
-
-            <section className="continue-learning glass-card">
-              <div className="next-lesson-info">
-                <span className="section-tag">NEXT LESSON</span>
-                <h3>Advanced State Management</h3>
-                <p>
-                  <Clock size={14} /> Estimated: 45 mins • Module 4
-                </p>
-              </div>
-              <button
-                className="continue-btn"
-                onClick={() => onCourseSelect(1)}
-              >
-                Continue Learning <Play size={16} />
-              </button>
-            </section>
-
-            <section className="goal-tracker glass-card">
-              <h3>Weekly Goal</h3>
-              <div className="goal-progress">
-                <div className="goal-text">
-                  <span>2 of 4 lessons completed</span>
-                  <span>50%</span>
-                </div>
-                <div className="goal-bar">
-                  <div className="goal-bar-fill" style={{ width: "50%" }}></div>
-                </div>
-              </div>
-              <p className="goal-tip">Complete 2 more to reach your goal! 🚀</p>
-            </section>
-          </div>
-
-          {/* Section 3: My Courses */}
-          <section className="dashboard-section">
-            <div className="section-header">
-              <h2>My Courses</h2>
-              <button className="text-btn">View All</button>
             </div>
-            <div className="courses-grid">
-              {user.enrolledCourses.map((course) => (
-                <div
-                  key={course.id}
-                  className="course-dashboard-card glass-card"
-                >
-                  <div className="course-thumb">
-                    <BookOpen size={24} />
+            
+            <div className="hero-progress-visual">
+              <svg className="progress-ring" viewBox="0 0 120 120">
+                <circle className="ring-bg" cx="60" cy="60" r="50" />
+                <circle 
+                  className="ring-fill" 
+                  cx="60" cy="60" r="50" 
+                  strokeDasharray={`${user.completionRate * 3.14} 314`}
+                />
+              </svg>
+              <div className="progress-text">
+                <span className="percent">{user.completionRate}%</span>
+                <span className="label">Completed</span>
+              </div>
+            </div>
+          </section>
+
+          {/* 3. LEARNING METRICS & ANALYTICS PANEL (Grid Layout) */}
+          <section className="bento-metrics-grid">
+            {/* Card A: Time Invested */}
+            <div className="bento-card time-invested dash-glass-panel">
+              <div className="card-top">
+                <h3>Time Invested</h3>
+                <Zap size={16} className="mint-icon" />
+              </div>
+              <div className="sparkline-container">
+                {/* Minimalist simulated bar chart */}
+                <div className="bar-chart">
+                  <div className="bar" style={{height: '30%'}}></div>
+                  <div className="bar" style={{height: '50%'}}></div>
+                  <div className="bar" style={{height: '80%'}}></div>
+                  <div className="bar" style={{height: '40%'}}></div>
+                  <div className="bar" style={{height: '100%'}}></div>
+                  <div className="bar" style={{height: '60%'}}></div>
+                  <div className="bar active" style={{height: '90%'}}></div>
+                </div>
+                <div className="chart-labels">
+                  <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                </div>
+              </div>
+              <div className="metric-value">12h 45m <span className="trend positive">+2h</span></div>
+            </div>
+
+            {/* Card B: Skill Badges Unlocked */}
+            <div className="bento-card skill-badges dash-glass-panel">
+              <div className="card-top">
+                <h3>Skills Acquired</h3>
+                <Award size={16} className="violet-icon" />
+              </div>
+              <div className="badges-grid">
+                <div className="badge-item react">
+                   <Hexagon size={32} />
+                   <span>React</span>
+                </div>
+                <div className="badge-item node">
+                   <Hexagon size={32} />
+                   <span>Node.js</span>
+                </div>
+                <div className="badge-item uiux">
+                   <Hexagon size={32} />
+                   <span>UI/UX</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card C: Upcoming Deliverables */}
+            <div className="bento-card upcoming-tasks dash-glass-panel">
+              <div className="card-top">
+                <h3>Next Deliverables</h3>
+                <Clock size={16} className="blue-icon" />
+              </div>
+              <div className="task-list">
+                <div className="task-row">
+                  <div className="task-info">
+                    <FileText size={14} className="task-icon" />
+                    <span>State Management Lab</span>
                   </div>
-                  <div className="course-details">
-                    <h4>{course.name}</h4>
-                    <p className="mentor">Mentor: {course.mentor}</p>
-                    <div className="course-progress">
-                      <div className="mini-bar">
-                        <div
-                          className="mini-fill"
-                          style={{ width: `${course.progress}%` }}
-                        ></div>
+                  <div className="countdown font-mono">T- 12:45:00</div>
+                </div>
+                <div className="task-row">
+                  <div className="task-info">
+                    <Book size={14} className="task-icon" />
+                    <span>System Design Quiz</span>
+                  </div>
+                  <div className="countdown font-mono critical">T- 04:15:00</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 4. INTERACTIVE COURSE CARDS (The Main Feed) */}
+          <section className="courses-feed">
+            <h2 className="section-title">Active Courses</h2>
+            <div className="course-cards-grid">
+              {user.enrolledCourses.map((course) => (
+                <div key={course.id} className="course-card dash-glass-panel">
+                  <div className="course-mesh-bg" />
+                  <div className="course-content">
+                    <div className="course-meta">
+                      <h4>{course.name}</h4>
+                      <p>{course.instructor}</p>
+                    </div>
+                    
+                    <div className="course-progress-container">
+                      <div className="progress-track">
+                        <div className="progress-indicator" style={{width: `${course.progress}%`}}></div>
                       </div>
-                      <span>{course.progress}%</span>
+                      <span className="progress-percent font-mono">{course.progress}%</span>
+                    </div>
+
+                    <div className="hover-actions">
+                      <button className="action-btn" onClick={() => onCourseSelect(course.id)}>
+                        <Play size={14} /> Jump to Lab
+                      </button>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </section>
-
-          {/* Section 4 & 5: Assignments & Community */}
-          <div className="content-grid-bottom">
-            <section className="dashboard-section glass-card">
-              <div className="section-header">
-                <h3>Assignments & Projects</h3>
-                <Award size={18} className="text-primary" />
-              </div>
-              <div className="assignments-list">
-                {assignments.map((item) => (
-                  <div key={item.id} className="assignment-item">
-                    <div className="assignment-info">
-                      <span className="title">{item.title}</span>
-                      <span className="date">Due: {item.deadline}</span>
-                    </div>
-                    <span
-                      className={`status-badge ${item.status.toLowerCase()}`}
-                    >
-                      {item.status}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="dashboard-section glass-card">
-              <div className="section-header">
-                <h3>Community & Mentorship</h3>
-                <Users size={18} className="text-primary" />
-              </div>
-              <div className="community-links">
-                <a href="#discord" className="community-btn discord">
-                  <MessageSquare size={18} /> Discord Access{" "}
-                  <ChevronRight size={14} />
-                </a>
-                <a href="#mentor" className="community-btn mentor">
-                  <User size={18} /> Ask a Mentor <ChevronRight size={14} />
-                </a>
-              </div>
-              <div className="announcements">
-                <h4>Announcements</h4>
-                <div className="announcement-item">
-                  <span className="dot"></span>
-                  <p>Live Q&A session this Friday at 6 PM. Join us!</p>
-                </div>
-              </div>
-            </section>
-
-            <section className="dashboard-section glass-card">
-              <div className="section-header">
-                <h3>Certificates</h3>
-                <CheckCircle size={18} className="text-success" />
-              </div>
-              <div className="certificates-container">
-                <div className="empty-certificates">
-                  <Shield size={32} className="shield-icon" />
-                  <p>Complete a course to unlock your first certificate!</p>
-                </div>
-                <button className="outline-btn" disabled>
-                  <Download size={16} /> Download All
-                </button>
-              </div>
-            </section>
-          </div>
         </div>
       </main>
 
-      {/* Floating Settings/Account Toggle (Optional Utility) */}
-      <div className="dashboard-settings-trigger">
-        <Settings size={20} />
-      </div>
+      {/* 5. FOOTER / TERMINAL CONSOLE */}
+      <footer className="terminal-footer">
+        <div className="status-indicator online"></div>
+        <div className="log-feed font-mono">
+          <span className="prompt">{'>'}</span> System running optimally. All services operational.
+          <span className="cursor-blink">_</span>
+        </div>
+        <div className="version-info font-mono">DAIEL-OS v2.1.0</div>
+      </footer>
     </div>
   );
 };

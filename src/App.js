@@ -11,9 +11,10 @@ import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import CourseDetails from "./components/CourseDetails";
 import VideoPlayer from "./components/VideoPlayer";
+import SandboxIDE from "./components/SandboxIDE";
 
 function App() {
-  const [currentView, setCurrentView] = useState("landing"); // dashboard | course | landing | course-details | video-player
+  const [currentView, setCurrentView] = useState("landing"); // dashboard | course | landing | course-details | video-player | sandbox
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedCourseDetails, setSelectedCourseDetails] = useState(null);
   const [selectedLessonId, setSelectedLessonId] = useState(null);
@@ -112,7 +113,12 @@ function App() {
             <Dashboard
               onCourseSelect={handleCourseSelect}
               onVideoSelect={handleVideoSelect}
+              onSandboxSelect={() => setCurrentView("sandbox")}
             />
+          )}
+
+          {currentView === "sandbox" && (
+            <SandboxIDE onBack={() => setCurrentView("dashboard")} />
           )}
         </main>
 
