@@ -12,6 +12,7 @@ import Dashboard from "./components/Dashboard";
 import CourseDetails from "./components/CourseDetails";
 import VideoPlayer from "./components/VideoPlayer";
 import SandboxIDE from "./components/SandboxIDE";
+import LegalPages from "./components/LegalPages";
 
 function App() {
   const [currentView, setCurrentView] = useState("landing"); // dashboard | course | landing | course-details | video-player | sandbox
@@ -20,6 +21,47 @@ function App() {
   const [selectedLessonId, setSelectedLessonId] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [selectedLegalTab, setSelectedLegalTab] = useState("terms");
+  const [activeSandboxTask, setActiveSandboxTask] = useState(null);
+
+  const handleAssignmentSelect = (assignment, courseTitle) => {
+    if (!loggedInUser) {
+      setCurrentView("signup");
+      return;
+    }
+    setActiveSandboxTask({
+      courseType: selectedCourseDetails === 1 ? "python" : "frontend",
+      module: assignment.moduleName || "Assignment",
+      title: assignment.title,
+      description: assignment.objective,
+      objectives: assignment.steps,
+      hint: assignment.hints ? assignment.hints.join('\n\n') : ""
+    });
+    setCurrentView("sandbox");
+    window.scrollTo(0, 0);
+  };
+
+  const handleProjectSelect = (project, courseTitle) => {
+    if (!loggedInUser) {
+      setCurrentView("signup");
+      return;
+    }
+    const hintText = project.architectural_concept_map && project.architectural_concept_map.execution_flowchart 
+      ? `Execution Flowchart:\n${project.architectural_concept_map.execution_flowchart}`
+      : project.architectural_concept_map && project.architectural_concept_map.specifications
+      ? `Specifications:\n${project.architectural_concept_map.specifications.map(s => `• ${s}`).join('\n')}`
+      : "";
+    setActiveSandboxTask({
+      courseType: selectedCourseDetails === 1 ? "python" : "frontend",
+      module: project.moduleName || "Capstone Project",
+      title: project.title,
+      description: project.description,
+      objectives: project.core_requirements,
+      hint: hintText
+    });
+    setCurrentView("sandbox");
+    window.scrollTo(0, 0);
+  };
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("daiel-theme-v2");
     if (saved) return saved;
@@ -81,9 +123,11 @@ function App() {
           {currentView === "course-details" && (
             <CourseDetails 
               courseId={selectedCourseDetails} 
-              onBack={() => setCurrentView("landing")}
+              onBack={() => setCurrentView(loggedInUser ? "dashboard" : "landing")}
               onEnrollClick={() => setCurrentView("signup")}
               onVideoSelect={(lessonId) => handleVideoSelect(selectedCourseDetails, lessonId)}
+              onAssignmentSelect={handleAssignmentSelect}
+              onProjectSelect={handleProjectSelect}
             />
           )}
 
@@ -128,11 +172,35 @@ function App() {
           )}
 
           {currentView === "sandbox" && (
-            <SandboxIDE onBack={() => setCurrentView("dashboard")} />
+            <SandboxIDE 
+              activeTask={activeSandboxTask}
+              courseType={activeSandboxTask?.courseType || (selectedCourseDetails === 1 ? "python" : "frontend")}
+              onBack={() => {
+                if (selectedCourseDetails) {
+                  setCurrentView("course-details");
+                } else {
+                  setCurrentView(loggedInUser ? "dashboard" : "landing");
+                }
+              }}
+            />
+          )}
+
+          {currentView === "legal" && (
+            <LegalPages
+              initialTab={selectedLegalTab}
+              onBack={() => {
+                setCurrentView(loggedInUser ? "dashboard" : "landing");
+              }}
+            />
           )}
         </main>
 
-        <Footer />
+        <Footer 
+          onLegalSelect={(tab) => {
+            setSelectedLegalTab(tab);
+            setCurrentView("legal");
+          }}
+        />
       </div>
     </CourseProvider>
   );

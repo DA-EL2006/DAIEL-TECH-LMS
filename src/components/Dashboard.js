@@ -26,7 +26,7 @@ const Dashboard = ({ loggedInUser, onCourseSelect, onVideoSelect, onSandboxSelec
   // Derive first name from logged-in user's fullName, fall back to 'Developer'
   const firstName = loggedInUser?.fullName
     ? loggedInUser.fullName.trim().split(' ')[0]
-    : 'Developer';
+    : 'Student';
 
   // Static data — progress will be dynamic in a future sprint
   const user = {

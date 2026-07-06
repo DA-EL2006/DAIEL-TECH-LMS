@@ -87,7 +87,18 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
   }
 
   // The mock video provided by user
-  const videoEmbedUrl = "https://www.youtube.com/embed/zJSY8tbf_ys";
+  let videoEmbedUrl = "https://www.youtube.com/embed/zJSY8tbf_ys";
+  if (activeLesson && activeLesson.url) {
+    if (activeLesson.url.includes("youtube.com/embed/")) {
+      videoEmbedUrl = activeLesson.url;
+    } else {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = activeLesson.url.match(regExp);
+      if (match && match[2].length === 11) {
+        videoEmbedUrl = `https://www.youtube.com/embed/${match[2]}`;
+      }
+    }
+  }
 
   return (
     <div className="video-player-wrapper">

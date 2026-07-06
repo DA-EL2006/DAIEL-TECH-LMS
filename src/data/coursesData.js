@@ -1,589 +1,429 @@
 export const coursesData = {
   1: {
-    id: 1,
-    title: "Python Programming",
-    description:
-      "A thorough Python programming course taking students from absolute zero to building real applications. Covers core syntax, data structures, OOP, file handling, APIs, databases, and automation. Students graduate able to build functional Python applications from scratch.",
-    duration: "8 Modules | ~12 Weeks",
-    level: "Beginner – No prior programming experience required",
-    comingSoon: false,
-    modules: [
-      {
-        id: "p1",
-        title: "Module 1",
-        subtitle: "Python Basics & Environment Setup",
-        lessons: [
-          {
-            id: "pv1.1",
-            videoTitle: "Installing Python & VS Code",
-            tasks: [
-              [
-                "Install Python 3.x and VS Code, configure the interpreter, and create a small script that prints your Python version and VS Code workspace settings.",
-              ],
-            ],
-          },
-          {
-            id: "pv1.2",
-            videoTitle: "Hello World and Basic Scripts",
-            tasks: [
-              [
-                "Write and run your first Python script (Hello, World!), then modify it to greet the user by name.",
-              ],
-            ],
-          },
-          {
-            id: "pv1.3",
-            videoTitle: "Variables and Data Types",
-            tasks: [
-              [
-                "Create 5 variables using int, float, string, boolean, and None types. Print each value and its type using the type() function.",
-              ],
-            ],
-          },
-          {
-            id: "pv1.4",
-            videoTitle: "Arithmetic Operators",
-            tasks: [
-              [
-                "Write a Python script that uses arithmetic operators and operator precedence to calculate and print a small set of formatted results.",
-              ],
-            ],
-          },
-          {
-            id: "pv1.5",
-            videoTitle: "Working with Strings",
-            tasks: [
-              [
-                "Use string methods upper(), lower(), strip(), split(), replace(), and len() to transform a sample sentence and print the before/after output.",
-              ],
-            ],
-          },
-          {
-            id: "pv1.6",
-            videoTitle: "Formatting Output (f-strings)",
-            tasks: [
-              [
-                "Write a script that takes user input for name and favorite language, then prints a formatted message using an f-string.",
-              ],
-            ],
-          },
-          {
-            id: "pv1.7",
-            videoTitle: "Input, Output & Best Practices",
-            tasks: [
-              [
-                "Build a small script that prompts the user for three values and prints them clearly using input() and print().",
-                "Add comments and clean formatting to your script, then explain how each comment improves code readability.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 1: Build a Personal Info Card program. Accept the user's name, age, city, and hobby via input(). Display a neatly formatted info card using f-strings. Include at least 3 string methods.",
-      },
-      {
-        id: "p2",
-        title: "Module 2",
-        subtitle: "Control Flow & Functions",
-        lessons: [
-          {
-            id: "pv2.1",
-            videoTitle: "Comparison and Logical Operators",
-            tasks: [
-              [
-                "Write sample comparisons using ==, !=, >, <, >=, <= and print whether each comparison is True or False.",
-                "Combine comparisons using and, or, and not to evaluate Boolean expressions and print each result.",
-              ],
-            ],
-          },
-          {
-            id: "pv2.2",
-            videoTitle: "Conditional Statements",
-            tasks: [
-              [
-                "Write a menu-style script using if / elif / else and nested conditionals to classify user input into categories.",
-              ],
-            ],
-          },
-          {
-            id: "pv2.3",
-            videoTitle: "While Loops",
-            tasks: [
-              [
-                "Write a while loop that prompts the user until they type quit, using break and continue to control the loop flow.",
-              ],
-            ],
-          },
-          {
-            id: "pv2.4",
-            videoTitle: "For Loops and Iteration",
-            tasks: [
-              [
-                "Use for loops with range() to iterate a list and a string, printing each item and its index.",
-                "Create loop examples that use an accumulator, a flag variable, and a nested loop to solve a small data-processing problem.",
-              ],
-            ],
-          },
-          {
-            id: "pv2.5",
-            videoTitle: "Defining Custom Functions",
-            tasks: [
-              [
-                "Define a function with parameters and a return value that calculates and returns a summary statistic.",
-              ],
-            ],
-          },
-          {
-            id: "pv2.6",
-            videoTitle: "Variable Scope",
-            tasks: [
-              [
-                "Write a script showing local vs global scope, then explain why local variables are safer for reusable functions.",
-              ],
-            ],
-          },
-          {
-            id: "pv2.7",
-            videoTitle: "Advanced Parameters & Docstrings",
-            tasks: [
-              [
-                "Write a function that uses default parameters, *args, and **kwargs, then call it with different argument combinations.",
-                "Add docstrings to your functions and show how help() or documentation comments describe function behavior.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 2: Build a Grade Calculator. Accept any number of subject scores. Compute the average, assign a letter grade (A–F), and print a report. Use at least 3 custom functions and a loop. Handle the case of zero subjects gracefully.",
-      },
-      {
-        id: "p3",
-        title: "Module 3",
-        subtitle: "Data Structures – Lists, Tuples, Sets & Dictionaries",
-        lessons: [
-          {
-            id: "pv3.1",
-            videoTitle: "Deep Dive into Lists",
-            tasks: [
-              [
-                "Create a list and demonstrate indexing, slicing, append, insert, remove, pop, and sort operations.",
-              ],
-            ],
-          },
-          {
-            id: "pv3.2",
-            videoTitle: "List Comprehensions",
-            tasks: [
-              [
-                "Use list comprehensions to filter and transform a list of numbers or strings and print the new result.",
-              ],
-            ],
-          },
-          {
-            id: "pv3.3",
-            videoTitle: "Understanding Tuples",
-            tasks: [
-              [
-                "Create tuple examples that show immutability, tuple packing/unpacking, and a use case for storing fixed records.",
-              ],
-            ],
-          },
-          {
-            id: "pv3.4",
-            videoTitle: "Working with Sets",
-            tasks: [
-              [
-                "Use set operations to compare two collections and print union, intersection, and difference results.",
-              ],
-            ],
-          },
-          {
-            id: "pv3.5",
-            videoTitle: "Dictionaries in Python",
-            tasks: [
-              [
-                "Create a dictionary, access and update values, remove a key, and iterate over keys, values, and items.",
-                "Use a dictionary comprehension to transform one dictionary into another, such as squaring numeric values or swapping keys/values.",
-              ],
-            ],
-          },
-          {
-            id: "pv3.6",
-            videoTitle: "Nested Data Structures",
-            tasks: [
-              [
-                "Build a nested structure like a list of dictionaries or a dictionary of lists and access nested values programmatically.",
-              ],
-            ],
-          },
-          {
-            id: "pv3.7",
-            videoTitle: "Choosing the Right Structure",
-            tasks: [
-              [
-                "Compare two data structures for a problem and explain why one is a better fit based on access patterns and mutability.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 3: Build a Student Management System. Store student records as a list of dictionaries (name, scores, grade). Support: add student, view all, search by name, calculate class average. All data lives in memory.",
-      },
-      {
-        id: "p4",
-        title: "Module 4",
-        subtitle: "Object-Oriented Programming (OOP)",
-        lessons: [
-          {
-            id: "pv4.1",
-            videoTitle: "Introduction to Classes and Objects",
-            tasks: [
-              [
-                "Create a simple class with attributes and methods, then instantiate objects to show how classes model real data.",
-                "Build a class using __init__ and instance attributes, then create two objects with different values.",
-              ],
-            ],
-          },
-          {
-            id: "pv4.2",
-            videoTitle: "Instance, Class, and Static Methods",
-            tasks: [
-              [
-                "Implement instance, class, and static methods in a class and explain when each type should be used.",
-              ],
-            ],
-          },
-          {
-            id: "pv4.3",
-            videoTitle: "Encapsulation in Python",
-            tasks: [
-              [
-                "Use public and “private” attributes in a class and demonstrate controlled access through getter/setter methods.",
-              ],
-            ],
-          },
-          {
-            id: "pv4.4",
-            videoTitle: "Inheritance and super()",
-            tasks: [
-              [
-                "Define a base class and child class using super(), then show shared behavior and child-specific behavior.",
-              ],
-            ],
-          },
-          {
-            id: "pv4.5",
-            videoTitle: "Polymorphism and Overriding",
-            tasks: [
-              [
-                "Override a method in a child class and use polymorphism to call the correct implementation at runtime.",
-              ],
-            ],
-          },
-          {
-            id: "pv4.6",
-            videoTitle: "Special (Dunder) Methods",
-            tasks: [
-              [
-                "Implement __str__, __repr__, __len__, and __eq__ in a class and demonstrate their behavior with print() and comparisons.",
-              ],
-            ],
-          },
-          {
-            id: "pv4.7",
-            videoTitle: "Composition and Practical OOP",
-            tasks: [
-              [
-                "Build a class using composition and another using inheritance, and explain why composition is preferred for the second example.",
-                "Build a mini bank account hierarchy with savings and checking accounts, include deposit/withdraw methods, and enforce a withdrawal limit.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 4: Design and implement a Library Management System using OOP. Classes: Book, Member, Library. Library supports: add/remove books, register members, borrow/return books (enforce a 3-book limit per member), view available books.",
-      },
-      {
-        id: "p5",
-        title: "Module 5",
-        subtitle: "File Handling, Exceptions & Modules",
-        lessons: [
-          {
-            id: "pv5.1",
-            videoTitle: "Reading and Writing Text Files",
-            tasks: [
-              [
-                "Read a text file and write a transformed copy using open(), read(), readlines(), and write().",
-                "Use a with statement to safely read from and write to a file, and explain why it is preferred.",
-              ],
-            ],
-          },
-          {
-            id: "pv5.2",
-            videoTitle: "Working with CSV Files",
-            tasks: [
-              [
-                "Load a CSV file with DictReader, modify rows, and write the result back with DictWriter.",
-              ],
-            ],
-          },
-          {
-            id: "pv5.3",
-            videoTitle: "JSON Data Handling",
-            tasks: [
-              [
-                "Load JSON data from a file, modify the object, and save it back with json.dump().",
-              ],
-            ],
-          },
-          {
-            id: "pv5.4",
-            videoTitle: "Exception Handling Basics",
-            tasks: [
-              [
-                "Write code that handles file errors with try/except/else/finally and reports a helpful message to the user.",
-              ],
-            ],
-          },
-          {
-            id: "pv5.5",
-            videoTitle: "Custom Exceptions",
-            tasks: [
-              [
-                "Define and raise a custom exception type for a validation error, then catch it and print a user-friendly message.",
-              ],
-            ],
-          },
-          {
-            id: "pv5.6",
-            videoTitle: "Python Standard Library",
-            tasks: [
-              [
-                "Use os, sys, math, random, and datetime in a short script that manipulates files, computes math results, and prints a timestamp.",
-              ],
-            ],
-          },
-          {
-            id: "pv5.7",
-            videoTitle: "Modules and Virtual Environments",
-            tasks: [
-              [
-                "Create a Python package with at least two modules, import them, and use a function from each module.",
-                "Create a virtual environment with venv, install a package with pip, and list the installed dependencies.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 5: Build a Contacts Manager that persists data in a JSON file. Features: add contact (name, phone, email), search, update, delete, view all. Data must survive program restarts. Handle FileNotFoundError and invalid input gracefully.",
-      },
-      {
-        id: "p6",
-        title: "Module 6",
-        subtitle: "APIs, Web Requests & Data Processing",
-        lessons: [
-          {
-            id: "pv6.1",
-            videoTitle: "Understanding HTTP",
-            tasks: [
-              [
-                "Write notes and a sample request summary showing GET vs POST, common status codes, header use, and JSON response structure.",
-              ],
-            ],
-          },
-          {
-            id: "pv6.2",
-            videoTitle: "Making Requests with Python",
-            tasks: [
-              [
-                "Use requests to fetch JSON from a free API, pass query params and headers, and print the parsed response.",
-              ],
-            ],
-          },
-          {
-            id: "pv6.3",
-            videoTitle: "API Authentication",
-            tasks: [
-              [
-                "Demonstrate how to send an API key or Bearer token in request headers securely and explain why it matters.",
-              ],
-            ],
-          },
-          {
-            id: "pv6.4",
-            videoTitle: "Consuming Real APIs",
-            tasks: [
-              [
-                "Fetch JSON from an API, parse it into Python objects, and print selected values from the response.",
-                "Call a real API such as OpenWeather or REST Countries, consume the data, and present a short summary of the response.",
-              ],
-            ],
-          },
-          {
-            id: "pv6.5",
-            videoTitle: "Intro to Web Scraping",
-            tasks: [
-              [
-                "Scrape a simple webpage with BeautifulSoup using find() and find_all(), then extract and print selected data.",
-              ],
-            ],
-          },
-          {
-            id: "pv6.6",
-            videoTitle: "Data Transformation",
-            tasks: [
-              [
-                "Clean and transform scraped or API data by normalizing fields, removing empties, and creating a summary dataset.",
-              ],
-            ],
-          },
-          {
-            id: "pv6.7",
-            videoTitle: "Web Scraping Best Practices",
-            tasks: [
-              [
-                "Document how to check robots.txt and implement rate-limiting pauses when scraping or calling APIs.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 6: Build a Weather Dashboard CLI app. Fetch current weather and 5-day forecast for any city using the OpenWeatherMap API (free tier). Display: temperature, humidity, weather description, and a simple ASCII representation of the forecast. Save results to a timestamped JSON file.",
-      },
-      {
-        id: "p7",
-        title: "Module 7",
-        subtitle: "Databases & Automation with Python",
-        lessons: [
-          {
-            id: "pv7.1",
-            videoTitle: "Relational Database Concepts",
-            tasks: [
-              [
-                "Design a simple relational schema, then explain tables, rows, columns, primary keys, and foreign keys using that schema.",
-              ],
-            ],
-          },
-          {
-            id: "pv7.2",
-            videoTitle: "Using SQLite in Python",
-            tasks: [
-              [
-                "Create an SQLite database with sqlite3, define a table, and insert sample data using SQL commands.",
-                "Write Python code that inserts, selects, updates, and deletes rows in an SQLite table.",
-              ],
-            ],
-          },
-          {
-            id: "pv7.3",
-            videoTitle: "Secure Database Queries",
-            tasks: [
-              [
-                "Use parameterized SQLite queries to safely insert user input and explain how this prevents SQL injection.",
-              ],
-            ],
-          },
-          {
-            id: "pv7.4",
-            videoTitle: "Introduction to SQLAlchemy ORM",
-            tasks: [
-              [
-                "Define SQLAlchemy models, create a session, and query records from the database.",
-              ],
-            ],
-          },
-          {
-            id: "pv7.5",
-            videoTitle: "System Task Automation",
-            tasks: [
-              [
-                "Write an automation script that organizes files into folders by extension using os and shutil.",
-                "Use the schedule library to run a Python task every minute or every day, then explain how scheduling works.",
-              ],
-            ],
-          },
-          {
-            id: "pv7.6",
-            videoTitle: "Email Automation",
-            tasks: [
-              [
-                "Write a script that sends a test email with smtplib and describe how to keep credentials secure.",
-              ],
-            ],
-          },
-          {
-            id: "pv7.7",
-            videoTitle: "PDF and Excel Automation",
-            tasks: [
-              [
-                "Use PyPDF2 or openpyxl to read or write a PDF/Excel file and describe the extraction or generation steps.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 7: Build an Expense Tracker with SQLite backend. Features: add expense (date, category, amount, description), view all expenses, filter by date range or category, view monthly totals. Bonus: export to CSV and auto-email a monthly summary.",
-      },
-      {
-        id: "p8",
-        title: "Module 8",
-        subtitle: "🏆 CAPSTONE PROJECT – Real-World Python Application",
-        lessons: [
-          {
-            id: "pv8.1",
-            videoTitle: "Week 1: Project Setup and Planning",
-            tasks: [
-              [
-                "Choose a capstone project idea and write a short plan for the CLI app, data tool, or automation bot you will build.",
-                "Plan core features, create a GitHub repo, and commit your initial project scaffold.",
-              ],
-            ],
-          },
-          {
-            id: "pv8.2",
-            videoTitle: "Week 2: Core Implementation",
-            tasks: [
-              [
-                "Implement the core features of your capstone project and verify they work end to end.",
-                "Write unit tests for your capstone project using unittest or pytest and run them locally.",
-              ],
-            ],
-          },
-          {
-            id: "pv8.3",
-            videoTitle: "Week 3: Polish and Documentation",
-            tasks: [
-              [
-                "Improve the user experience, add error handling, and document the changes made.",
-                "Add logging and improve documentation for your capstone project.",
-              ],
-            ],
-          },
-          {
-            id: "pv8.4",
-            videoTitle: "Week 4: Finalizing and Demo",
-            tasks: [
-              [
-                "Review your project, capture a demo video, and note any final changes needed.",
-                "Share your project for peer review, collect feedback, and summarize the key improvements.",
-              ],
-            ],
-          },
-          {
-            id: "pv8.5",
-            videoTitle: "Submitting Deliverables",
-            tasks: [
-              [
-                "Prepare the GitHub repo, README, working application, test file, and a 5-minute demo video for final submission.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "CAPSTONE: Build a complete Python application of your choice (e.g., Budget Tracker, Quiz App, Inventory System, News Aggregator Bot). Must include: OOP design, file or database persistence, at least one external library, exception handling, unit tests, and full GitHub documentation.",
-      },
-    ],
+  "id": 1,
+  "title": "Python Programming",
+  "description": "A thorough Python programming course taking students from absolute zero to building real applications. Covers core syntax, data structures, OOP, file handling, APIs, databases, and automation. Students graduate able to build functional Python applications from scratch.",
+  "duration": "8 Modules | ~12 Weeks",
+  "level": "Beginner – No prior programming experience required",
+  "comingSoon": false,
+  "playlists": {
+    "python_3_playlist": "https://www.youtube.com/playlist?list=PL4cUxeGkcC9idTSBaGGNrgh4ZgYE6Cc"
   },
+  "source": "The Net Ninja (YouTube)",
+  "modules": [
+    {
+      "id": "module_1",
+      "title": "Module 1",
+      "subtitle": "Introduction, Environment Setup & Core Numbers",
+      "description": "Understand why Python 3 is the future high-level language of choice, complete the path environmental variable installation, and master mathematical operators, bid-mass rules, and assignment short-hands.",
+      "lessons": [
+        {
+          "id": "pv1.1",
+          "videoTitle": "Python 3 Tutorial for Beginners #1 - Why Learn Python?",
+          "duration": "5:21",
+          "url": "https://www.youtube.com/watch?v=Ozrduu2W9B8",
+          "tasks": [
+            "Install Python 3, verify local paths, and construct expressions using operators and shorthands."
+          ]
+        },
+        {
+          "id": "pv1.2",
+          "videoTitle": "Python 3 Tutorial for Beginners #2 - Installing Python 3",
+          "duration": "4:28",
+          "url": "https://www.youtube.com/watch?v=SbQAAuom-GA",
+          "tasks": [
+            "Install Python 3, verify local paths, and construct expressions using operators and shorthands."
+          ]
+        },
+        {
+          "id": "pv1.3",
+          "videoTitle": "Python 3 Tutorial for Beginners #3 - Numbers",
+          "duration": "8:29",
+          "url": "https://www.youtube.com/watch?v=Gqby4v5JOu4",
+          "tasks": [
+            "Install Python 3, verify local paths, and construct expressions using operators and shorthands."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "Interactive Mathematical Engine",
+        "objective": "Build a standalone Python shell script that accepts local variables, processes specific equations using typecasted integer divisions, and prints evaluated results back to the terminal console safely.",
+        "steps": [
+          "Verify your Python 3 environment locally using terminal configuration flags.",
+          "Write a variable schema computing basic primary parameters (Wages, Bills, Rent) using appropriate assignment shorthands (`+=`, `-=`).",
+          "Isolate a remainder computation using modern modulo structures without leaking float variables."
+        ],
+        "hints": [
+          "Remember that default system inputs are collected natively as string arrays. Explicit typecasting wrapping functions are mandatory before evaluating math formulas.",
+          "Use the `type()` built-in helper method inside your local test shell to double-check that your results match standard class specifications."
+        ]
+      }
+    },
+    {
+      "id": "module_2",
+      "title": "Module 2",
+      "subtitle": "List Data Structures, Slicing & Standard Terminal Input",
+      "description": "Master array operations, item concatenation sequences, zero-indexed index slicing ranges, list insertion/removal methods, and string concatenation bindings from direct input blocks.",
+      "lessons": [
+        {
+          "id": "pv2.1",
+          "videoTitle": "Python 3 Tutorial for Beginners #5 - Lists",
+          "duration": "10:33",
+          "url": "https://www.youtube.com/watch?v=cl0R4Tbf2v0",
+          "tasks": [
+            "Initialize python lists, append entries dynamically, and slice element subsets."
+          ]
+        },
+        {
+          "id": "pv2.2",
+          "videoTitle": "Python 3 Tutorial for Beginners #6 - Standard Input",
+          "duration": "9:23",
+          "url": "https://www.youtube.com/watch?v=CEO614YbQCY",
+          "tasks": [
+            "Initialize python lists, append entries dynamically, and slice element subsets."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Dynamic Space Inventory Controller",
+        "objective": "Design an extensible data list architecture that continuously appends items via incoming tracking signals and slices elements out programmatically.",
+        "steps": [
+          "Establish an initial inventory tracking array containing nested list elements.",
+          "Use the `.append()` protocol to introduce new collection entries from standard terminal prompts.",
+          "Extract a sub-slice of tracking entries by specifying explicit zero-indexed bounds."
+        ],
+        "hints": [
+          "Nesting arrays can be tricky. Remember that `list[0][1]` pulls the second entry from the first nested list.",
+          "The `.pop()` method alters lists instantly by dropping the final index. Use separate target variables to hold item strings if you need to track them."
+        ]
+      }
+    },
+    {
+      "id": "module_3",
+      "title": "Module 3",
+      "subtitle": "Advanced String Formatting & Programmatic Branching",
+      "description": "Ditch disjointed string concatenations using modern literal f-strings with precise column and decimal precision modifiers, while implementing complex conditional paths via logical comparison structures.",
+      "lessons": [
+        {
+          "id": "pv3.1",
+          "videoTitle": "Python 3 Tutorial for Beginners #7 - String Formatting",
+          "duration": "10:15",
+          "url": "https://www.youtube.com/watch?v=yVGSeRcQfyI",
+          "tasks": [
+            "Implement string formatting literal structures and configure validation conditional branches."
+          ]
+        },
+        {
+          "id": "pv3.2",
+          "videoTitle": "Python 3 Tutorial for Beginners #8 - If Statements",
+          "duration": "10:10",
+          "url": "https://www.youtube.com/watch?v=t3c41sKJS20",
+          "tasks": [
+            "Implement string formatting literal structures and configure validation conditional branches."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "Precision Evaluation Console",
+        "objective": "Develop an explicit evaluation pipeline using comparison switches and structural alignment strings to print structured data cards.",
+        "steps": [
+          "Accept input metadata and map conditions through an `if/elif/else` branching chain.",
+          "Incorporate rigorous verification switches ensuring checking parameters aren't equal (`!=`).",
+          "Format float evaluation numbers using modern column alignments and explicit `.2f` length properties within f-string braces."
+        ],
+        "hints": [
+          "Be careful with spaces when using f-strings. Modifiers like `:{20}` create empty layout alignments dynamically without breaking strings up.",
+          "Always test boundary scenarios where checking limits overlap, ensuring conditions execute strictly sequentially down the chain."
+        ]
+      }
+    },
+    {
+      "id": "module_4",
+      "title": "Module 4",
+      "subtitle": "Iterative Structures: For Loops, While Loops & Range Generators",
+      "description": "Construct execution loops using linear element traversals, infinite state safety loops with conditional break/continue operators, and dynamic reverse-indexed numeric array generators.",
+      "lessons": [
+        {
+          "id": "pv4.1",
+          "videoTitle": "Python 3 Tutorial for Beginners #9 - For Loops",
+          "duration": "7:20",
+          "url": "https://www.youtube.com/watch?v=ENMCxQ9kNS4",
+          "tasks": [
+            "Construct traversal loops, use reverse-indexed ranges, and execute break/continue logic."
+          ]
+        },
+        {
+          "id": "pv4.2",
+          "videoTitle": "Python 3 Tutorial for Beginners #10 - While Loops",
+          "duration": "6:14",
+          "url": "https://www.youtube.com/watch?v=7p-BJ92aZp0",
+          "tasks": [
+            "Construct traversal loops, use reverse-indexed ranges, and execute break/continue logic."
+          ]
+        },
+        {
+          "id": "pv4.3",
+          "videoTitle": "Python 3 Tutorial for Beginners #11 - Ranges",
+          "duration": "7:12",
+          "url": "https://www.youtube.com/watch?v=GhrChSfaiu0",
+          "tasks": [
+            "Construct traversal loops, use reverse-indexed ranges, and execute break/continue logic."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "Reverse Data Telemetry Sorter",
+        "objective": "Build an algorithmic sorting function traversing a data payload in absolute reverse configuration using custom parameter steps and loop continuation policies.",
+        "steps": [
+          "Construct a tracking loop evaluating lists using the `len()` helper function.",
+          "Utilize a custom three-parameter `range()` step generator to iterate backwards across targeted data lists safely.",
+          "Inject a `continue` operator constraint skipping individual nodes based on mathematical rules."
+        ],
+        "hints": [
+          "When looping backward using `range()`, your third step size variable must be configured as a negative value (`-1`).",
+          "An infinite loop locks local servers up instantly. Verify that your checking indexes shift values up or down prior to calling loop triggers."
+        ]
+      }
+    },
+    {
+      "id": "module_5",
+      "title": "Module 5",
+      "subtitle": "Functional Architectures, Variable Scopes & Data Mapping",
+      "description": "Define functional blocks using parameterized inputs and tracking returns, distinguish local vs global declaration restrictions, and master associative multi-key dictionary arrays and deduplicated sets.",
+      "lessons": [
+        {
+          "id": "pv5.1",
+          "videoTitle": "Python 3 Tutorial for Beginners #12 - Functions",
+          "duration": "10:49",
+          "url": "https://www.youtube.com/watch?v=l0E1tK-O8ew",
+          "tasks": [
+            "Author parameterized functions, map key-value dictionaries, and deduplicate collection arrays using sets."
+          ]
+        },
+        {
+          "id": "pv5.2",
+          "videoTitle": "Python 3 Tutorial for Beginners #13 - Variable Scope",
+          "duration": "4:25",
+          "url": "https://www.youtube.com/watch?v=wueXfiVkw1I",
+          "tasks": [
+            "Author parameterized functions, map key-value dictionaries, and deduplicate collection arrays using sets."
+          ]
+        },
+        {
+          "id": "pv5.3",
+          "videoTitle": "Python 3 Tutorial for Beginners #14 - Dictionaries",
+          "duration": "12:32",
+          "url": "https://www.youtube.com/watch?v=q8H5R6eP3zQ",
+          "tasks": [
+            "Author parameterized functions, map key-value dictionaries, and deduplicate collection arrays using sets."
+          ]
+        },
+        {
+          "id": "pv5.4",
+          "videoTitle": "Python 3 Tutorial for Beginners #15 - Sorting & Sets",
+          "duration": "8:49",
+          "url": "https://www.youtube.com/watch?v=UirJNoJ9KT8",
+          "tasks": [
+            "Author parameterized functions, map key-value dictionaries, and deduplicate collection arrays using sets."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Deduplicated Registry Engine",
+        "objective": "Assemble a module parsing incoming structural dictionaries, resolving lookup errors safely, and outputting clean, deduplicated tracking datasets using sets.",
+        "steps": [
+          "Initialize an associative storage dictionary containing distinct key-value mappings.",
+          "Extract dictionary entries dynamically using `.keys()` and `.values()` array mappings.",
+          "Isolate values into a deduplicated tracking context by stripping duplicating records via explicit typecasting into sets."
+        ],
+        "hints": [
+          "Directly accessing non-existent dictionary keys triggers fatal exceptions. Verify key inclusion using the `in` lookup statement first.",
+          "Sets are strictly unordered entities. Avoid tracking algorithms that assume list indexes are preserved once you pass data to a set layout."
+        ]
+      }
+    },
+    {
+      "id": "module_6",
+      "title": "Module 6",
+      "subtitle": "Object-Oriented Programming: Class Blueprints & Methods",
+      "description": "Design custom object patterns using initialization frameworks (`__init__`), instance attributes, self properties, class level variables, class-level decorators, and decoupled standalone static methods.",
+      "lessons": [
+        {
+          "id": "pv6.1",
+          "videoTitle": "Python 3 Tutorial for Beginners #16 - Classes",
+          "duration": "9:29",
+          "url": "https://www.youtube.com/watch?v=H--VDcDSHdg",
+          "tasks": [
+            "Design custom objects, initialize instance properties using self binding, and map class methods."
+          ]
+        },
+        {
+          "id": "pv6.2",
+          "videoTitle": "Python 3 Tutorial for Beginners #17 - The init function",
+          "duration": "6:42",
+          "url": "https://www.youtube.com/watch?v=TO1K8_BVCT4",
+          "tasks": [
+            "Design custom objects, initialize instance properties using self binding, and map class methods."
+          ]
+        },
+        {
+          "id": "pv6.3",
+          "videoTitle": "Python 3 Tutorial for Beginners #18 - Methods & Attributes",
+          "duration": "9:26",
+          "url": "https://www.youtube.com/watch?v=LwFnF9XoEfM",
+          "tasks": [
+            "Design custom objects, initialize instance properties using self binding, and map class methods."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Physical Entity Simulator",
+        "objective": "Model an autonomous object container structure containing unique state traits, shared group attributes, and structural calculation functions.",
+        "steps": [
+          "Define a class template incorporating a multi-parameter validation initializer function (`__init__`).",
+          "Differentiate specific object states by combining private instance data with structural class variables.",
+          "Deploy a `@classmethod` block analyzing parent class constants and a standalone `@staticmethod` returning context-free strings."
+        ],
+        "hints": [
+          "Instance functions must explicitly accept the `self` variable parameter block, whereas `@classmethod` macros pass the tracking class pointer (`cls`).",
+          "Do not execute class definitions as inline functions; maintain a distinct top-level space inside your workspace code blocks."
+        ]
+      }
+    },
+    {
+      "id": "module_7",
+      "title": "Module 7",
+      "subtitle": "Modularity, Code Compilations & Streamlined Data Loops",
+      "description": "Split code into isolated packages using operational structure files (`__init__.py`), streamline array updates via list comprehensions, and leverage single-line anonymous lambda wrappers with functional mapping arrays.",
+      "lessons": [
+        {
+          "id": "pv7.1",
+          "videoTitle": "Python 3 Tutorial for Beginners #19 - Modules & Packages",
+          "duration": "10:15",
+          "url": "https://www.youtube.com/watch?v=f26nAmfJggw",
+          "tasks": [
+            "Establish modular packages, compress loops using comprehensions, and remap data collections using maps/lambdas."
+          ]
+        },
+        {
+          "id": "pv7.2",
+          "videoTitle": "Python 3 Tutorial for Beginners #20 - Bar Tab Calculator",
+          "duration": "13:21",
+          "url": "https://www.youtube.com/watch?v=h4NetyxAhv4",
+          "tasks": [
+            "Establish modular packages, compress loops using comprehensions, and remap data collections using maps/lambdas."
+          ]
+        },
+        {
+          "id": "pv7.3",
+          "videoTitle": "Python 3 Tutorial for Beginners #21 - List Comprehensions",
+          "duration": "7:28",
+          "url": "https://www.youtube.com/watch?v=7G0jqG_kiig",
+          "tasks": [
+            "Establish modular packages, compress loops using comprehensions, and remap data collections using maps/lambdas."
+          ]
+        },
+        {
+          "id": "pv7.4",
+          "videoTitle": "Python 3 Tutorial for Beginners #22 - Maps",
+          "duration": "7:26",
+          "url": "https://www.youtube.com/watch?v=3Da00hgQ834",
+          "tasks": [
+            "Establish modular packages, compress loops using comprehensions, and remap data collections using maps/lambdas."
+          ]
+        },
+        {
+          "id": "pv7.5",
+          "videoTitle": "Python 3 Tutorial for Beginners #23 - Filters",
+          "duration": "6:49",
+          "url": "https://www.youtube.com/watch?v=jPoY--eTG5A",
+          "tasks": [
+            "Establish modular packages, compress loops using comprehensions, and remap data collections using maps/lambdas."
+          ]
+        },
+        {
+          "id": "pv7.6",
+          "videoTitle": "Python 3 Tutorial for Beginners #24 - Lambdas",
+          "duration": "4:02",
+          "url": "https://www.youtube.com/watch?v=3waZGETmzjY",
+          "tasks": [
+            "Establish modular packages, compress loops using comprehensions, and remap data collections using maps/lambdas."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Streamlined Calculations Package",
+        "objective": "Refactor a multi-layered loops pipeline into decoupled cross-imported modules that compress parsing steps using map configurations and lambdas.",
+        "steps": [
+          "Create a dedicated workspace sub-folder package incorporating an empty structural initialization file (`__init__.py`).",
+          "Convert traditional loops into single-line list comprehensions that incorporate conditional filtering switches.",
+          "Refactor standalone execution functions into inline anonymous `lambda` blocks passed directly to a higher-order `map()` handler."
+        ],
+        "hints": [
+          "Functional arrays returned by `map()` or `filter()` frameworks are streaming objects. Convert them to lists via `list()` typecasting to print values.",
+          "Ensure your import tracking statements map out from your package namespace cleanly (e.g., `from package.module import object`)."
+        ]
+      }
+    },
+    {
+      "id": "capstone_projects",
+      "title": "Capstone Project",
+      "subtitle": "Capstone Project",
+      "description": "Practical Graduation Requirement. Timeline Constraint: Exactly Two Weeks. Students must select and completely build out two (2) complex systems from the specialized architecture options below using Object-Oriented layouts, imported data models, and automated logic processing.",
+      "lessons": [],
+      "projects": [
+        {
+          "id": "project_alpha",
+          "title": "Project Alpha: Autonomous Financial Audit Framework",
+          "description": "An Object-Oriented simulation system reading complex invoice records, computing taxation arrays via list comprehensions, and mapping custom financial telemetry output logs.",
+          "core_requirements": [
+            "Maintain an active transactional architecture inside a custom class layout with running mathematical variables.",
+            "Utilize list comprehensions and conditional filters to separate premium entries or track systemic over-expenditures.",
+            "Format precise textual receipt profiles using column sizing limits and custom string templates."
+          ],
+          "architectural_concept_map": {
+            "diagram_placeholder": "",
+            "specifications": [
+              "Data Processing Core: A top-level script parsing transaction rows via lambda wrappers.",
+              "The Metric Consolidation View: Object modules maintaining separate validation states across separate transaction accounts."
+            ]
+          }
+        },
+        {
+          "id": "project_beta",
+          "title": "Project Beta: Automated Physics Telemetry Analyzer",
+          "description": "A package system reading scientific tracking dictionaries, stripping out data duplications via set manipulation, and computing planetary velocity states via imported mathematical parameters.",
+          "core_requirements": [
+            "Build an internal structure utilizing isolated custom modules inside a single tracking directory package.",
+            "Parse velocity parameter entries using higher-order math combinations and mapping functions.",
+            "Implement automated evaluation filters that eliminate corrupt background noise data entries."
+          ],
+          "architectural_concept_map": {
+            "diagram_placeholder": "",
+            "execution_flowchart": "[Raw Signal Dictionary] ──> [Filter Module Noise Clean] ──> [Map Calculation Module] ──> [Deduplicated Telemetry Output Log]"
+          }
+        },
+        {
+          "id": "project_gamma",
+          "title": "Project Gamma: Interactive Sandbox Command Terminal",
+          "description": "A terminal simulation engine managing real-time object registry tracking logs, interactive multi-choice operational menu matrices, and state tracking breaks.",
+          "core_requirements": [
+            "Run an interactive process via an adaptive `while True` loop matrix equipped with safe escape tracking criteria.",
+            "Isolate object data layers securely into matching multi-key internal dictionaries.",
+            "Provide explicit input type validation paths preventing string collisions from breaking numerical tracking loops."
+          ],
+          "architectural_concept_map": {
+            "diagram_placeholder": "",
+            "specifications": [
+              "Menu Tree Core: Adaptive switches evaluating raw inputs against matching data arrays.",
+              "The Error Containment Pipeline: Input processing layers ensuring string conversions clear safety baselines before being committed to memory variables."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+},
   2: {
     id: 2,
     title: "Machine Learning",
@@ -1101,597 +941,1638 @@ export const coursesData = {
     ],
   },
   3: {
-    id: 3,
-    title: "Frontend Development",
-    description:
-      "A complete frontend development course covering the holy trinity of the web — HTML, CSS, and JavaScript — followed by an introduction to the React.js library. Students will build responsive, interactive websites and a React-powered web app.",
-    duration: "8 Modules | ~14 Weeks",
-    level: "Beginner – No experience required",
-    comingSoon: false,
-    modules: [
-      {
-        id: "f1",
-        title: "Module 1",
-        subtitle: "HTML – Structure of the Web",
-        lessons: [
-          {
-            id: "fv1.1",
-            videoTitle: "Introduction to the Web and Tools",
-            tasks: [
-              [
-                "Explain how browsers request pages over HTTP and build a simple HTML file to demonstrate the page lifecycle.",
-                "Install VS Code and Live Server, launch a sample HTML page, and document how the live reload workflow works.",
-              ],
-            ],
-          },
-          {
-            id: "fv1.2",
-            videoTitle: "Basic HTML Document Structure",
-            tasks: [
-              [
-                "Build a basic HTML page with DOCTYPE, html, head, and body sections, and display a header and paragraph in the browser.",
-              ],
-            ],
-          },
-          {
-            id: "fv1.3",
-            videoTitle: "Working with Text and Lists",
-            tasks: [
-              [
-                "Create an HTML page using headings, paragraphs, spans, strong/emphasis tags, and line breaks to structure sample content.",
-                "Build nested ordered and unordered lists in HTML to represent a menu or task list.",
-              ],
-            ],
-          },
-          {
-            id: "fv1.4",
-            videoTitle: "Links and Media",
-            tasks: [
-              [
-                "Create a page with internal and external links, using target and relative/absolute URLs correctly.",
-                "Add images to a webpage with alt text and explicit width/height attributes for proper accessibility.",
-              ],
-            ],
-          },
-          {
-            id: "fv1.5",
-            videoTitle: "HTML Tables",
-            tasks: [
-              [
-                "Build an HTML table with headers, body rows, colspan, and rowspan to present structured data.",
-              ],
-            ],
-          },
-          {
-            id: "fv1.6",
-            videoTitle: "Forms and Inputs",
-            tasks: [
-              [
-                "Create a form with text, email, password, checkbox, radio, textarea, select, and labeled controls.",
-              ],
-            ],
-          },
-          {
-            id: "fv1.7",
-            videoTitle: "Semantic HTML5 and Validation",
-            tasks: [
-              [
-                "Build a semantic HTML page using header, nav, main, section, article, aside, and footer elements.",
-                "Validate your HTML page with the W3C validator and fix any errors the validator reports.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 1: Build a Personal Portfolio Page using only HTML. Include: a header with your name and nav links, an About Me section, a Skills list, a Projects table (3 fake projects), a Contact form, and a footer. Must be fully semantic and pass W3C validation.",
-      },
-      {
-        id: "f2",
-        title: "Module 2",
-        subtitle: "CSS – Styling the Web",
-        lessons: [
-          {
-            id: "fv2.1",
-            videoTitle: "CSS Syntax and Application",
-            tasks: [
-              [
-                "Write CSS rules using selectors, properties, and values to style a sample HTML page.",
-                "Apply styling using inline CSS, an internal style block, and an external stylesheet for the same page.",
-              ],
-            ],
-          },
-          {
-            id: "fv2.2",
-            videoTitle: "Advanced Selectors and Typography",
-            tasks: [
-              [
-                "Use element, class, ID, attribute, and pseudo-class selectors to style buttons, inputs, and list items.",
-                "Style text with Google Fonts, font-size, font-weight, line-height, and letter-spacing for a polished heading and paragraph.",
-              ],
-            ],
-          },
-          {
-            id: "fv2.3",
-            videoTitle: "The Box Model and Colors",
-            tasks: [
-              [
-                "Use the CSS box model to space and size a card element, including box-sizing adjustments.",
-                "Style a page using hex, rgb, rgba, and hsl colors, and define a color palette with CSS variables.",
-              ],
-            ],
-          },
-          {
-            id: "fv2.4",
-            videoTitle: "Backgrounds and Styling Elements",
-            tasks: [
-              [
-                "Create backgrounds with solid color, an image, and a gradient, then control size and repeat behavior.",
-              ],
-            ],
-          },
-          {
-            id: "fv2.5",
-            videoTitle: "Layout with Flexbox",
-            tasks: [
-              [
-                "Build a responsive layout with Flexbox, centering content, using gap, and wrapping items on smaller screens.",
-              ],
-            ],
-          },
-          {
-            id: "fv2.6",
-            videoTitle: "Layout with CSS Grid",
-            tasks: [
-              [
-                "Create a CSS Grid layout with columns, rows, named grid areas, and responsive rearrangement.",
-              ],
-            ],
-          },
-          {
-            id: "fv2.7",
-            videoTitle: "Responsive Design and Animations",
-            tasks: [
-              [
-                "Add responsive media queries and viewport units to make a landing page adapt from mobile to desktop.",
-                "Animate a button or card using CSS transition and keyframe animation for hover and entrance effects.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 2: Style your Module 1 portfolio page using an external CSS file. Requirements: responsive layout (looks great on mobile + desktop), Flexbox navbar, CSS Grid project section, Google Font, custom color palette with CSS variables, hover effects on buttons/links, smooth transitions.",
-      },
-      {
-        id: "f3",
-        title: "Module 3",
-        subtitle: "JavaScript Fundamentals",
-        lessons: [
-          {
-            id: "fv3.1",
-            videoTitle: "Introduction to JS and Variables",
-            tasks: [
-              [
-                "Create a web page with a linked script file and explain how the browser loads and executes JavaScript.",
-                "Write examples showing var, let, and const behavior and explain how hoisting works for each.",
-              ],
-            ],
-          },
-          {
-            id: "fv3.2",
-            videoTitle: "Data Types and Operators",
-            tasks: [
-              [
-                "Create variables of each JavaScript data type and log their values and types to the console.",
-                "Use arithmetic, comparison, logical, and ternary operators in small expressions and print the results.",
-              ],
-            ],
-          },
-          {
-            id: "fv3.3",
-            videoTitle: "Control Flow",
-            tasks: [
-              [
-                "Write scripts that use if/else, switch, for, while, and do-while constructs for simple decision-making.",
-              ],
-            ],
-          },
-          {
-            id: "fv3.4",
-            videoTitle: "JavaScript Functions",
-            tasks: [
-              [
-                "Define functions using declarations, expressions, and arrow syntax, including default parameters.",
-              ],
-            ],
-          },
-          {
-            id: "fv3.5",
-            videoTitle: "Working with Arrays",
-            tasks: [
-              [
-                "Manipulate an array with map, filter, reduce, forEach, find, some, every, push, pop, and splice to solve a small task.",
-              ],
-            ],
-          },
-          {
-            id: "fv3.6",
-            videoTitle: "Objects and JSON",
-            tasks: [
-              [
-                "Create an object with methods, access properties using dot and bracket notation, and destructure values.",
-              ],
-            ],
-          },
-          {
-            id: "fv3.7",
-            videoTitle: "Modern JS Features (ES6+)",
-            tasks: [
-              [
-                "Refactor an older JavaScript function to use arrow syntax, template literals, and spread/rest operators.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 3: Build a JavaScript Quiz App (no libraries). At least 10 questions stored in an array of objects. Show one question at a time, track score, display final result with percentage and grade. Include a Restart button. All logic in vanilla JS.",
-      },
-      {
-        id: "f4",
-        title: "Module 4",
-        subtitle: "DOM Manipulation & Events",
-        lessons: [
-          {
-            id: "fv4.1",
-            videoTitle: "Understanding the DOM",
-            tasks: [
-              [
-                "Create a page and inspect the DOM elements with JavaScript to show the document structure.",
-                "Select DOM elements using getElementById, querySelector, and querySelectorAll, then update their content.",
-              ],
-            ],
-          },
-          {
-            id: "fv4.2",
-            videoTitle: "Modifying DOM Elements",
-            tasks: [
-              [
-                "Modify DOM elements using textContent, innerHTML, style, and classList methods.",
-              ],
-            ],
-          },
-          {
-            id: "fv4.3",
-            videoTitle: "Creating and Removing Elements",
-            tasks: [
-              [
-                "Dynamically create and append new DOM elements with createElement, appendChild, and insertAdjacentHTML.",
-                "Remove DOM elements using remove() and removeChild() in response to user actions.",
-              ],
-            ],
-          },
-          {
-            id: "fv4.4",
-            videoTitle: "Event Listeners",
-            tasks: [
-              [
-                "Attach event listeners to buttons and form fields, then inspect the event object in the handler.",
-              ],
-            ],
-          },
-          {
-            id: "fv4.5",
-            videoTitle: "Advanced Events",
-            tasks: [
-              [
-                "Implement event delegation on a list and explain how event bubbling works in the browser.",
-              ],
-            ],
-          },
-          {
-            id: "fv4.6",
-            videoTitle: "Form Validation with JS",
-            tasks: [
-              [
-                "Build a form with JS validation that prevents default submission and shows error messages.",
-              ],
-            ],
-          },
-          {
-            id: "fv4.7",
-            videoTitle: "Using Local Storage",
-            tasks: [
-              [
-                "Store, retrieve, and remove structured data in localStorage using JSON.stringify and JSON.parse.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 4: Build a To-Do List App with DOM manipulation. Features: add task, mark complete (strikethrough), delete task, filter (All/Active/Completed), task count. Persist tasks in localStorage so they survive page refresh. Fully styled with CSS.",
-      },
-      {
-        id: "f5",
-        title: "Module 5",
-        subtitle: "Async JavaScript & APIs",
-        lessons: [
-          {
-            id: "fv5.1",
-            videoTitle: "Synchronous vs Asynchronous JS",
-            tasks: [
-              [
-                "Write a synchronous and asynchronous example in JS, then explain the difference in execution order.",
-                "Use a callback-based function to simulate async behavior and explain how callback hell appears.",
-              ],
-            ],
-          },
-          {
-            id: "fv5.2",
-            videoTitle: "Promises in JavaScript",
-            tasks: [
-              [
-                "Create promises and use .then(), .catch(), .finally(), and Promise.all() to manage asynchronous results.",
-              ],
-            ],
-          },
-          {
-            id: "fv5.3",
-            videoTitle: "Async / Await Syntax",
-            tasks: [
-              [
-                "Refactor Promise-based code to async/await and handle errors with try/catch.",
-              ],
-            ],
-          },
-          {
-            id: "fv5.4",
-            videoTitle: "Fetching Data from APIs",
-            tasks: [
-              [
-                "Use fetch() to retrieve JSON from a public API and display the parsed data in the browser console.",
-              ],
-            ],
-          },
-          {
-            id: "fv5.5",
-            videoTitle: "Understanding REST APIs",
-            tasks: [
-              [
-                "Explain REST API concepts and make sample fetch requests for different HTTP methods.",
-                "Build a simple UI that fetches data from a public API like OpenWeather or REST Countries.",
-              ],
-            ],
-          },
-          {
-            id: "fv5.6",
-            videoTitle: "Error Handling in Async JS",
-            tasks: [
-              [
-                "Add error catching to async fetch code and display a user-friendly message when the request fails.",
-              ],
-            ],
-          },
-          {
-            id: "fv5.7",
-            videoTitle: "UX: Loading States",
-            tasks: [
-              [
-                "Add a loading spinner or message while waiting for async data to arrive.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 5: Build a Country Explorer web app. Use the REST Countries API to let users search any country. Display: flag, name, capital, population, region, languages, currencies. Show a loading spinner during fetch. Handle not-found errors gracefully.",
-      },
-      {
-        id: "f6",
-        title: "Module 6",
-        subtitle: "Introduction to React.js",
-        lessons: [
-          {
-            id: "fv6.1",
-            videoTitle: "What is React and Why Use It?",
-            tasks: [
-              [
-                "Build a simple React component and explain how React uses the Virtual DOM and component model to update the UI efficiently.",
-              ],
-            ],
-          },
-          {
-            id: "fv6.2",
-            videoTitle: "Setting up a React Project",
-            tasks: [
-              [
-                "Scaffold a React project with Vite or Create React App and verify the starter app runs successfully.",
-              ],
-            ],
-          },
-          {
-            id: "fv6.3",
-            videoTitle: "Understanding JSX",
-            tasks: [
-              [
-                "Build a React component using JSX expressions and className styling.",
-              ],
-            ],
-          },
-          {
-            id: "fv6.4",
-            videoTitle: "React Functional Components & Props",
-            tasks: [
-              [
-                "Create and export a functional React component, then import and render it in App.",
-                "Pass props to a component and validate them with PropTypes or type annotations.",
-              ],
-            ],
-          },
-          {
-            id: "fv6.5",
-            videoTitle: "State Management with useState",
-            tasks: [
-              [
-                "Build a React counter component using useState to update state and trigger re-renders.",
-              ],
-            ],
-          },
-          {
-            id: "fv6.6",
-            videoTitle: "Rendering Lists and Conditions",
-            tasks: [
-              [
-                "Render a list of items with .map() and assign keys to each child element.",
-                "Use && and ternary operators to render different content based on component state.",
-              ],
-            ],
-          },
-          {
-            id: "fv6.7",
-            videoTitle: "Handling Events and Composition",
-            tasks: [
-              [
-                "Add onClick and onChange handlers to React components and update state when events occur.",
-                "Compose a parent component with child and grandchild components passing props down the tree.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 6: Build a React Recipe Book app. Data: an array of recipe objects (name, ingredients, steps, image URL). Features: display recipe cards in a grid, search/filter by name or ingredient, click a card to view full recipe detail, toggle a 'Saved' heart icon. State managed with useState.",
-      },
-      {
-        id: "f7",
-        title: "Module 7",
-        subtitle: "React Hooks, Routing & State Management",
-        lessons: [
-          {
-            id: "fv7.1",
-            videoTitle: "Side Effects with useEffect",
-            tasks: [
-              [
-                "Use useEffect to fetch data and clean up a timer or subscription when the component unmounts.",
-              ],
-            ],
-          },
-          {
-            id: "fv7.2",
-            videoTitle: "Fetching Data in React",
-            tasks: [
-              [
-                "Fetch data inside useEffect and display it in the component once the request completes.",
-              ],
-            ],
-          },
-          {
-            id: "fv7.3",
-            videoTitle: "Custom Hooks",
-            tasks: [
-              [
-                "Create a custom hook to encapsulate reusable state or fetch logic and use it in a component.",
-              ],
-            ],
-          },
-          {
-            id: "fv7.4",
-            videoTitle: "React Router for Navigation",
-            tasks: [
-              [
-                "Build a small React app with React Router routes, Links, and a dynamic route using useParams.",
-                "Create a multi-page React app with navigation and route-based content.",
-              ],
-            ],
-          },
-          {
-            id: "fv7.5",
-            videoTitle: "Global State with Context API",
-            tasks: [
-              [
-                "Use Context API to share state across components without prop drilling.",
-                "Describe a state management pattern and show how to store shared state in React.",
-              ],
-            ],
-          },
-          {
-            id: "fv7.6",
-            videoTitle: "Working with Forms in React",
-            tasks: [
-              [
-                "Create a React form with controlled inputs and basic validation logic.",
-              ],
-            ],
-          },
-          {
-            id: "fv7.7",
-            videoTitle: "React Performance Basics",
-            tasks: [
-              [
-                "Use useMemo or useCallback to optimize a React component and explain the performance benefit.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "Assignment 7: Extend your Recipe Book into a multi-page app using React Router. Pages: Home (recipe grid with search), Recipe Detail (dynamic route with useParams), Saved Recipes (global state via Context API). Fetch recipes from an API (TheMealDB free API). Add a 404 Not Found page.",
-      },
-      {
-        id: "f8",
-        title: "Module 8",
-        subtitle: "🏆 CAPSTONE PROJECT – Full Frontend Web App",
-        lessons: [
-          {
-            id: "fv8.1",
-            videoTitle: "Week 1: UI Design and Project Setup",
-            tasks: [
-              [
-                "Design wireframes for your frontend capstone in Figma or on paper and explain your layout choices.",
-                "Set up the React project, define the component tree, and sketch the routes for the app.",
-              ],
-            ],
-          },
-          {
-            id: "fv8.2",
-            videoTitle: "Week 2: Core Components and API",
-            tasks: [
-              [
-                "Develop the core app components and pages for your capstone project.",
-                "Integrate a real API into your app and display dynamic content from the response.",
-              ],
-            ],
-          },
-          {
-            id: "fv8.3",
-            videoTitle: "Week 3: Polishing the UI",
-            tasks: [
-              [
-                "Polish the UI for responsiveness and add subtle animations to improve the experience.",
-                "Add loading and error states to your app when fetching remote data.",
-              ],
-            ],
-          },
-          {
-            id: "fv8.4",
-            videoTitle: "Week 3: Deployment",
-            tasks: [
-              [
-                "Deploy your React app to Vercel or Netlify and verify the live site works.",
-              ],
-            ],
-          },
-          {
-            id: "fv8.5",
-            videoTitle: "Week 4: Review and Demo",
-            tasks: [
-              [
-                "Review and refactor your app, prepare a demo, and get it ready for portfolio submission.",
-                "Prepare the full deliverables: GitHub repo, live URL, wireframe, and a short walkthrough video.",
-              ],
-            ],
-          },
-        ],
-        assignment:
-          "CAPSTONE: Build and deploy a complete React web application of your choice (e.g., Movie Browser, Job Board, E-commerce UI, Fitness Tracker). Must use: functional components, useState, useEffect, React Router, at least one external API, Context API or prop drilling, responsive design, and be deployed live. Include a professional README.",
-      },
-    ],
+  "id": 3,
+  "title": "Frontend Development",
+  "description": "A complete frontend development course covering the holy trinity of the web — HTML, CSS, and JavaScript — followed by an introduction to the React.js library. Students will build responsive, interactive websites and a React-powered web app.",
+  "duration": "7 Modules | ~12 Weeks",
+  "level": "Beginner – No experience required",
+  "comingSoon": false,
+  "playlists": {
+    "html": "https://www.youtube.com/playlist?list=PL4cUxeGkcC9ibZ2TSBaGGNrgh4ZgYE6Cc",
+    "css_basics": "https://www.youtube.com/playlist?list=PL4cUxeGkcC9gQeDH6xYika1-UP60arkbX",
+    "css_positioning": "https://www.youtube.com/playlist?list=PL4cUxeGkcC9guxdK2A3Zaj3N1sc9ZiswZ",
+    "css_flexbox": "https://www.youtube.com/playlist?list=PL4cUxeGkcC9i371QO_Rt_814IeE0X6b6b",
+    "javascript": "https://www.youtube.com/playlist?list=PL4cUxeGkcC9i9aeJcx65OOpvCDvfZ3U8O",
+    "git": "https://www.youtube.com/playlist?list=PL4cUxeGkcC9g8O48y00vPlY_R8H1TclP3"
   },
+  "source": "The Net Ninja (YouTube)",
+  "modules": [
+    {
+      "id": "module_1",
+      "title": "Module 1",
+      "subtitle": "Introduction to Web Development & HTML Basics",
+      "description": "Foundational web mechanics, document architecture, and building your first structural webpage elements.",
+      "lessons": [
+        {
+          "id": "fv1.1",
+          "videoTitle": "HTML Tutorial for Beginners 01 - HTML Introduction",
+          "duration": "2:30",
+          "url": "https://www.youtube.com/watch?v=Y1BlT4_c_SU",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        },
+        {
+          "id": "fv1.2",
+          "videoTitle": "HTML Tutorial for Beginners 02 - What is HTML?",
+          "duration": "6:08",
+          "url": "https://www.youtube.com/watch?v=chx9Rs41W6g",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        },
+        {
+          "id": "fv1.3",
+          "videoTitle": "HTML Tutorial for Beginners 03 - HTML Syntax & Structure",
+          "duration": "13:10",
+          "url": "https://www.youtube.com/watch?v=2r82W8S0_G8",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        },
+        {
+          "id": "fv1.4",
+          "videoTitle": "HTML Tutorial for Beginners 04 - Your First Web Page",
+          "duration": "9:36",
+          "url": "https://www.youtube.com/watch?v=y3gV9_z0bO0",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        },
+        {
+          "id": "fv1.5",
+          "videoTitle": "HTML Tutorial for Beginners 05 - Head and Body Tag",
+          "duration": "7:23",
+          "url": "https://www.youtube.com/watch?v=u8M70yA-fGg",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        },
+        {
+          "id": "fv1.6",
+          "videoTitle": "HTML Tutorial for Beginners 06 - Headings and Text",
+          "duration": "8:19",
+          "url": "https://www.youtube.com/watch?v=T_8N_wS864E",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        },
+        {
+          "id": "fv1.7",
+          "videoTitle": "HTML Tutorial for Beginners 07 - Heading Structure",
+          "duration": "5:48",
+          "url": "https://www.youtube.com/watch?v=mY7_92M2WjU",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        },
+        {
+          "id": "fv1.8",
+          "videoTitle": "HTML Tutorial for Beginners 08 - Default Browser Styles",
+          "duration": "3:41",
+          "url": "https://www.youtube.com/watch?v=E-5bVf-RPhU",
+          "tasks": [
+            "Construct HTML document elements and tags to structure your page content."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Portfolio Blueprint",
+        "objective": "Code a fully semantic, multi-heading layout for a professional developer profile without any custom styling.",
+        "steps": [
+          "Initialize the File: Create an index.html file. Establish a standard structural declaration matching the correct modern syntax baseline (<!DOCTYPE html>, <html>, <head>, <body>).",
+          "Metadata Setup: Inside the <head>, define an appropriate page title ('My Developer Journey') and specify the viewport meta settings for proper mobile translation.",
+          "Primary Structure: Create a top-level section featuring a main profile title. Directly underneath, construct a short biography section using a nested, descriptive text element.",
+          "Skills Mapping: Use an appropriate, clear sub-heading level to create a section titled 'Core Stack'. List out three technologies using a structural component that visually groups items with sequential markers.",
+          "Separation Elements: Insert a clean text break using a thematic horizontal line to separate the profile intro from a project timeline block below."
+        ],
+        "hints": [
+          "Make sure your semantic hierarchy flows cleanly downstream (i.e., don't jump directly from your main top-level page heading to a highly specific subsection heading without utilizing the stepping elements between them).",
+          "Remember that browsers apply certain built-in margin and line-height patterns to lists and text elements by default. Do not worry if things look plain; focus purely on a logical information document structure."
+        ]
+      }
+    },
+    {
+      "id": "module_2",
+      "title": "Module 2",
+      "subtitle": "Advanced HTML Elements & Foundations of CSS",
+      "description": "Enriching content layouts with media, links, and styling integrations, alongside an introduction to the Cascade and selectors.",
+      "lessons": [
+        {
+          "id": "fv2.1",
+          "videoTitle": "HTML Tutorial for Beginners 09 - The img Tag",
+          "duration": "6:13",
+          "url": "https://www.youtube.com/watch?v=IC538_fSod0",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.2",
+          "videoTitle": "HTML Tutorial for Beginners 10 - HTML Links",
+          "duration": "12:25",
+          "url": "https://www.youtube.com/watch?v=Z46GvD8Iid8",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.3",
+          "videoTitle": "HTML Tutorial for Beginners 11 - HTML Lists",
+          "duration": "8:06",
+          "url": "https://www.youtube.com/watch?v=09oE4u6X9EE",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.4",
+          "videoTitle": "HTML Tutorial for Beginners 12 - HR and BR Tags",
+          "duration": "3:26",
+          "url": "https://www.youtube.com/watch?v=xkF-cKpzREU",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.5",
+          "videoTitle": "HTML Tutorial for Beginners 13 - The div Tag",
+          "duration": "4:52",
+          "url": "https://www.youtube.com/watch?v=Yf78u6XonS0",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.6",
+          "videoTitle": "HTML Tutorial for Beginners 14 - ID's and Classes",
+          "duration": "8:14",
+          "url": "https://www.youtube.com/watch?v=TAsE2_g_6l8",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.7",
+          "videoTitle": "HTML Tutorial for Beginners 15 - Adding CSS to HTML",
+          "duration": "9:34",
+          "url": "https://www.youtube.com/watch?v=fXWvY_b5jGg",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.8",
+          "videoTitle": "HTML Tutorial for Beginners 16 - Adding JavaScript to HTML",
+          "duration": "9:42",
+          "url": "https://www.youtube.com/watch?v=9_t6N8bSgB8",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.9",
+          "videoTitle": "HTML Tutorial for Beginners 17 - What To Do Next",
+          "duration": "3:32",
+          "url": "https://www.youtube.com/watch?v=3u_C9pG8FpY",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.10",
+          "videoTitle": "CSS Tutorial For Beginners 01 - Introduction to CSS",
+          "duration": "2:15",
+          "url": "https://www.youtube.com/watch?v=qKoajPPWpmo",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.11",
+          "videoTitle": "CSS Tutorial For Beginners - What is CSS?",
+          "duration": "4:44",
+          "url": "https://www.youtube.com/watch?v=CHL_W_u6u_s",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.12",
+          "videoTitle": "CSS Tutorial For Beginners 03 - Default Browser Styles",
+          "duration": "4:47",
+          "url": "https://www.youtube.com/watch?v=ZJpU_nF3w58",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.13",
+          "videoTitle": "CSS Tutorial For Beginners 04 - Basic CSS Syntax",
+          "duration": "8:02",
+          "url": "https://www.youtube.com/watch?v=UqNHe3uSAn8",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.14",
+          "videoTitle": "CSS Tutorial For Beginners 05 - Inline & Embedded Styles",
+          "duration": "9:30",
+          "url": "https://www.youtube.com/watch?v=A_0fJvG-Y-g",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.15",
+          "videoTitle": "CSS Tutorial For Beginners 06 - External Style Sheets",
+          "duration": "5:38",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9g",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        },
+        {
+          "id": "fv2.16",
+          "videoTitle": "CSS Tutorial For Beginners 07 - CSS Comments and Where to Use Them",
+          "duration": "4:41",
+          "url": "https://www.youtube.com/watch?v=q6b_R4n6EAs",
+          "tasks": [
+            "Incorporate structural blocks, class attributes, images, and external CSS references."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Interactive Media Card",
+        "objective": "Enhance your HTML document with functional routing and media layouts, then implement an embedded or external styling layer to clear user-agent defaults.",
+        "steps": [
+          "Directory Tree Organization: Create a dedicated style sheet document in your workspace and reference it inside your document header element.",
+          "Generic Container Block: Wrap your profile section in a standalone spatial division block. Assign it a reusable identifier tag via a class selector.",
+          "Media Integration: Place an image into your container. Configure a fallback textual description within the element to ensure accessibility compliance if the source asset drops.",
+          "Anchor Routing: Build a clean navigation layout underneath using text nodes wrapped in explicit hyperlink elements that route out to external resource hubs.",
+          "Initial Style Mapping: Write selectors targeting your container class. Apply direct background tone modifications and clear out the default baseline spacing margins injected by the browser."
+        ],
+        "hints": [
+          "If your text elements are sticking directly to the absolute outer edge of your visual background wrapper, you need to configure modern structural constraints using spacing properties that push inward from the boundary.",
+          "When adding class tags, select highly clear, descriptive semantic naming patterns (e.g., use '.profile-card' rather than a generic tag like '.box1')."
+        ]
+      }
+    },
+    {
+      "id": "module_3",
+      "title": "Module 3",
+      "subtitle": "CSS Specificity, Rule Hierarchies & Text Styling",
+      "description": "Mastering the rules of inheritance, priority mapping, element targeting variations, and comprehensive text typography.",
+      "lessons": [
+        {
+          "id": "fv3.1",
+          "videoTitle": "CSS Tutorial For Beginners 08 - Targeting Elements with CSS",
+          "duration": "4:29",
+          "url": "https://www.youtube.com/watch?v=fG9A6eY5C6s",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.2",
+          "videoTitle": "CSS Tutorial For Beginners 09 - Targeting Classes and ID's",
+          "duration": "7:25",
+          "url": "https://www.youtube.com/watch?v=3R4jS8_fS6k",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.3",
+          "videoTitle": "CSS Tutorial For Beginners 10 - CSS Conflicts & the Cascade",
+          "duration": "8:05",
+          "url": "https://www.youtube.com/watch?v=gTf9A-G-wS8",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.4",
+          "videoTitle": "CSS Tutorial For Beginners 11 - Inheritance",
+          "duration": "8:48",
+          "url": "https://www.youtube.com/watch?v=L5K8b_6Y_C0",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.5",
+          "videoTitle": "CSS Tutorial For Beginners 12 - Selector Specificity",
+          "duration": "10:18",
+          "url": "https://www.youtube.com/watch?v=Xw0pW36U_Hk",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.6",
+          "videoTitle": "CSS Tutorial For Beginners 13 - The Important Declaration",
+          "duration": "5:40",
+          "url": "https://www.youtube.com/watch?v=5V56E8aBvNk",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.7",
+          "videoTitle": "CSS Tutorial For Beginners 14 - Targeting Multiple Elements",
+          "duration": "4:41",
+          "url": "https://www.youtube.com/watch?v=6m-bW_wY7_s",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.8",
+          "videoTitle": "CSS Tutorial For Beginners 15 - Descendant Selectors",
+          "duration": "6:23",
+          "url": "https://www.youtube.com/watch?v=gN8_R3Q6F9s",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.9",
+          "videoTitle": "CSS Tutorial For Beginners 16 - Child Selectors",
+          "duration": "3:46",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fk",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.10",
+          "videoTitle": "CSS Tutorial For Beginners 17 - Adjacent Selectors",
+          "duration": "4:21",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fm",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.11",
+          "videoTitle": "CSS Tutorial For Beginners 18 - Attribute Selectors",
+          "duration": "10:39",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fn",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.12",
+          "videoTitle": "CSS Tutorial For Beginners 19 - Pseudo Selectors",
+          "duration": "5:39",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fo",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.13",
+          "videoTitle": "CSS Tutorial For Beginners 20 - Hover, Active & Visited Effects",
+          "duration": "4:18",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fp",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.14",
+          "videoTitle": "CSS Tutorial For Beginners 21 - First & Last Child Selectors",
+          "duration": "5:32",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fq",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.15",
+          "videoTitle": "CSS Tutorial For Beginners 22 - First & Last of Type Selectors",
+          "duration": "3:54",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fr",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.16",
+          "videoTitle": "CSS Tutorial For Beginners 23 - nth Child Selectors",
+          "duration": "8:12",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fs",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.17",
+          "videoTitle": "CSS Tutorial For Beginners 24 - nth of Type Selectors",
+          "duration": "5:43",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Ft",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.18",
+          "videoTitle": "CSS Tutorial For Beginners 25 - Combining Selectors",
+          "duration": "4:00",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fu",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.19",
+          "videoTitle": "CSS Tutorial For Beginners 26 - The Universal Selector",
+          "duration": "7:15",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Vv",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.20",
+          "videoTitle": "CSS Tutorial For Beginners 27 - Font Size",
+          "duration": "8:00",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fw",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.21",
+          "videoTitle": "CSS Tutorial For Beginners 28 - Font Family",
+          "duration": "5:27",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fx",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.22",
+          "videoTitle": "CSS Tutorial For Beginners 29 - Text Decoration",
+          "duration": "4:52",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fy",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.23",
+          "videoTitle": "CSS Tutorial For Beginners 30 - Font Weight",
+          "duration": "8:15",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5Fz",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.24",
+          "videoTitle": "CSS Tutorial For Beginners 31 - Text Transform",
+          "duration": "5:01",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G1",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.25",
+          "videoTitle": "CSS Tutorial For Beginners 32 - Text Colour",
+          "duration": "5:33",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G2",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.26",
+          "videoTitle": "CSS Tutorial For Beginners 33 - Styling Links",
+          "duration": "4:36",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G3",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.27",
+          "videoTitle": "CSS Tutorial For Beginners 34 - Letter Spacing & Line Height",
+          "duration": "9:05",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G4",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        },
+        {
+          "id": "fv3.28",
+          "videoTitle": "CSS Tutorial For Beginners 35 - Paragraph Spacing",
+          "duration": "3:47",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G5",
+          "tasks": [
+            "Apply element selectors, class hierarchies, and type spacing parameters."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "Typography Layout & Selector Hierarchies",
+        "objective": "Build a complex, multi-layered text column section and use descendant, structural, and attribute selectors to handle rule priority mapping without resorting to destructive global modifiers.",
+        "steps": [
+          "Generate Content Fields: Build three sibling paragraphs inside a shared semantic article wrapper. Ensure one paragraph contains a distinct hyperlink element.",
+          "Descendant Targeting: Write a style rule using a descendant selector pattern that strictly adjusts the typography weight and color of an anchor tag only if it lives inside that specific article wrapper.",
+          "Pseudo-State Interaction: Add smooth behavioral style transitions that alter color parameters immediately whenever a cursor tracks dynamically over the anchor element.",
+          "Structural Array Targeting: Create a rule using a structural pseudo-class selector that targets the absolute first elements in your text block to render them in a slightly larger text size.",
+          "Handling Rule Collisions: Purposely write two matching style blocks that target the same font family property. Observe how order priority executes downstream. Resolve the structural collision cleanly using explicit class inheritance, without relying on override declarations."
+        ],
+        "hints": [
+          "Refrain from appending the destructive !important rule block to force styling priorities. If an attribute refuses to change, trace your structural selector weight inside your workspace or using dev tools.",
+          ":first-child targets an element if it is the absolute first child of its parent container, whereas :first-of-type matches the first instance of that specific tag among its siblings. Choose your target approach carefully."
+        ]
+      }
+    },
+    {
+      "id": "module_4",
+      "title": "Module 4",
+      "subtitle": "The CSS Box Model, Styling Elements & Layout Deployments",
+      "description": "Working with dimensions, borders, visibility fields, shadows, gradients, and practical structural project assemblies.",
+      "lessons": [
+        {
+          "id": "fv4.1",
+          "videoTitle": "CSS Tutorial For Beginners 36 - The Box Model",
+          "duration": "9:28",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G6",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.2",
+          "videoTitle": "CSS Tutorial For Beginners 37 - Margins",
+          "duration": "10:39",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G7",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.3",
+          "videoTitle": "CSS Tutorial For Beginners 38 - Padding",
+          "duration": "4:42",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G8",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.4",
+          "videoTitle": "CSS Tutorial For Beginners 39 - Padding & Margin Long-hand",
+          "duration": "3:58",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5G9",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.5",
+          "videoTitle": "CSS Tutorial For Beginners 40 - Borders",
+          "duration": "6:48",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H1",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.6",
+          "videoTitle": "CSS Tutorial For Beginners 41 - Block-level Elements",
+          "duration": "11:09",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H2",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.7",
+          "videoTitle": "CSS Tutorial For Beginners 42 - Width & Height",
+          "duration": "6:27",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H3",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.8",
+          "videoTitle": "CSS Tutorial For Beginners 43 - Rounded Corners",
+          "duration": "7:21",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H4",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.9",
+          "videoTitle": "CSS Tutorial For Beginners 44 - Backgrounds",
+          "duration": "9:03",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H5",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.10",
+          "videoTitle": "CSS Tutorial For Beginners 45 - Background Shorthand",
+          "duration": "4:01",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H6",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.11",
+          "videoTitle": "CSS Tutorial For Beginners 46 - Multiple Backgrounds",
+          "duration": "4:59",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H7",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.12",
+          "videoTitle": "CSS Tutorial For Beginners 47 - Color",
+          "duration": "6:29",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H8",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.13",
+          "videoTitle": "CSS Tutorial For Beginners 48 - Opacity",
+          "duration": "7:12",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5H9",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.14",
+          "videoTitle": "CSS Tutorial For Beginners 49 -  CSS Gradients",
+          "duration": "9:07",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5J1",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.15",
+          "videoTitle": "CSS Tutorial For Beginners 50 - Box Shadow",
+          "duration": "4:26",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5J2",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.16",
+          "videoTitle": "CSS Tutorial For Beginners 51 - Browser Support",
+          "duration": "6:39",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5J3",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.17",
+          "videoTitle": "CSS Tutorial For Beginners 52 - CSS Website Build Part 1",
+          "duration": "9:35",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5J4",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        },
+        {
+          "id": "fv4.18",
+          "videoTitle": "CSS Tutorial For Beginners 53 - CSS Website Build Part 2",
+          "duration": "8:11",
+          "url": "https://www.youtube.com/watch?v=6B-B6D-A5J5",
+          "tasks": [
+            "Apply margins, borders, paddings, and shadows within your page layout."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Box Model Profile Component",
+        "objective": "Engineering an exact visual interface using margin mathematics, padding parameters, custom linear gradients, and layer drop shadows.",
+        "steps": [
+          "Box Dimensioning Setup: Author a class called .card-container. Explicitly set its geometric horizontal and vertical dimensions.",
+          "Internal Spacing Matrix: Add internal clearance padding so text doesn't touch the borders. Configure precise outward margin values to center the entire container cleanly in the middle of the viewport.",
+          "Border Styling Execution: Construct a solid outline path around your box container, incorporating subtle curvature transitions at the corner vertices.",
+          "Complex Background Gradients: Configure a dual-tone background transition setting that flows diagonally across the container canvas.",
+          "Drop Shadow Articulation: Apply an offset shadow matrix underneath the layout layer to lift the card element visually off the base viewport plane."
+        ],
+        "hints": [
+          "By default, adding extra padding parameters pushes your overall container sizing out larger than your baseline defined dimensions. If this throws off your layouts, adjust how the box calculations are managed globally.",
+          "Keep your shadow blur values soft and subtle. A harsh, pitch-black drop shadow often detracts from standard, clean interface designs."
+        ]
+      }
+    },
+    {
+      "id": "module_5",
+      "title": "Module 5",
+      "subtitle": "Advanced Layouts: Positioning & CSS Flexbox",
+      "description": "Mastering regular layouts vs float states, clear fixes, relative/absolute positioning parameters, and modern Flexbox UI systems.",
+      "lessons": [
+        {
+          "id": "fv5.1",
+          "videoTitle": "CSS Positioning Tutorial #1 - Introduction",
+          "duration": "2:18",
+          "url": "https://www.youtube.com/watch?v=7_tZpZgV0Gg",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.2",
+          "videoTitle": "CSS Positioning Tutorial #2 - Box Model Review",
+          "duration": "5:58",
+          "url": "https://www.youtube.com/watch?v=aG-VvG-XNRE",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.3",
+          "videoTitle": "CSS Positioning Tutorial #3 - Normal Document Flow",
+          "duration": "3:06",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw8c",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.4",
+          "videoTitle": "CSS Positioning Tutorial #4 - Floating Elements",
+          "duration": "10:12",
+          "url": "https://www.youtube.com/watch?v=x7E2D6xH66E",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.5",
+          "videoTitle": "CSS Positioning Tutorial #5 - Clearing Floats",
+          "duration": "8:51",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RE",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.6",
+          "videoTitle": "CSS Positioning Tutorial #6 - Floating Columns",
+          "duration": "5:07",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw9a",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.7",
+          "videoTitle": "CSS Positioning Tutorial #7 - Text Columns",
+          "duration": "3:45",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw9b",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.8",
+          "videoTitle": "CSS Positioning Tutorial #8 - Position Relative",
+          "duration": "4:58",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw9c",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.9",
+          "videoTitle": "CSS Positioning Tutorial #9 - Absolute Position",
+          "duration": "5:22",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw9d",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.10",
+          "videoTitle": "CSS Positioning Tutorial #10 - Fixed Position",
+          "duration": "4:35",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw9e",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.11",
+          "videoTitle": "CSS Positioning Tutorial #11 - Z - Index & Stacking Order",
+          "duration": "8:32",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw9f",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.12",
+          "videoTitle": "CSS Positioning Tutorial #12 - Clipping Content",
+          "duration": "4:46",
+          "url": "https://www.youtube.com/watch?v=E7v4QGfLw9g",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.13",
+          "videoTitle": "CSS Flexbox Tutorial #1 - Introduction",
+          "duration": "5:18",
+          "url": "https://www.youtube.com/watch?v=qD97z88P6uM",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.14",
+          "videoTitle": "CSS Flexbox Tutorial #2 - Flex Containers",
+          "duration": "6:27",
+          "url": "https://www.youtube.com/watch?v=7-qWlhWnS6c",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.15",
+          "videoTitle": "CSS Flexbox Tutorial #3 - Flex Grow",
+          "duration": "4:59",
+          "url": "https://www.youtube.com/watch?v=wz33CgI3E2k",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.16",
+          "videoTitle": "CSS Flexbox Tutorial #4 - Flex Shrink",
+          "duration": "4:10",
+          "url": "https://www.youtube.com/watch?v=68E6A6LwX6E",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.17",
+          "videoTitle": "CSS Flexbox Tutorial #5 - Flex Wrap",
+          "duration": "4:43",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RF",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.18",
+          "videoTitle": "CSS Flexbox Tutorial #6 - Flex Basis",
+          "duration": "5:02",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RG",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.19",
+          "videoTitle": "CSS Flexbox Tutorial #7 - Creating a Menu with Flexbox",
+          "duration": "8:03",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RH",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.20",
+          "videoTitle": "CSS Flexbox Tutorial #8 - Creating Nested Menu's with Flexbox",
+          "duration": "8:10",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RI",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.21",
+          "videoTitle": "CSS Flexbox Tutorial #9 - Axis",
+          "duration": "6:44",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RJ",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.22",
+          "videoTitle": "CSS Flexbox Tutorial #10 - Align Items on the Cross Axis",
+          "duration": "4:42",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RK",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.23",
+          "videoTitle": "CSS Flexbox Tutorial #11 - Grid vs Stacked Layout Example",
+          "duration": "9:04",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RL",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        },
+        {
+          "id": "fv5.24",
+          "videoTitle": "CSS Flexbox Tutorial #12 - Element Order",
+          "duration": "4:27",
+          "url": "https://www.youtube.com/watch?v=7yR6Z7Gk5RM",
+          "tasks": [
+            "Apply relative/absolute coordinates or Flexbox containers to structure elements."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Flexbox Navigation Dashboard",
+        "objective": "Migrate from legacy document structures or layout floats to a highly fluid, modern flex container layout that responds across diverse horizontal planes.",
+        "steps": [
+          "Flex Environment Initialization: Create a functional top navigation bar wrapper element containing four structural navigation links. Convert the parent wrapper element into a flexible layout context.",
+          "Main-Axis Alignment: Configure alignment parameters across the primary flow path to distribute the navigation items with even air gaps between them.",
+          "Cross-Axis Verification: Set vertical cross-axis rules to ensure all items align dead-center vertically, regardless of variations in element heights.",
+          "Dynamic Item Expansion: Configure grow parameters on a specific search item link so it actively scales to fill out remaining empty spaces on the layout line.",
+          "Ordering Operations: Without touching or rearranging your raw HTML source markup sequence, write an explicit order remapping property to force a link from the middle to display at the absolute front of the line."
+        ],
+        "hints": [
+          "justify-content controls your alignment along the primary structural direction axis, while align-items directs behavior along the opposing intersection vector.",
+          "Always ensure your parent element has its display model set to a flex state before trying to use child tracking attributes like flex-grow or order."
+        ]
+      }
+    },
+    {
+      "id": "module_6",
+      "title": "Module 6",
+      "subtitle": "Project Control Management & Git Operations",
+      "description": "Mastering command line environments, tracking indices, version rolling, ignore policies, code branching systems, and resolution configurations.",
+      "lessons": [
+        {
+          "id": "fv6.1",
+          "videoTitle": "Git Crash Course #1 - Introduction & Setup",
+          "duration": "20:04",
+          "url": "https://www.youtube.com/watch?v=4okmgMzPwZ8",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.2",
+          "videoTitle": "Git Crash Course #2 - Command Line Basics",
+          "duration": "12:44",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9h",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.3",
+          "videoTitle": "Git Crash Course #3 - Making a New Git Repository",
+          "duration": "4:31",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9i",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.4",
+          "videoTitle": "Git Crash Course #4 - Staging Files",
+          "duration": "6:38",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9j",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.5",
+          "videoTitle": "Git Crash Course #5 - Making Your First Commits",
+          "duration": "12:34",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9k",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.6",
+          "videoTitle": "Git Crash Course #6 - Deleting & Untracking Files",
+          "duration": "5:20",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9l",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.7",
+          "videoTitle": "Git Crash Course #7 - Viewing the Project History",
+          "duration": "6:09",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9m",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.8",
+          "videoTitle": "Git Crash Course #8 - Undoing Changes",
+          "duration": "8:20",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9n",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.9",
+          "videoTitle": "Git Crash Course #9 - .gitignore File",
+          "duration": "5:45",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9o",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.10",
+          "videoTitle": "Git Crash Course #10 - Git Features in VS Code",
+          "duration": "6:22",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9p",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.11",
+          "videoTitle": "Git Crash Course #11 - Understanding Branches",
+          "duration": "5:42",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9q",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.12",
+          "videoTitle": "Git Crash Course #12 - Switching Between Branches",
+          "duration": "10:58",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9r",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.13",
+          "videoTitle": "Git Crash Course #13 - Merging Branches",
+          "duration": "4:38",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9s",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        },
+        {
+          "id": "fv6.14",
+          "videoTitle": "Git Crash Course #14 - Deleting Branches",
+          "duration": "6:08",
+          "url": "https://www.youtube.com/watch?v=7M7gL0gqK9t",
+          "tasks": [
+            "Execute Git version control commits, check tracking statuses, and merge branch files."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "The Versioned Web Repository",
+        "objective": "Initialize source version tracking over your local project workspace, perform branching operations, roll back file modifications, and stage historical commits via the terminal.",
+        "steps": [
+          "Initialize Tracking: Open your terminal path directly within your project workspace folder. Initialize a clean repository architecture.",
+          "Indexing Operations: Create a .gitignore configuration document. Explicitly block system file structures or cache artifacts from being swept into tracking records. Check your current tracking states.",
+          "Staging & Historical Log 1: Package your core structural profile assets into the tracking index. Commit this collection to the system timeline history with an explicit, semantic tracking comment.",
+          "Branching Workflows: Spawn a distinct, standalone feature branch titled 'experimental-styles'. Move your terminal tracking context over to this branch safely.",
+          "Modification & Branch Destruction: Add an experimental class into your code and execute a commit on your feature branch. Switch back to your primary production branch. Merge the feature changes in seamlessly. Afterward, delete the feature branch wrapper cleanly."
+        ],
+        "hints": [
+          "Always verify your exact repository context and path location using status checks before writing staging or commit commands.",
+          "If you run into merge block states or file conflicts, look for the inline markers inserted into the code by your source tracking tool. Cleanly pick the correct code blocks manually, save, and finalize your update step."
+        ]
+      }
+    },
+    {
+      "id": "module_7",
+      "title": "Module 7",
+      "subtitle": "JavaScript Essentials, Modern Logic & DOM Engineering",
+      "description": "Comprehensive program orchestration: variables, evaluation streams, control structures, functions, scope limits, entity states, event monitors, and dynamic interface alterations.",
+      "lessons": [
+        {
+          "id": "fv7.1",
+          "videoTitle": "JavaScript Tutorial For Beginners 01 - Introduction",
+          "duration": "3:41",
+          "url": "https://www.youtube.com/watch?v=qC_ZfWf0uK0",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.2",
+          "videoTitle": "JavaScript for Beginners 02 - What is JavaScript?",
+          "duration": "4:04",
+          "url": "https://www.youtube.com/watch?v=U8XF698wV_w",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.3",
+          "videoTitle": "JavaScript Tutorial For Beginners 03 - Hello World! in JavaScript",
+          "duration": "3:18",
+          "url": "https://www.youtube.com/watch?v=7E84g9E8XwY",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.4",
+          "videoTitle": "New Modern JavaScript Update",
+          "duration": "0:52",
+          "url": "https://www.youtube.com/watch?v=pG-aI6gM_S8",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.5",
+          "videoTitle": "JavaScript Tutorial For Beginners #4 - Where to put your JS",
+          "duration": "5:14",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_A",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.6",
+          "videoTitle": "JavaScript Tutorial For Beginners #5 - Google Chrome Developer Tools",
+          "duration": "4:52",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_B",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.7",
+          "videoTitle": "JavaScript Tutorial For Beginners #6 - Basic JavaScript Syntax & Rules",
+          "duration": "7:50",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_C",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.8",
+          "videoTitle": "JavaScript Tutorial For Beginners #7 - JavaScript Variables",
+          "duration": "9:00",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_D",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.9",
+          "videoTitle": "JavaScript Tutorial For Beginners #8 - Basic Mathematical Operators",
+          "duration": "6:17",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_E",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.10",
+          "videoTitle": "JavaScript Tutorial For Beginners #9 - Math Operator Short-hand",
+          "duration": "4:56",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_F",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.11",
+          "videoTitle": "JavaScript Tutorial For Beginners #10 - Logging to the Console",
+          "duration": "3:40",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_G",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.12",
+          "videoTitle": "JavaScript Tutorial For Beginners #11 - Booleans in JavaScript",
+          "duration": "6:14",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_H",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.13",
+          "videoTitle": "JavaScript Tutorial For Beginners #12 - If Statements",
+          "duration": "8:46",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_I",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.14",
+          "videoTitle": "JavaScript Tutorial For Beginners #13 - Else If Statements",
+          "duration": "4:04",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_J",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.15",
+          "videoTitle": "JavaScript Tutorial For Beginners #14 - Comparison Operators",
+          "duration": "5:26",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_K",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.16",
+          "videoTitle": "JavaScript Tutorial For Beginners #15 - Logical Operators",
+          "duration": "6:02",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_L",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.17",
+          "videoTitle": "JavaScript Tutorial For Beginners #16 - While Loops",
+          "duration": "4:10",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_M",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.18",
+          "videoTitle": "JavaScript Tutorial For Beginners #17 - For Loops",
+          "duration": "7:50",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_N",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.19",
+          "videoTitle": "JavaScript Tutorial For Beginners #18 - Break & Continue",
+          "duration": "4:14",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_O",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.20",
+          "videoTitle": "JavaScript Tutorial For Beginners 19 - Practical Example using Loops",
+          "duration": "4:03",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_P",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.21",
+          "videoTitle": "JavaScript Tutorial For Beginners #20 - Functions",
+          "duration": "9:19",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_Q",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.22",
+          "videoTitle": "JavaScript Tutorial For Beginners #21 - Variable Scope",
+          "duration": "6:06",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_R",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.23",
+          "videoTitle": "JavaScript Tutorial For Beginners #22 - Numbers",
+          "duration": "6:10",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_S",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.24",
+          "videoTitle": "JavaScript Tutorial For Beginners - NaN (Not a Number)",
+          "duration": "6:35",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_T",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.25",
+          "videoTitle": "JavaScript Tutorial For Beginners #24 - Strings",
+          "duration": "9:38",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_U",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.26",
+          "videoTitle": "JavaScript Tutorial For Beginners #25 - Slice and Split Strings",
+          "duration": "6:39",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_V",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.27",
+          "videoTitle": "JavaScript Tutorial For Beginners #26 - Arrays",
+          "duration": "6:48",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_W",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.28",
+          "videoTitle": "JavaScript Tutorial For Beginners #27 - Introduction to Objects",
+          "duration": "6:37",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_X",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.29",
+          "videoTitle": "JavaScript Tutorial For Beginners #28 - Creating a new JavaScript Object",
+          "duration": "10:07",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_Y",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.30",
+          "videoTitle": "JavaScript Tutorial For Beginners #29 - THIS Keyword",
+          "duration": "5:24",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xy_Z",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.31",
+          "videoTitle": "JavaScript Tutorial For Beginners #30 - Constructor Functions",
+          "duration": "6:49",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xz1a",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.32",
+          "videoTitle": "JavaScript Tutorial For Beginners #31 - The Date Object",
+          "duration": "9:23",
+          "url": "https://www.youtube.com/watch?v=Y8YfWw8Xz1b",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.33",
+          "videoTitle": "JavaScript Tutorial For Beginners #32 - What is the DOM in JavaScript?",
+          "duration": "4:31",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kk",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.34",
+          "videoTitle": "JavaScript Tutorial For Beginners #33 - Traversing the DOM",
+          "duration": "7:44",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kl",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.35",
+          "videoTitle": "JavaScript Tutorial For Beginners #34 - Changing Page Content",
+          "duration": "5:39",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0km",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.36",
+          "videoTitle": "JavaScript Tutorial For Beginners #35 - Changing Element Attributes",
+          "duration": "6:03",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kn",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.37",
+          "videoTitle": "JavaScript Tutorial For Beginners #36 - Changing CSS Styles",
+          "duration": "4:50",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0ko",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.38",
+          "videoTitle": "JavaScript Tutorial For Beginners #37 - Adding Elements to the DOM",
+          "duration": "7:44",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kp",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.39",
+          "videoTitle": "JavaScript Tutorial For Beginners #38 - Removing Elements from the DOM",
+          "duration": "4:13",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0quest",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.40",
+          "videoTitle": "JavaScript Tutorial For Beginners # 39 - Introduction to JavaScript Events",
+          "duration": "8:30",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kr",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.41",
+          "videoTitle": "JavaScript Tutorial For Beginners #40 - The onClick Event",
+          "duration": "8:05",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0ks",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.42",
+          "videoTitle": "JavaScript Tutorial For Beginners #41 - Window onLoad Event",
+          "duration": "5:07",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kt",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.43",
+          "videoTitle": "JavaScript Tutorial For Beginners #42 - JavaScript Timers",
+          "duration": "12:12",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0ku",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.44",
+          "videoTitle": "JavaScript Tutorial For Beginners #43 - Accessing Form Elements",
+          "duration": "6:04",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kv",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.45",
+          "videoTitle": "JavaScript Tutorial For Beginners #44 - VERY Simple Form Validation",
+          "duration": "5:37",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kw",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.46",
+          "videoTitle": "JavaScript Tutorial For Beginners #45 - JavaScript Libraries",
+          "duration": "8:34",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0kx",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        },
+        {
+          "id": "fv7.47",
+          "videoTitle": "JavaScript Tutorial For Beginners #46 - What to Study Next",
+          "duration": "4:31",
+          "url": "https://www.youtube.com/watch?v=FIORjGvT0ky",
+          "tasks": [
+            "Write Javascript DOM traversal logic, handle event clicks, and run validator loops."
+          ]
+        }
+      ],
+      "assignment": {
+        "title": "Dynamic Metric Counter & Form Validator",
+        "objective": "Script an operational application program thread that listens for interface interaction events, parses input node objects, manages numerical calculations, and applies modifications directly into the web document tree.",
+        "steps": [
+          "DOM Traversal Setup: Link an external script execution file to your document tracking architecture. Write clean search queries to latch onto an input text element, a tracking submission node, and an empty data display field.",
+          "Event Monitor Binding: Attach a persistent action listener to your submission node that fires immediately upon cursor click inputs.",
+          "Data Inspection Logic: Inside your execution loop, intercept the default behavior of the submission action. Extract the raw text value from the input field node. Implement logical conditions to inspect whether the input string length matches safety baselines.",
+          "State Counter & Feedback Delivery: Create a localized count tracker variable. If validation clears, increment your tracking tracker value by one and write a clean string interpolation into your display node to alert the user.",
+          "Visual Attribute Manipulation: If validation checks fail, write rules that dynamically append an alert styling class directly to your layout components to mark the input state visually red."
+        ],
+        "hints": [
+          "Form submission actions naturally attempt to refresh your browser window context instantly. Prevent this behavior by explicitly invoking the native execution stoppage property on the incoming event block.",
+          "Carefully track variable scope contexts. If you declare your metric tracking counter inside the click execution block, it will reset to its default starting value every single time the action runs."
+        ]
+      }
+    },
+    {
+      "id": "capstone_projects",
+      "title": "Capstone Project",
+      "subtitle": "Capstone Project",
+      "description": "Practical Graduation Requirement. Timeline Constraint: Exactly Two Weeks. Students must select and completely build out two (2) projects from the matrix below using HTML, CSS (Flexbox/Grid), explicit version-tracked code histories, and pure vanilla JavaScript DOM logic.",
+      "lessons": [],
+      "projects": [
+        {
+          "id": "project_alpha",
+          "title": "Project Alpha: The Smart Dashboard Sandbox UI",
+          "description": "An interactive application control panel workspace where users can input parameters and watch an interface dynamically adapt its layout, data, and themes.",
+          "core_requirements": [
+            "A primary workspace layout handled completely via modern multi-column Flexbox styling.",
+            "An interface dashboard that updates structural counters, user badges, and text logs on the screen using dynamic data.",
+            "An operational theme module swapping layout styles cleanly between dark, light, and high-contrast color values by altering root elements."
+          ],
+          "architectural_concept_map": {
+            "diagram_placeholder": "",
+            "specifications": [
+              "Global Sidebar Navigation Column: A vertical container locked on the left aspect, changing down to a horizontal top banner via media queries when the screen width drops below 768 pixels.",
+              "Primary Metric Card Deck: An upper row grid layout leveraging flex-direction: row and flex-wrap: wrap to allow fluid resizing of tracking tiles across viewport changes.",
+              "Data Logging Sandbox Terminal: A bottom-level code output console container that captures input tracking variables and appends strings as custom nodes to mock backend executions."
+            ]
+          }
+        },
+        {
+          "id": "project_beta",
+          "title": "Project Beta: The Client-Side Evaluation Engine",
+          "description": "A client-side testing application platform that executes structured task configurations, tracks overall success parameters, calculates metrics on the fly, and fires custom alert timers.",
+          "core_requirements": [
+            "Dynamically loop over code objects or arrays to inject structured task elements onto the screen without hardcoding the items into the base HTML file.",
+            "Implement persistent timer tracking loops that automatically advance layout panels or warn users when predefined time limits run out.",
+            "An analytical summary pane that unlocks custom skill markers based on the calculated score."
+          ],
+          "architectural_concept_map": {
+            "diagram_placeholder": "",
+            "execution_flowchart": "[Data Array Layer] ──> [DOM Render Loop] ──> [User Event Action Click] ──> [Evaluation Check Logic] ──> [Calculate Metrics] ──> [Summary View Dashboard]"
+          }
+        },
+        {
+          "id": "project_gamma",
+          "title": "Project Gamma: The Interactive SaaS Documentation Hub",
+          "description": "A professional production documentation interface built with responsive navigation, text processing search filters, and an interactive sample component layout.",
+          "core_requirements": [
+            "A split-layout design featuring a fixed sidebar directory list paired with an independent scrolling content pane.",
+            "A client-side search field that monitors input events to hide or show matching text blocks across the screen instantly as the user types.",
+            "An interactive code snippet component layout equipped with functional 'Copy to Clipboard' macros using browser interface objects."
+          ],
+          "architectural_concept_map": {
+            "diagram_placeholder": "",
+            "specifications": [
+              "The Navigation Tree Pane: Explicitly set to a constraint of position: fixed or height: 100vh with an active overflow property to permit nested document links to scroll independently of the main curriculum window.",
+              "The Content Reading Space: Configured with wide left-side margins to clear the tracking directory column, applying input filter logic targeting element text attributes matching the input search value."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+},
   4: {
     id: 4,
     title: "Graphics Design Using Pixel Lab",

@@ -2,7 +2,7 @@ import React from "react";
 import "./Footer.css";
 import { ExternalLink, Send, Camera, Play, MessageCircle } from "lucide-react";
 
-const Footer = () => {
+const Footer = ({ onLegalSelect }) => {
   return (
     <footer className="footer-premium" id="contact">
       <div className="footer-container">
@@ -53,9 +53,6 @@ const Footer = () => {
             <h4 className="footer-title">FAQs</h4>
             <ul className="footer-links">
               <li>
-                <a href="#community">Community & Support</a>
-              </li>
-              <li>
                 <a href="#student-community">Student Community</a>
               </li>
               <li>
@@ -75,16 +72,56 @@ const Footer = () => {
             <h4 className="footer-title">Legal</h4>
             <ul className="footer-links">
               <li>
-                <a href="#terms">Terms & Conditions</a>
+                <a 
+                  href="#terms"
+                  onClick={(e) => {
+                    if (onLegalSelect) {
+                      e.preventDefault();
+                      onLegalSelect("terms");
+                    }
+                  }}
+                >
+                  Terms & Conditions
+                </a>
               </li>
               <li>
-                <a href="#privacy">Privacy Policy</a>
+                <a 
+                  href="#privacy"
+                  onClick={(e) => {
+                    if (onLegalSelect) {
+                      e.preventDefault();
+                      onLegalSelect("privacy");
+                    }
+                  }}
+                >
+                  Privacy Policy
+                </a>
               </li>
               <li>
-                <a href="#conduct">Code of Conduct</a>
+                <a 
+                  href="#conduct"
+                  onClick={(e) => {
+                    if (onLegalSelect) {
+                      e.preventDefault();
+                      onLegalSelect("conduct");
+                    }
+                  }}
+                >
+                  Code of Conduct
+                </a>
               </li>
               <li>
-                <a href="#refund">Refund Policy</a>
+                <a 
+                  href="#refund"
+                  onClick={(e) => {
+                    if (onLegalSelect) {
+                      e.preventDefault();
+                      onLegalSelect("refund");
+                    }
+                  }}
+                >
+                  Refund Policy
+                </a>
               </li>
             </ul>
           </div>

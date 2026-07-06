@@ -588,3 +588,81 @@
 .log-line.error .log-prompt {
   color: #ef4444;
 }
+
+/* EXPLORER ACTIONS */
+.explorer-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.explorer-action-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.explorer-action-btn:hover {
+  color: var(--color-primary);
+  background: var(--color-card-hover);
+}
+
+.file-item.creating {
+  cursor: default;
+  background: transparent !important;
+}
+
+.new-item-input {
+  background: var(--color-bg);
+  border: 1px solid var(--color-primary);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  outline: none;
+  width: calc(100% - 24px);
+}
+
+.file-item {
+  position: relative;
+}
+
+.delete-file-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.file-item:hover .delete-file-btn {
+  display: flex;
+}
+
+.delete-file-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+}
+
+.file-item.folder-item {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
