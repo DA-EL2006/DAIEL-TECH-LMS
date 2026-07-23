@@ -33,6 +33,67 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
   const prevLessonId = currentIndex > 0 ? allLessons[currentIndex - 1].id : null;
   const nextLessonId = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1].id : null;
 
+  const [completedList, setCompletedList] = useState([]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("daiel_completed_lessons");
+      const parsed = saved ? JSON.parse(saved) : {};
+      setCompletedList(parsed[courseId] || []);
+    } catch (e) {
+      setCompletedList([]);
+    }
+  }, [courseId, activeLessonId]);
+
+  useEffect(() => {
+    if (activeLessonId) {
+      localStorage.setItem(`daiel_last_watched_${courseId}`, activeLessonId);
+    }
+  }, [courseId, activeLessonId]);
+
+  const isCompleted = completedList.includes(activeLessonId);
+
+  const handleToggleComplete = () => {
+    try {
+      const saved = localStorage.getItem("daiel_completed_lessons");
+      const parsed = saved ? JSON.parse(saved) : {};
+      const list = parsed[courseId] ? [...parsed[courseId]] : [];
+      
+      const index = list.indexOf(activeLessonId);
+      let isAdding = false;
+      if (index > -1) {
+        list.splice(index, 1);
+      } else {
+        list.push(activeLessonId);
+        isAdding = true;
+      }
+      
+      parsed[courseId] = list;
+      localStorage.setItem("daiel_completed_lessons", JSON.stringify(parsed));
+      setCompletedList(list);
+      
+      // Update completion timestamps for stats
+      const savedTimestamps = localStorage.getItem("daiel_completion_timestamps");
+      const timestamps = savedTimestamps ? JSON.parse(savedTimestamps) : {};
+      if (isAdding) {
+        timestamps[activeLessonId] = new Date().toISOString();
+      } else {
+        delete timestamps[activeLessonId];
+      }
+      localStorage.setItem("daiel_completion_timestamps", JSON.stringify(timestamps));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleSubmitTask = (e) => {
+    e.preventDefault();
+    if (!isCompleted) {
+      handleToggleComplete();
+    }
+    alert("Task submitted successfully! Lesson marked as completed.");
+  };
+
   // Load notes when lesson changes
   useEffect(() => {
     if (activeLessonId) {
@@ -150,6 +211,24 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
                 <ChevronLeft size={20} />
                 Previous Lesson
               </button>
+
+              <button 
+                className={`nav-btn complete-toggle-btn ${isCompleted ? 'completed' : ''}`}
+                onClick={handleToggleComplete}
+                style={{
+                  background: isCompleted ? 'var(--color-primary, #0053e4)' : 'rgba(255, 255, 255, 0.05)',
+                  color: isCompleted ? '#ffffff' : 'var(--text-primary)',
+                  borderColor: isCompleted ? 'var(--color-primary, #0053e4)' : 'rgba(255, 255, 255, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: '700'
+                }}
+              >
+                <CheckCircle size={18} />
+                {isCompleted ? 'Completed' : 'Mark Completed'}
+              </button>
+
               <button 
                 className="nav-btn" 
                 onClick={() => handleNavigate(nextLessonId)}
@@ -191,7 +270,7 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
                       placeholder="Paste your GitHub repository or Gist link here..." 
                       className="github-link-input"
                     />
-                    <button className="submit-link-btn">Submit Task</button>
+                    <button className="submit-link-btn" onClick={handleSubmitTask}>Submit Task</button>
                   </div>
                 </div>
               </div>

@@ -1,15 +1,195 @@
 import React, { useState, useEffect } from "react";
 import {
-  BookOpen, Clock, Play, Award,
+  BookOpen, Play, Award,
   Search, Flame, Zap, Target,
-  Code, Hexagon, FileText
+  Code, Hexagon, LogOut
 } from "lucide-react";
 import "./Dashboard.css";
+import { coursesData } from "../data/coursesData";
+import CourseDetails from "./CourseDetails";
+import VideoPlayer from "./VideoPlayer";
+import SandboxIDE from "./SandboxIDE";
+import LegalPages from "./LegalPages";
 
-const Dashboard = ({ loggedInUser, onCourseSelect, onVideoSelect, onSandboxSelect, onResumeCourse }) => {
+import pythonImg from '../assets/python_banner.png';
+import mlImg from '../assets/ml_banner.png';
+import frontendImg from '../assets/frontend_banner.png';
+import graphicsImg from '../assets/graphics_banner.png';
+import photoshopImg from '../assets/photoshop_banner.png';
+
+const allCourses = [
+  {
+    id: 1,
+    title: 'Python Programming',
+    description: 'Master Python from basics to advanced real-world applications.',
+    image: pythonImg,
+    category: 'Software Development',
+    level: 'Beginner to Advanced'
+  },
+  {
+    id: 2,
+    title: 'Machine Learning',
+    description: 'Build intelligent systems and predictive models with Python.',
+    image: mlImg,
+    category: 'Artificial Intelligence',
+    level: 'Intermediate'
+  },
+  {
+    id: 3,
+    title: 'Frontend Development',
+    description: 'Create stunning, responsive web interfaces with modern tools.',
+    image: frontendImg,
+    category: 'Web Development',
+    level: 'Beginner to Pro'
+  },
+  {
+    id: 4,
+    title: 'Graphics Design (Pixelab)',
+    description: 'Create professional visuals and logos using your mobile device.',
+    image: graphicsImg,
+    category: 'Mobile Design',
+    level: 'Beginner'
+  },
+  {
+    id: 5,
+    title: 'Adobe Photoshop or Illustrator',
+    description: 'Master industry-standard tools for professional design. (PC Required)',
+    image: photoshopImg,
+    category: 'Professional Design',
+    level: 'Intermediate'
+  },
+  {
+    id: 6,
+    title: 'Amazon KDP Writing',
+    description: 'Publish & Earn on Kindle Direct Publishing with zero experience.',
+    image: photoshopImg,
+    category: 'Publishing & Writing',
+    level: 'Beginner'
+  }
+];
+const Dashboard = ({ 
+  loggedInUser, 
+  currentView, 
+  setCurrentView, 
+  selectedCourseDetails, 
+  setSelectedCourseDetails, 
+  selectedLessonId, 
+  setSelectedLessonId, 
+  activeSandboxTask, 
+  setActiveSandboxTask,
+  selectedLegalTab,
+  setSelectedLegalTab,
+  onResumeCourse, 
+  onLogout 
+}) => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [searchFocused, setSearchFocused] = useState(false);
+
+  const [completedLessons, setCompletedLessons] = useState(() => {
+    try {
+      const saved = localStorage.getItem("daiel_completed_lessons");
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      return {};
+    }
+  });
+
+  const toggleLessonComplete = (courseId, lessonId) => {
+    setCompletedLessons(prev => {
+      const courseLessons = prev[courseId] ? [...prev[courseId]] : [];
+      const index = courseLessons.indexOf(lessonId);
+      let isAdding = false;
+      if (index > -1) {
+        courseLessons.splice(index, 1);
+      } else {
+        courseLessons.push(lessonId);
+        isAdding = true;
+      }
+      const updated = {
+        ...prev,
+        [courseId]: courseLessons
+      };
+      localStorage.setItem("daiel_completed_lessons", JSON.stringify(updated));
+
+      // Update completion timestamps for stats
+      try {
+        const savedTimestamps = localStorage.getItem("daiel_completion_timestamps");
+        const timestamps = savedTimestamps ? JSON.parse(savedTimestamps) : {};
+        if (isAdding) {
+          timestamps[lessonId] = new Date().toISOString();
+        } else {
+          delete timestamps[lessonId];
+        }
+        localStorage.setItem("daiel_completion_timestamps", JSON.stringify(timestamps));
+      } catch (e) {
+        console.error(e);
+      }
+
+      return updated;
+    });
+  };
+
+  const getCourseLessons = (courseId) => {
+    const course = coursesData && coursesData[courseId];
+    if (!course || !course.modules) {
+      return Array.from({ length: 24 }, (_, i) => ({
+        id: `mock_${courseId}_${i + 1}`,
+        videoTitle: `Lesson ${i + 1}`,
+        title: `Lesson ${i + 1}`
+      }));
+    }
+    const lessonsList = [];
+    course.modules.forEach((mod) => {
+      if (mod.lessons) {
+        mod.lessons.forEach((les) => {
+          lessonsList.push(les);
+        });
+      }
+    });
+    return lessonsList;
+  };
+
+  const totalCompletedCount = Object.values(completedLessons).reduce((sum, list) => sum + list.length, 0);
+
+  const getWeekCompletedCounts = () => {
+    try {
+      const savedTimestamps = localStorage.getItem("daiel_completion_timestamps");
+      const timestamps = savedTimestamps ? JSON.parse(savedTimestamps) : {};
+      
+      const counts = [0, 0, 0, 0, 0, 0, 0];
+      const now = new Date();
+      const currentDay = now.getDay();
+      const distanceToMonday = currentDay === 0 ? 6 : currentDay - 1;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() - distanceToMonday);
+      monday.setHours(0, 0, 0, 0);
+      
+      Object.entries(timestamps).forEach(([lessonId, isoString]) => {
+        const date = new Date(isoString);
+        if (date >= monday) {
+          const day = date.getDay();
+          const index = day === 0 ? 6 : day - 1;
+          if (index >= 0 && index < 7) {
+            counts[index] += 1;
+          }
+        }
+      });
+      return counts;
+    } catch (e) {
+      return [0, 0, 0, 0, 0, 0, 0];
+    }
+  };
+
+  const weekCounts = getWeekCompletedCounts();
+  const weekTotalMinutes = totalCompletedCount * 15;
+  const h = Math.floor(weekTotalMinutes / 60);
+  const m = weekTotalMinutes % 60;
+  const timeInvestedValue = `${h}h ${m}m`;
+
+  const maxCount = Math.max(...weekCounts, 1);
+  const barHeights = weekCounts.map(count => `${(count / maxCount) * 80}%`);
+  const currentDayOfWeekIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -28,17 +208,20 @@ const Dashboard = ({ loggedInUser, onCourseSelect, onVideoSelect, onSandboxSelec
     ? loggedInUser.fullName.trim().split(' ')[0]
     : 'Student';
 
-  // Static data — progress will be dynamic in a future sprint
+  const frontendLessons = getCourseLessons(3);
+  const completedFrontend = completedLessons[3] || [];
+  const frontendProgress = frontendLessons.length > 0 ? Math.round((completedFrontend.length / frontendLessons.length) * 100) : 0;
+
   const user = {
     name: firstName,
-    streak: 0,
-    completionRate: 0,
+    streak: totalCompletedCount,
+    completionRate: frontendProgress,
     enrolledCourses: [
       {
-        id: 1,
+        id: 3,
         name: "Frontend Development",
         instructor: "Daiel Tech",
-        progress: 0,
+        progress: frontendProgress,
         thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
       }
     ],
@@ -60,197 +243,380 @@ const Dashboard = ({ loggedInUser, onCourseSelect, onVideoSelect, onSandboxSelec
         </div>
         
         <div className="dash-nav-links">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              className={`dash-nav-item ${activeTab === link.id ? "active" : ""}`}
-              onClick={() => {
-                setActiveTab(link.id);
-                if (link.id === "sandboxes" && onSandboxSelect) {
-                  onSandboxSelect();
-                }
-              }}
-              title={link.label}
-            >
-              <link.icon size={20} />
-              <span className="nav-label">{link.label}</span>
-            </button>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = (link.id === "sandboxes" && currentView === "sandbox") ||
+                             (link.id === activeTab && currentView === "dashboard");
+            return (
+              <button
+                key={link.id}
+                className={`dash-nav-item ${isActive ? "active" : ""}`}
+                onClick={() => {
+                  setActiveTab(link.id);
+                  if (link.id === "sandboxes") {
+                    setCurrentView("sandbox");
+                  } else {
+                    setCurrentView("dashboard");
+                  }
+                }}
+                title={link.label}
+              >
+                <link.icon size={20} />
+                <span className="nav-label">{link.label}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {onLogout && (
+          <button
+            className="dash-nav-item logout-btn"
+            onClick={onLogout}
+            title="Log Out"
+            style={{ marginTop: 'auto' }}
+          >
+            <LogOut size={20} />
+            <span className="nav-label">Log Out</span>
+          </button>
+        )}
       </nav>
 
-      <main className="dash-main-area">
-        {/* Top HUD Area */}
-        <header className="dash-hud">
-          <div className={`cmd-search-bar ${searchFocused ? 'focused' : ''}`}>
-            <Search size={16} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Press Cmd+K to search courses, assignments, or code..." 
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-            />
-            <div className="cmd-hint">⌘K</div>
-          </div>
-          <div className="hud-actions">
-            <div className="streak-indicator-hud">
-              <Flame size={14} className="flame-icon" />
-              <span>{user.streak} Days</span>
-            </div>
-            <div className="profile-avatar-hud">
-              <img src="https://i.pravatar.cc/150?u=daieltech" alt="Profile" />
-            </div>
-            <div className="time-display">
-              {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </div>
-          </div>
-        </header>
-
-        <div className="dash-content-wrapper">
-          {/* 2. THE "HERO" INTERACTIVE WELCOME BENTO CARD */}
-          <section className="bento-hero dash-glass-panel">
-            <div className="hero-content">
-              <h1 className="dynamic-greeting">
-                {getGreeting()}, <span className="highlight-text">{user.name}</span>.
-              </h1>
-              <p className="hero-subtitle">System initialized. Ready to begin your learning journey.</p>
-              
-              <div className="hero-actions">
-                <button className="btn-resume-learning" onClick={() => onCourseSelect(1)}>
-                  <Play size={16} className="play-icon" fill="currentColor" />
-                  Resume Learning
-                </button>
-                <button className="btn-view-path">
-                  View Path
-                </button>
-              </div>
-            </div>
-            
-            <div className="hero-progress-visual">
-              <svg className="progress-ring" viewBox="0 0 120 120">
-                <circle className="ring-bg" cx="60" cy="60" r="50" />
-                <circle 
-                  className="ring-fill" 
-                  cx="60" cy="60" r="50" 
-                  strokeDasharray={`${user.completionRate * 3.14} 314`}
+      {currentView === "dashboard" ? (
+        <>
+          <main className="dash-main-area">
+            {/* Top HUD Area */}
+            <header className="dash-hud">
+              <div className={`cmd-search-bar ${searchFocused ? 'focused' : ''}`}>
+                <Search size={16} className="search-icon" />
+                <input 
+                  type="text" 
+                  placeholder="Press Cmd+K to search courses, assignments, or code..." 
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
                 />
-              </svg>
-              <div className="progress-text">
-                <span className="percent">{user.completionRate}%</span>
-                <span className="label">Completed</span>
+                <div className="cmd-hint">⌘K</div>
               </div>
-            </div>
-          </section>
-
-          {/* 3. LEARNING METRICS & ANALYTICS PANEL (Grid Layout) */}
-          <section className="bento-metrics-grid">
-            {/* Card A: Time Invested */}
-            <div className="bento-card time-invested dash-glass-panel">
-              <div className="card-top">
-                <h3>Time Invested This Week</h3>
-                <Zap size={16} className="mint-icon" />
-              </div>
-              <div className="sparkline-container">
-                {/* Minimalist simulated bar chart (Baseline 0) */}
-                <div className="bar-chart">
-                  <div className="bar" style={{height: '0%'}}></div>
-                  <div className="bar" style={{height: '0%'}}></div>
-                  <div className="bar" style={{height: '0%'}}></div>
-                  <div className="bar" style={{height: '0%'}}></div>
-                  <div className="bar" style={{height: '0%'}}></div>
-                  <div className="bar" style={{height: '0%'}}></div>
-                  <div className="bar active" style={{height: '0%'}}></div>
+              <div className="hud-actions">
+                <div className="streak-indicator-hud">
+                  <Flame size={14} className="flame-icon" />
+                  <span>{totalCompletedCount} Days</span>
                 </div>
-                <div className="chart-labels">
-                  <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                <div className="profile-avatar-hud">
+                  <img src="https://i.pravatar.cc/150?u=daieltech" alt="Profile" />
+                </div>
+                <div className="time-display">
+                  {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
-              <div className="metric-value">0h 0m</div>
-            </div>
+            </header>
 
-            {/* Card B: Skills to be Acquired */}
-            <div className="bento-card skill-badges dash-glass-panel">
-              <div className="card-top">
-                <h3>Skills to be Acquired</h3>
-                <Award size={16} className="violet-icon" />
-              </div>
-              <div className="skills-tags-grid">
-                <span className="skill-tag">[HTML5]</span>
-                <span className="skill-tag">[CSS3 Layouts]</span>
-                <span className="skill-tag">[JavaScript ES6+]</span>
-                <span className="skill-tag">[DOM Manipulation]</span>
-              </div>
-            </div>
-
-            {/* Card C: Next Task or Assignment */}
-            <div className="bento-card upcoming-tasks dash-glass-panel">
-              <div className="card-top">
-                <h3>Next Task or Assignment</h3>
-                <Clock size={16} className="blue-icon" />
-              </div>
-              <div className="task-list">
-                <div className="task-row">
-                  <div className="task-info">
-                    <FileText size={14} className="task-icon" />
-                    <div className="task-details">
-                      <span className="task-name">Build a Responsive Grid Layout</span>
-                      <span className="task-sub">Module 1: HTML/CSS Basics</span>
-                    </div>
-                  </div>
-                  <button className="btn-task-start" onClick={() => onSandboxSelect && onSandboxSelect()}>
-                    Start
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* 4. INTERACTIVE COURSE CARDS (The Main Feed) */}
-          <section className="courses-feed">
-            <h2 className="section-title">Active Courses</h2>
-            <div className="course-cards-grid">
-              {user.enrolledCourses.map((course) => (
-                <div key={course.id} className="course-card dash-glass-panel">
-                  <div className="course-bg-image" style={{ backgroundImage: `url(${course.thumbnail})` }}>
-                    <div className="course-bg-overlay"></div>
-                  </div>
-                  <div className="course-content">
-                    <div className="course-meta">
-                      <h4>{course.name}</h4>
-                      <p>{course.instructor}</p>
+            <div className="dash-content-wrapper">
+              {activeTab === "dashboard" && (
+                <>
+                  {/* 2. THE "HERO" INTERACTIVE WELCOME BENTO CARD */}
+                  <section className="bento-hero dash-glass-panel">
+                    <div className="hero-content">
+                      <h1 className="dynamic-greeting">
+                        {getGreeting()}, <span className="highlight-text">{user.name}</span>.
+                      </h1>
+                      <p className="hero-subtitle">System initialized. Ready to begin your learning journey.</p>
+                      
+                      <div className="hero-actions">
+                        <button className="btn-resume-learning" onClick={() => onResumeCourse && onResumeCourse(3)}>
+                          <Play size={16} className="play-icon" fill="currentColor" />
+                          Resume Learning
+                        </button>
+                        <button className="btn-view-path" onClick={() => setActiveTab("courses")}>
+                          View Path
+                        </button>
+                      </div>
                     </div>
                     
-                    <div className="course-progress-container">
-                      <div className="progress-track">
-                        <div className="progress-indicator" style={{width: `${course.progress}%`}}></div>
+                    <div className="hero-progress-visual">
+                      <svg className="progress-ring" viewBox="0 0 120 120">
+                        <circle className="progress-ring-bg" cx="60" cy="60" r="50" />
+                        <circle 
+                          className="progress-ring-bar" 
+                          cx="60" 
+                          cy="60" 
+                          r="50" 
+                          style={{
+                            strokeDashoffset: 314 - (314 * user.completionRate) / 100
+                          }}
+                          strokeDasharray="314"
+                        />
+                      </svg>
+                      <div className="progress-text">
+                        <span className="percent">{user.completionRate}%</span>
+                        <span className="label">Completed</span>
                       </div>
-                      <span className="progress-percent font-mono">{course.progress}%</span>
                     </div>
-                  </div>
-                  <div className="course-hover-actions">
-                    <button
-                      className="action-btn"
-                      onClick={() => onResumeCourse ? onResumeCourse(course.id) : onCourseSelect(course.id)}
-                    >
-                      <Play size={14} fill="currentColor" /> Resume Course
-                    </button>
+                  </section>
+
+                  {/* 3. LEARNING METRICS & ANALYTICS PANEL (Grid Layout) */}
+                  <section className="bento-metrics-grid">
+                    {/* Card A: Time Invested */}
+                    <div className="bento-card time-invested dash-glass-panel">
+                      <div className="card-top">
+                        <h3>Time Invested This Week</h3>
+                        <Zap size={16} className="mint-icon" />
+                      </div>
+                      <div className="sparkline-container">
+                        <div className="bar-chart">
+                          {barHeights.map((height, i) => (
+                            <div 
+                              key={i} 
+                              className={`bar ${i === currentDayOfWeekIndex ? 'active' : ''}`} 
+                              style={{ height }}
+                              title={`${["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][i]}: ${weekCounts[i]} lessons completed`}
+                            ></div>
+                          ))}
+                        </div>
+                        <div className="chart-labels">
+                          <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                        </div>
+                      </div>
+                      <div className="metric-value">{timeInvestedValue}</div>
+                    </div>
+
+                    {/* Card B: Quick Actions Sandbox */}
+                    <div className="bento-card quick-sandbox dash-glass-panel">
+                      <div className="card-top">
+                        <h3>Interactive Sandbox</h3>
+                        <Code size={16} className="blue-icon" />
+                      </div>
+                      <p className="card-description">Experiment with HTML, CSS, JavaScript, or run Python programs in a clean sandbox.</p>
+                      <button className="btn-task-start" style={{ marginTop: 'auto', width: 'fit-content' }} onClick={() => {
+                        setActiveTab("sandboxes");
+                        setCurrentView("sandbox");
+                      }}>
+                        Launch IDE
+                      </button>
+                    </div>
+
+                    {/* Card C: Weekly Goals */}
+                    <div className="bento-card weekly-goals dash-glass-panel">
+                      <div className="card-top">
+                        <h3>Weekly Goal Progress</h3>
+                        <Target size={16} className="purple-icon" />
+                      </div>
+                      <div className="goal-progress-bar-container">
+                        <div className="goal-progress-bar" style={{ width: `${Math.min(user.completionRate * 1.5, 100)}%` }}></div>
+                      </div>
+                      <div className="goal-meta">
+                        <span>{user.completionRate}% of target achieved</span>
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* 4. ACTIVE ENROLLED COURSES FEED */}
+                  <section className="courses-feed" style={{ marginTop: '40px' }}>
+                    <h2 className="section-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--dash-border)', paddingBottom: '12px', marginBottom: '20px' }}>
+                      <span>Your Enrolled Courses</span>
+                      <button 
+                        className="btn-task-start" 
+                        onClick={() => setActiveTab("courses")}
+                      >
+                        View All Path
+                      </button>
+                    </h2>
+                    
+                    <div className="course-cards-grid">
+                      {user.enrolledCourses.map((course) => (
+                        <div key={course.id} className="course-card dash-glass-panel">
+                          <div 
+                            className="course-bg-image" 
+                            style={{ backgroundImage: `url(${course.thumbnail})` }}
+                          ></div>
+                          <div className="course-bg-overlay"></div>
+                          <div className="course-content">
+                            <div className="course-meta">
+                              <h4>{course.name}</h4>
+                              <p>Instructor: {course.instructor}</p>
+                            </div>
+                            <div className="course-progress-container">
+                              <div className="progress-track">
+                                <div className="progress-indicator" style={{ width: `${course.progress}%` }}></div>
+                              </div>
+                              <span className="progress-percent">{course.progress}%</span>
+                            </div>
+                            <div className="course-hover-actions">
+                              <button
+                                className="action-btn"
+                                onClick={() => onResumeCourse && onResumeCourse(course.id)}
+                              >
+                                <Play size={14} fill="currentColor" /> Resume Course
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </>
+              )}
+
+              {activeTab === "courses" && (
+                <div className="learning-courses-list">
+                  <h2 className="section-title">All Courses</h2>
+                  <div className="horizontal-courses-grid">
+                    {allCourses.map((course) => {
+                      const lessons = getCourseLessons(course.id);
+                      const completedList = completedLessons[course.id] || [];
+                      const completedCount = completedList.length;
+                      const percent = lessons.length > 0 ? (completedCount / lessons.length) * 100 : 0;
+
+                      return (
+                        <div key={course.id} className="course-horizontal-card">
+                          <img src={course.image} alt={course.title} className="card-img-left" />
+                          <div className="card-info-right">
+                            <span className="dash-course-category-tag">
+                              {course.category}
+                            </span>
+                            <h3 className="card-course-title">
+                              {course.title}
+                            </h3>
+                            <p className="card-course-desc">
+                              {course.description}
+                            </p>
+                            <div className="card-level-badge">
+                              Level: {course.level}
+                            </div>
+
+                            {/* Learning Roadmap / Streak Calendar Tracker */}
+                            <div className="course-roadmap-section" style={{ marginTop: '18px' }}>
+                              <h4 style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--dash-text-muted)', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>Roadmap Tracker ({lessons.length} Videos)</span>
+                                <span style={{ fontSize: '11px', color: 'var(--dash-solid-primary)' }}>
+                                  Streak: {completedCount} Days ({Math.round(percent)}% Complete)
+                                </span>
+                              </h4>
+                              <div className="roadmap-grid">
+                                {lessons.map((les, index) => {
+                                  const isCompleted = completedList.includes(les.id);
+                                  return (
+                                    <div
+                                      key={les.id}
+                                      className={`roadmap-cell ${isCompleted ? 'completed' : ''}`}
+                                      onClick={() => toggleLessonComplete(course.id, les.id)}
+                                      title={`Day ${index + 1}: ${les.videoTitle || les.title} (${isCompleted ? 'Completed' : 'Click to complete'})`}
+                                    >
+                                      {index + 1}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card-actions-right">
+                            <button 
+                              className="btn-learn-more"
+                              onClick={() => {
+                                setSelectedCourseDetails(course.id);
+                                setCurrentView("course-details");
+                              }}
+                            >
+                              Learn More
+                            </button>
+                            <button 
+                              className="btn-enroll-now"
+                              onClick={() => onResumeCourse && onResumeCourse(course.id)}
+                            >
+                              Resume Course
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              ))}
+              )}
             </div>
-          </section>
-        </div>
-      </main>
+          </main>
 
-      {/* 5. FOOTER / TERMINAL CONSOLE */}
-      <footer className="terminal-footer">
-        <div className="status-indicator online"></div>
-        <div className="log-feed font-mono">
-          <span className="prompt">{'>'}</span> System running optimally. All services operational.
-          <span className="cursor-blink">_</span>
+          {/* 5. FOOTER / TERMINAL CONSOLE */}
+          <footer className="terminal-footer">
+            <div className="status-indicator online"></div>
+            <div className="log-feed font-mono">
+              <span className="prompt">{'>'}</span> System running optimally. All services operational.
+              <span className="cursor-blink">_</span>
+            </div>
+            <div className="version-info font-mono">DAIEL-OS v2.1.0</div>
+          </footer>
+        </>
+      ) : (
+        <div className="dash-subview-area" style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
+          {currentView === "course-details" && (
+            <CourseDetails 
+              courseId={selectedCourseDetails} 
+              onBack={() => setCurrentView("dashboard")}
+              onEnrollClick={() => {}}
+              onVideoSelect={(lessonId) => {
+                setSelectedLessonId(lessonId);
+                setCurrentView("video-player");
+                window.scrollTo(0, 0);
+              }}
+              onAssignmentSelect={(assignment) => {
+                setActiveSandboxTask({
+                  courseType: selectedCourseDetails === 1 ? "python" : "frontend",
+                  module: assignment.moduleName || "Assignment",
+                  title: assignment.title,
+                  description: assignment.objective,
+                  objectives: assignment.steps,
+                  hint: assignment.hints ? assignment.hints.join('\n\n') : ""
+                });
+                setCurrentView("sandbox");
+                window.scrollTo(0, 0);
+              }}
+              onProjectSelect={(project) => {
+                const hintText = project.architectural_concept_map && project.architectural_concept_map.execution_flowchart 
+                  ? `Execution Flowchart:\n${project.architectural_concept_map.execution_flowchart}`
+                  : project.architectural_concept_map && project.architectural_concept_map.specifications
+                  ? `Specifications:\n${project.architectural_concept_map.specifications.map(s => `• ${s}`).join('\n')}`
+                  : "";
+                setActiveSandboxTask({
+                  courseType: selectedCourseDetails === 1 ? "python" : "frontend",
+                  module: project.moduleName || "Capstone Project",
+                  title: project.title,
+                  description: project.description,
+                  objectives: project.core_requirements,
+                  hint: hintText
+                });
+                setCurrentView("sandbox");
+                window.scrollTo(0, 0);
+              }}
+            />
+          )}
+
+          {currentView === "video-player" && (
+            <VideoPlayer 
+              courseId={selectedCourseDetails} 
+              initialLessonId={selectedLessonId}
+              onBack={() => setCurrentView("course-details")}
+            />
+          )}
+
+          {currentView === "sandbox" && (
+            <SandboxIDE 
+              activeTask={activeSandboxTask}
+              courseType={activeSandboxTask?.courseType || (selectedCourseDetails === 1 ? "python" : "frontend")}
+              onBack={() => {
+                if (selectedCourseDetails) {
+                  setCurrentView("course-details");
+                } else {
+                  setCurrentView("dashboard");
+                }
+              }}
+            />
+          )}
+
+          {currentView === "legal" && (
+            <LegalPages 
+              initialTab={selectedLegalTab} 
+              onBack={() => setCurrentView("dashboard")} 
+            />
+          )}
         </div>
-        <div className="version-info font-mono">DAIEL-OS v2.1.0</div>
-      </footer>
+      )}
     </div>
   );
 };

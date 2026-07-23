@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Play, Check, ChevronDown, ChevronUp, Trophy, Rocket } from 'lucide-react';
+import { ArrowLeft, Play, ChevronDown, ChevronUp, Trophy, Rocket, CheckCircle } from 'lucide-react';
 import './CourseDetails.css';
 import { coursesData } from '../data/coursesData';
 const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssignmentSelect, onProjectSelect }) => {
   const [expandedModule, setExpandedModule] = useState(null);
   
   const course = coursesData[courseId];
+
+  const completedLessons = React.useMemo(() => {
+    try {
+      const saved = localStorage.getItem("daiel_completed_lessons");
+      const parsed = saved ? JSON.parse(saved) : {};
+      return parsed[courseId] || [];
+    } catch (e) {
+      return [];
+    }
+  }, [courseId]);
 
   if (!course) {
     return (
@@ -133,34 +143,27 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
                             className="lesson-video-card"
                             onClick={() => handleAction('video', lesson.id)}
                           >
-                            <div className="play-icon-wrapper">
-                              <Play size={18} fill="currentColor" />
+                            <div className="play-icon-wrapper" style={{
+                              background: completedLessons.includes(lesson.id) ? 'rgba(0, 83, 228, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                              color: completedLessons.includes(lesson.id) ? 'var(--color-primary, #0053e4)' : 'var(--text-primary)'
+                            }}>
+                              {completedLessons.includes(lesson.id) ? (
+                                <CheckCircle size={18} fill="none" />
+                              ) : (
+                                <Play size={18} fill="currentColor" />
+                              )}
                             </div>
                             <div className="video-info">
-                              <span className="video-label">Video {index + 1}.{idx + 1}</span>
+                              <span className="video-label" style={{
+                                color: completedLessons.includes(lesson.id) ? 'var(--color-primary, #0053e4)' : 'var(--text-secondary)'
+                              }}>
+                                Video {index + 1}.{idx + 1} {completedLessons.includes(lesson.id) && '(Completed)'}
+                              </span>
                               <span className="video-title">{lesson.videoTitle}</span>
                             </div>
                           </div>
 
-                          {/* Associated Tasks */}
-                          {lesson.tasks && lesson.tasks.length > 0 && (
-                            <div className="lesson-tasks-container">
-                              <div className="tasks-label">Practice Tasks</div>
-                              <ul className="premium-task-list">
-                                {lesson.tasks.map((task, tIdx) => (
-                                  <li key={`${lesson.id}-task-${tIdx}`}>
-                                    <button 
-                                      className="task-action-link"
-                                      onClick={() => handleAction('task', `${lesson.id}-task-${tIdx}`)}
-                                    >
-                                      <Check className="check-icon" size={16} />
-                                      <span className="task-text">{task}</span>
-                                    </button>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
+                          {/* Associated Tasks section removed */}
 
                         </div>
                       </div>

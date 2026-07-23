@@ -10,13 +10,11 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import CourseDetails from "./components/CourseDetails";
-import VideoPlayer from "./components/VideoPlayer";
-import SandboxIDE from "./components/SandboxIDE";
 import LegalPages from "./components/LegalPages";
 
 function App() {
   const [currentView, setCurrentView] = useState("landing"); // dashboard | course | landing | course-details | video-player | sandbox
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedCourse] = useState(null);
   const [selectedCourseDetails, setSelectedCourseDetails] = useState(null);
   const [selectedLessonId, setSelectedLessonId] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,44 +22,6 @@ function App() {
   const [selectedLegalTab, setSelectedLegalTab] = useState("terms");
   const [activeSandboxTask, setActiveSandboxTask] = useState(null);
 
-  const handleAssignmentSelect = (assignment, courseTitle) => {
-    if (!loggedInUser) {
-      setCurrentView("signup");
-      return;
-    }
-    setActiveSandboxTask({
-      courseType: selectedCourseDetails === 1 ? "python" : "frontend",
-      module: assignment.moduleName || "Assignment",
-      title: assignment.title,
-      description: assignment.objective,
-      objectives: assignment.steps,
-      hint: assignment.hints ? assignment.hints.join('\n\n') : ""
-    });
-    setCurrentView("sandbox");
-    window.scrollTo(0, 0);
-  };
-
-  const handleProjectSelect = (project, courseTitle) => {
-    if (!loggedInUser) {
-      setCurrentView("signup");
-      return;
-    }
-    const hintText = project.architectural_concept_map && project.architectural_concept_map.execution_flowchart 
-      ? `Execution Flowchart:\n${project.architectural_concept_map.execution_flowchart}`
-      : project.architectural_concept_map && project.architectural_concept_map.specifications
-      ? `Specifications:\n${project.architectural_concept_map.specifications.map(s => `• ${s}`).join('\n')}`
-      : "";
-    setActiveSandboxTask({
-      courseType: selectedCourseDetails === 1 ? "python" : "frontend",
-      module: project.moduleName || "Capstone Project",
-      title: project.title,
-      description: project.description,
-      objectives: project.core_requirements,
-      hint: hintText
-    });
-    setCurrentView("sandbox");
-    window.scrollTo(0, 0);
-  };
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("daiel-theme-v2");
     if (saved) return saved;
@@ -77,130 +37,115 @@ function App() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  const handleCourseSelect = (courseId) => {
-    setSelectedCourse(courseId);
-    setCurrentView("course");
-  };
-
   const handleCourseDetailsSelect = (courseId) => {
     setSelectedCourseDetails(courseId);
     setCurrentView("course-details");
     window.scrollTo(0, 0);
   };
 
-  const handleVideoSelect = (courseId, videoId) => {
-    setSelectedCourseDetails(courseId);
-    setSelectedLessonId(videoId);
-    setCurrentView("video-player");
-    window.scrollTo(0, 0);
-  };
-
   return (
     <CourseProvider>
       <div className="app">
-        <Header
-          theme={theme}
-          toggleTheme={toggleTheme}
-          setCurrentView={setCurrentView}
-          mobileMenuOpen={mobileMenuOpen}
-          setMobileMenuOpen={setMobileMenuOpen}
-          currentView={currentView}
-          selectedCourse={selectedCourse}
-        />
+        {!loggedInUser && (
+          <Header
+            theme={theme}
+            toggleTheme={toggleTheme}
+            setCurrentView={setCurrentView}
+            mobileMenuOpen={mobileMenuOpen}
+            setMobileMenuOpen={setMobileMenuOpen}
+            currentView={currentView}
+            selectedCourse={selectedCourse}
+          />
+        )}
 
         <main className="app-main">
-          {currentView === "landing" && (
+          {!loggedInUser ? (
             <>
-              <InfoSection onSignupClick={() => setCurrentView("signup")} />
-              <WhatWeOffer onSignupClick={() => setCurrentView("signup")} />
-              <ExploreOurCourse 
-                onCourseSelect={handleCourseDetailsSelect}
-                onEnrollClick={() => setCurrentView("signup")} 
-              />
+              {currentView === "landing" && (
+                <>
+                  <InfoSection onSignupClick={() => setCurrentView("signup")} />
+                  <WhatWeOffer onSignupClick={() => setCurrentView("signup")} />
+                  <ExploreOurCourse 
+                    onCourseSelect={handleCourseDetailsSelect}
+                    onEnrollClick={() => setCurrentView("signup")} 
+                  />
+                </>
+              )}
+
+              {currentView === "course-details" && (
+                <CourseDetails 
+                  courseId={selectedCourseDetails} 
+                  onBack={() => setCurrentView("landing")}
+                  onEnrollClick={() => setCurrentView("signup")}
+                />
+              )}
+
+              {currentView === "signup" && (
+                <Signup
+                  onBack={() => setCurrentView("landing")}
+                  onLoginClick={() => setCurrentView("login")}
+                />
+              )}
+
+              {currentView === "login" && (
+                <Login
+                  onBack={() => setCurrentView("landing")}
+                  onSignupClick={() => setCurrentView("signup")}
+                  onLoginSuccess={(user) => {
+                    setLoggedInUser(user);
+                    setCurrentView("dashboard");
+                  }}
+                />
+              )}
+
+              {currentView === "legal" && (
+                <LegalPages
+                  initialTab={selectedLegalTab}
+                  onBack={() => setCurrentView("landing")}
+                />
+              )}
             </>
-          )}
-
-          {currentView === "course-details" && (
-            <CourseDetails 
-              courseId={selectedCourseDetails} 
-              onBack={() => setCurrentView(loggedInUser ? "dashboard" : "landing")}
-              onEnrollClick={() => setCurrentView("signup")}
-              onVideoSelect={(lessonId) => handleVideoSelect(selectedCourseDetails, lessonId)}
-              onAssignmentSelect={handleAssignmentSelect}
-              onProjectSelect={handleProjectSelect}
-            />
-          )}
-
-          {currentView === "video-player" && (
-            <VideoPlayer
-              courseId={selectedCourseDetails}
-              initialLessonId={selectedLessonId}
-              onBack={() => setCurrentView("course-details")}
-            />
-          )}
-
-          {currentView === "signup" && (
-            <Signup
-              onBack={() => setCurrentView("landing")}
-              onLoginClick={() => setCurrentView("login")}
-            />
-          )}
-
-          {currentView === "login" && (
-            <Login
-              onBack={() => setCurrentView("landing")}
-              onSignupClick={() => setCurrentView("signup")}
-              onLoginSuccess={(user) => {
-                setLoggedInUser(user);
-                setCurrentView("dashboard");
-              }}
-            />
-          )}
-
-          {currentView === "dashboard" && (
+          ) : (
             <Dashboard
               loggedInUser={loggedInUser}
-              onCourseSelect={handleCourseSelect}
-              onVideoSelect={handleVideoSelect}
-              onSandboxSelect={() => setCurrentView("sandbox")}
+              currentView={currentView}
+              setCurrentView={setCurrentView}
+              selectedCourseDetails={selectedCourseDetails}
+              setSelectedCourseDetails={setSelectedCourseDetails}
+              selectedLessonId={selectedLessonId}
+              setSelectedLessonId={setSelectedLessonId}
+              activeSandboxTask={activeSandboxTask}
+              setActiveSandboxTask={setActiveSandboxTask}
+              selectedLegalTab={selectedLegalTab}
+              setSelectedLegalTab={setSelectedLegalTab}
               onResumeCourse={(courseId) => {
                 setSelectedCourseDetails(courseId);
-                setCurrentView("course-details");
+                const lastWatched = localStorage.getItem(`daiel_last_watched_${courseId}`);
+                if (lastWatched) {
+                  setSelectedLessonId(lastWatched);
+                  setCurrentView("video-player");
+                } else {
+                  setCurrentView("course-details");
+                }
                 window.scrollTo(0, 0);
               }}
-            />
-          )}
-
-          {currentView === "sandbox" && (
-            <SandboxIDE 
-              activeTask={activeSandboxTask}
-              courseType={activeSandboxTask?.courseType || (selectedCourseDetails === 1 ? "python" : "frontend")}
-              onBack={() => {
-                if (selectedCourseDetails) {
-                  setCurrentView("course-details");
-                } else {
-                  setCurrentView(loggedInUser ? "dashboard" : "landing");
-                }
-              }}
-            />
-          )}
-
-          {currentView === "legal" && (
-            <LegalPages
-              initialTab={selectedLegalTab}
-              onBack={() => {
-                setCurrentView(loggedInUser ? "dashboard" : "landing");
+              onLogout={() => {
+                setLoggedInUser(null);
+                setCurrentView("landing");
+                window.scrollTo(0, 0);
               }}
             />
           )}
         </main>
 
-        <Footer 
-          onLegalSelect={(tab) => {
-            setSelectedLegalTab(tab);
-            setCurrentView("legal");
-          }}
-        />
+        {!loggedInUser && (
+          <Footer 
+            onLegalSelect={(tab) => {
+              setSelectedLegalTab(tab);
+              setCurrentView("legal");
+            }}
+          />
+        )}
       </div>
     </CourseProvider>
   );
