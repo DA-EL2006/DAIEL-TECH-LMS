@@ -6,6 +6,7 @@ import {
   CheckCircle,
   Save,
   Check,
+  ExternalLink,
 } from "lucide-react";
 import { coursesData } from "../data/coursesData";
 import "./VideoPlayer.css";
@@ -171,18 +172,17 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
     );
   }
 
-  // The mock video provided by user
-  let videoEmbedUrl = "https://www.youtube.com/embed/zJSY8tbf_ys";
+  // Extract YouTube video ID and construct privacy-enhanced embed URL for production HTTPS hosts
+  let videoEmbedUrl = "https://www.youtube-nocookie.com/embed/zJSY8tbf_ys";
+  let directWatchUrl = activeLesson?.url || "https://www.youtube.com/watch?v=zJSY8tbf_ys";
+
   if (activeLesson && activeLesson.url) {
-    if (activeLesson.url.includes("youtube.com/embed/")) {
-      videoEmbedUrl = activeLesson.url;
-    } else {
-      const regExp =
-        /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-      const match = activeLesson.url.match(regExp);
-      if (match && match[2].length === 11) {
-        videoEmbedUrl = `https://www.youtube.com/embed/${match[2]}`;
-      }
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = activeLesson.url.match(regExp);
+    if (match && match[2] && match[2].length === 11) {
+      videoEmbedUrl = `https://www.youtube-nocookie.com/embed/${match[2]}?rel=0&enablejsapi=1`;
+    } else if (activeLesson.url.includes("youtube.com/embed/")) {
+      videoEmbedUrl = activeLesson.url.replace("youtube.com", "youtube-nocookie.com");
     }
   }
 
@@ -211,11 +211,11 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
             <iframe
               width="560"
               height="315"
-              referrerpolicy="no-referrer-when-downgrade"
               src={videoEmbedUrl}
               title={activeLesson.videoTitle || "YouTube video player"}
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>
           </div>
@@ -233,6 +233,29 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
                 >
                   {activeLesson.moduleTitle}: {activeLesson.moduleSubtitle}
                 </p>
+                <a
+                  href={directWatchUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="watch-external-btn"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "12px",
+                    fontWeight: "700",
+                    color: "#38bdf8",
+                    background: "rgba(56, 189, 248, 0.1)",
+                    border: "1px solid rgba(56, 189, 248, 0.25)",
+                    padding: "6px 12px",
+                    borderRadius: "8px",
+                    textDecoration: "none",
+                    marginTop: "12px",
+                    transition: "all 0.2s ease"
+                  }}
+                >
+                  <ExternalLink size={14} /> Watch directly on YouTube
+                </a>
               </div>
               <div className="video-module-tag">
                 Lesson {currentIndex + 1} of {allLessons.length}
