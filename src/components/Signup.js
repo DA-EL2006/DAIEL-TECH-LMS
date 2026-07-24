@@ -36,8 +36,8 @@ const Signup = ({ onBack, onLoginClick }) => {
   const courses = [
     "Python Programming",
     "Machine Learning",
-    "Graphics Design (Pixelab)",
-    "Graphics Design (Photoshop/Illustrator PC required)",
+    // "Graphics Design (Pixelab)",
+    // "Graphics Design (Photoshop/Illustrator PC required)",
     "Frontend Development"
   ];
 

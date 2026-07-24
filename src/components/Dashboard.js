@@ -10,12 +10,13 @@ import CourseDetails from "./CourseDetails";
 import VideoPlayer from "./VideoPlayer";
 import SandboxIDE from "./SandboxIDE";
 import LegalPages from "./LegalPages";
+import DuolingoPath from "./DuolingoPath";
 
 import pythonImg from '../assets/python_banner.png';
 import mlImg from '../assets/ml_banner.png';
 import frontendImg from '../assets/frontend_banner.png';
-import graphicsImg from '../assets/graphics_banner.png';
-import photoshopImg from '../assets/photoshop_banner.png';
+// import graphicsImg from '../assets/graphics_banner.png';
+// import photoshopImg from '../assets/photoshop_banner.png';
 
 const allCourses = [
   {
@@ -42,6 +43,7 @@ const allCourses = [
     category: 'Web Development',
     level: 'Beginner to Pro'
   },
+  /*
   {
     id: 4,
     title: 'Graphics Design (Pixelab)',
@@ -66,6 +68,7 @@ const allCourses = [
     category: 'Publishing & Writing',
     level: 'Beginner'
   }
+  */
 ];
 const Dashboard = ({ 
   loggedInUser, 
@@ -456,79 +459,31 @@ const Dashboard = ({
               )}
 
               {activeTab === "courses" && (
-                <div className="learning-courses-list">
-                  <h2 className="section-title">All Courses</h2>
-                  <div className="horizontal-courses-grid">
-                    {allCourses.map((course) => {
-                      const lessons = getCourseLessons(course.id);
-                      const completedList = completedLessons[course.id] || [];
-                      const completedCount = completedList.length;
-                      const percent = lessons.length > 0 ? (completedCount / lessons.length) * 100 : 0;
-
-                      return (
-                        <div key={course.id} className="course-horizontal-card">
-                          <img src={course.image} alt={course.title} className="card-img-left" />
-                          <div className="card-info-right">
-                            <span className="dash-course-category-tag">
-                              {course.category}
-                            </span>
-                            <h3 className="card-course-title">
-                              {course.title}
-                            </h3>
-                            <p className="card-course-desc">
-                              {course.description}
-                            </p>
-                            <div className="card-level-badge">
-                              Level: {course.level}
-                            </div>
-
-                            {/* Learning Roadmap / Streak Calendar Tracker */}
-                            <div className="course-roadmap-section" style={{ marginTop: '18px' }}>
-                              <h4 style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--dash-text-muted)', marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span>Roadmap Tracker ({lessons.length} Videos)</span>
-                                <span style={{ fontSize: '11px', color: 'var(--dash-solid-primary)' }}>
-                                  Streak: {completedCount} Days ({Math.round(percent)}% Complete)
-                                </span>
-                              </h4>
-                              <div className="roadmap-grid">
-                                {lessons.map((les, index) => {
-                                  const isCompleted = completedList.includes(les.id);
-                                  return (
-                                    <div
-                                      key={les.id}
-                                      className={`roadmap-cell ${isCompleted ? 'completed' : ''}`}
-                                      onClick={() => toggleLessonComplete(course.id, les.id)}
-                                      title={`Day ${index + 1}: ${les.videoTitle || les.title} (${isCompleted ? 'Completed' : 'Click to complete'})`}
-                                    >
-                                      {index + 1}
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card-actions-right">
-                            <button 
-                              className="btn-learn-more"
-                              onClick={() => {
-                                setSelectedCourseDetails(course.id);
-                                setCurrentView("course-details");
-                              }}
-                            >
-                              Learn More
-                            </button>
-                            <button 
-                              className="btn-enroll-now"
-                              onClick={() => onResumeCourse && onResumeCourse(course.id)}
-                            >
-                              Resume Course
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                <DuolingoPath
+                  selectedCourseId={selectedCourseDetails || 1}
+                  onSelectCourse={(courseId) => setSelectedCourseDetails(courseId)}
+                  completedLessons={completedLessons}
+                  toggleLessonComplete={toggleLessonComplete}
+                  onVideoSelect={(courseId, lessonId) => {
+                    setSelectedCourseDetails(courseId);
+                    setSelectedLessonId(lessonId);
+                    setCurrentView("video-player");
+                    window.scrollTo(0, 0);
+                  }}
+                  onAssignmentSelect={(assignment) => {
+                    setActiveSandboxTask({
+                      courseType: (selectedCourseDetails || 1) === 1 ? "python" : "frontend",
+                      module: assignment.moduleName || "Assignment",
+                      title: assignment.title,
+                      description: assignment.objective,
+                      objectives: assignment.steps || [],
+                      hint: assignment.hints ? assignment.hints.join('\n\n') : ""
+                    });
+                    setCurrentView("sandbox");
+                    window.scrollTo(0, 0);
+                  }}
+                  allCourses={allCourses}
+                />
               )}
             </div>
           </main>

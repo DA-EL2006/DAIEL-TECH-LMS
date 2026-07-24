@@ -5,8 +5,8 @@ import './ExploreOurCourse.css';
 import pythonImg from '../assets/python_banner.png';
 import mlImg from '../assets/ml_banner.png';
 import frontendImg from '../assets/frontend_banner.png';
-import graphicsImg from '../assets/graphics_banner.png';
-import photoshopImg from '../assets/photoshop_banner.png';
+// import graphicsImg from '../assets/graphics_banner.png';
+// import photoshopImg from '../assets/photoshop_banner.png';
 
 const courses = [
   {
@@ -33,6 +33,7 @@ const courses = [
     category: 'Web Development',
     level: 'Beginner to Pro'
   },
+  /*
   {
     id: 4,
     title: 'Graphics Design (Pixelab)',
@@ -57,6 +58,7 @@ const courses = [
     category: 'Publishing & Writing',
     level: 'Beginner'
   }
+  */
 ];
 
 const ExploreOurCourse = ({ onCourseSelect, onEnrollClick }) => {

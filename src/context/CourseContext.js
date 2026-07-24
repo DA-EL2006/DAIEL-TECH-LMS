@@ -21,6 +21,7 @@ export const LEARNING_TRACKS = [
     progress: 0,
     modules: [],
   },
+  /*
   {
     id: 'graphics-design',
     name: 'Graphics & Design',
@@ -45,6 +46,7 @@ export const LEARNING_TRACKS = [
     progress: 0,
     modules: [],
   },
+  */
 ];
 
 export const CourseProvider = ({ children }) => {
