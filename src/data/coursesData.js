@@ -119,6 +119,7 @@ export const coursesData = {
           steps: [
             "Making Decisions (`if/elif/else`): Ask the user for some information (like a test score). Use an `if` statement to check if the score is an A. If it's not, use an `elif` (else if) to check if it's a B. Keep going until you end with an `else` for anything that didn't match.",
             "Checking for 'Not Equal' (`!=`): Practice writing conditions that check if things are not the same. For example, `if password != \"secret\":` means 'if the password is NOT secret'.",
+            // eslint-disable-next-line no-template-curly-in-string
             'Making it Look Good (f-strings): Use \'f-strings\' to easily mix variables into text. Put an `f` before your quote marks, and put your variables inside curly braces: `f"Your score is {score}"`. If you have a price like `10.5`, you can make it look like dollars and cents (`10.50`) by adding `:.2f` inside the curly braces: `f"The price is ${price:.2f}"`.',
           ],
           hints: [
@@ -1912,9 +1913,7 @@ export const coursesData = {
       },
     ],
   },
-};
-
-/*4: {
+  /*4: {
     id: 4,
     title: "Graphics Design Using Pixel Lab",
     description:
@@ -2806,6 +2805,6 @@ export const coursesData = {
           "CAPSTONE: Publish a complete book on Amazon KDP (any type). Deliver: (1) Live Amazon book listing URL or ASIN, (2) Screenshot of KDP dashboard showing the book live, (3) Ad campaign report (minimum 7 days of data), (4) Author Central page link, (5) 6-Month KDP Business Plan: 5 books in pipeline with niche research, content plan, cover design timeline, marketing strategy, and income projections.",
       },
     ],
-  },
-}; 
-*/
+  }, 
+  */
+};
