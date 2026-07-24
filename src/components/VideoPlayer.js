@@ -211,6 +211,7 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
             <iframe
               width="560"
               height="315"
+              referrerpolicy="no-referrer-when-downgrade"
               src={videoEmbedUrl}
               title={activeLesson.videoTitle || "YouTube video player"}
               frameBorder="0"
