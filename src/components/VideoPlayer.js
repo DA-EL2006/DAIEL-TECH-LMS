@@ -174,12 +174,28 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
   let videoEmbedUrl = "https://www.youtube.com/embed/zJSY8tbf_ys";
 
   if (activeLesson && activeLesson.url) {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = activeLesson.url.match(regExp);
-    if (match && match[2] && match[2].length === 11) {
-      videoEmbedUrl = `https://www.youtube.com/embed/${match[2]}`;
-    } else if (activeLesson.url.includes("youtube.com/embed/")) {
-      videoEmbedUrl = activeLesson.url;
+    let raw = activeLesson.url.trim();
+
+    // 1. If raw is a full <iframe> snippet, extract the src attribute
+    if (raw.includes("<iframe")) {
+      const srcMatch = raw.match(/src=["']([^"']+)["']/i);
+      if (srcMatch && srcMatch[1]) {
+        raw = srcMatch[1];
+      }
+    }
+
+    // 2. If raw is already an embed URL (e.g. https://www.youtube.com/embed/Y1BlT4_c_SU?si=...)
+    if (raw.includes("youtube.com/embed/") || raw.includes("youtube-nocookie.com/embed/")) {
+      videoEmbedUrl = raw;
+    } else {
+      // 3. Fallback: Parse video ID from watch or short URL
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = raw.match(regExp);
+      if (match && match[2] && match[2].length === 11) {
+        videoEmbedUrl = `https://www.youtube.com/embed/${match[2]}`;
+      } else {
+        videoEmbedUrl = raw;
+      }
     }
   }
 
@@ -211,7 +227,8 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
               src={videoEmbedUrl}
               title={activeLesson.videoTitle || "YouTube video player"}
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             ></iframe>
           </div>
