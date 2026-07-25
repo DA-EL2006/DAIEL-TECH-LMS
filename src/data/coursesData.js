@@ -7,11 +7,6 @@ export const coursesData = {
     duration: "8 Modules | ~12 Weeks",
     level: "Beginner – No prior programming experience required",
     comingSoon: false,
-    playlists: {
-      python_3_playlist:
-        "https://www.youtube.com/playlist?list=PL4cUxeGkcC9idTSBaGGNrgh4ZgYE6Cc",
-    },
-    source: "The Net Ninja (YouTube)",
     modules: [
       {
         id: "module_1",
@@ -25,20 +20,20 @@ export const coursesData = {
             videoTitle:
               "Python 3 Tutorial for Beginners #1 - Why Learn Python?",
             duration: "5:21",
-            url: "https://www.youtube.com/watch?v=Ozrduu2W9B8",
+            url: "https://www.youtube.com/embed/Ozrduu2W9B8?si=JFZc-QLzWAbU3k-S",
           },
           {
             id: "pv1.2",
             videoTitle:
               "Python 3 Tutorial for Beginners #2 - Installing Python 3",
             duration: "4:28",
-            url: "https://www.youtube.com/watch?v=SbQAAuom-GA",
+            url: "https://www.youtube.com/embed/SbQAAuom-GA?si=OvaOVUB0S_u6W3p8",
           },
           {
             id: "pv1.3",
             videoTitle: "Python 3 Tutorial for Beginners #3 - Numbers",
             duration: "8:29",
-            url: "https://www.youtube.com/watch?v=Gqby4v5JOu4",
+            url: "https://www.youtube.com/embed/Gqby4v5JOu4?si=bzD7llA04VM7K_3b",
           },
         ],
         assignment: {
@@ -67,13 +62,13 @@ export const coursesData = {
             id: "pv2.1",
             videoTitle: "Python 3 Tutorial for Beginners #5 - Lists",
             duration: "10:33",
-            url: "https://www.youtube.com/watch?v=cl0R4Tbf2v0",
+            url: "https://www.youtube.com/embed/cl0R4Tbf2v0?si=oNRevjiEfx882sys",
           },
           {
             id: "pv2.2",
             videoTitle: "Python 3 Tutorial for Beginners #6 - Standard Input",
             duration: "9:23",
-            url: "https://www.youtube.com/watch?v=CEO614YbQCY",
+            url: "https://www.youtube.com/embed/CEO614YbQCY?si=Wv7PwB-ppRN6BLZL",
           },
         ],
         assignment: {
@@ -103,13 +98,13 @@ export const coursesData = {
             videoTitle:
               "Python 3 Tutorial for Beginners #7 - String Formatting",
             duration: "10:15",
-            url: "https://www.youtube.com/watch?v=yVGSeRcQfyI",
+            url: "https://www.youtube.com/embed/yVGSeRcQfyI?si=f1FHxK71NuIBv6wU",
           },
           {
             id: "pv3.2",
             videoTitle: "Python 3 Tutorial for Beginners #8 - If Statements",
             duration: "10:10",
-            url: "https://www.youtube.com/watch?v=t3c41sKJS20",
+            url: "https://www.youtube.com/embed/t3c41sKJS20?si=ozsMVpwyZjLQ42Hp",
           },
         ],
         assignment: {
@@ -140,19 +135,19 @@ export const coursesData = {
             id: "pv4.1",
             videoTitle: "Python 3 Tutorial for Beginners #9 - For Loops",
             duration: "7:20",
-            url: "https://www.youtube.com/watch?v=ENMCxQ9kNS4",
+            url: "https://www.youtube.com/embed/ENMCxQ9kNS4?si=lUJOor0F6GmaGNM8",
           },
           {
             id: "pv4.2",
             videoTitle: "Python 3 Tutorial for Beginners #10 - While Loops",
             duration: "6:14",
-            url: "https://www.youtube.com/watch?v=7p-BJ92aZp0",
+            url: "https://www.youtube.com/embed/7p-BJ92aZp0?si=MGhEpTkO7WSZhvjt",
           },
           {
             id: "pv4.3",
             videoTitle: "Python 3 Tutorial for Beginners #11 - Ranges",
             duration: "7:12",
-            url: "https://www.youtube.com/watch?v=GhrChSfaiu0",
+            url: "https://www.youtube.com/embed/GhrChSfaiu0?si=aRtHRTWgOeuk976d",
           },
         ],
         assignment: {
@@ -181,25 +176,25 @@ export const coursesData = {
             id: "pv5.1",
             videoTitle: "Python 3 Tutorial for Beginners #12 - Functions",
             duration: "10:49",
-            url: "https://www.youtube.com/watch?v=l0E1tK-O8ew",
+            url: "https://www.youtube.com/embed/l0E1tK-O8ew?si=TebZR-38wmA_D78y",
           },
           {
             id: "pv5.2",
             videoTitle: "Python 3 Tutorial for Beginners #13 - Variable Scope",
             duration: "4:25",
-            url: "https://www.youtube.com/watch?v=wueXfiVkw1I",
+            url: "https://www.youtube.com/embed/wueXfiVkw1I?si=g-8xLQTFL4ivJvOK",
           },
           {
             id: "pv5.3",
             videoTitle: "Python 3 Tutorial for Beginners #14 - Dictionaries",
             duration: "12:32",
-            url: "https://www.youtube.com/watch?v=q8H5R6eP3zQ",
+            url: "https://www.youtube.com/embed/q8H5R6eP3zQ?si=E0xKksAxVRVbcBH2",
           },
           {
             id: "pv5.4",
             videoTitle: "Python 3 Tutorial for Beginners #15 - Sorting & Sets",
             duration: "8:49",
-            url: "https://www.youtube.com/watch?v=UirJNoJ9KT8",
+            url: "https://www.youtube.com/embed/UirJNoJ9KT8?si=z3_lvyKFbdMzf7eH",
           },
         ],
         assignment: {
@@ -228,21 +223,21 @@ export const coursesData = {
             id: "pv6.1",
             videoTitle: "Python 3 Tutorial for Beginners #16 - Classes",
             duration: "9:29",
-            url: "https://www.youtube.com/watch?v=H--VDcDSHdg",
+            url: "https://www.youtube.com/embed/H--VDcDSHdg?si=G_nIIC2BWKacYhpe",
           },
           {
             id: "pv6.2",
             videoTitle:
               "Python 3 Tutorial for Beginners #17 - The init function",
             duration: "6:42",
-            url: "https://www.youtube.com/watch?v=TO1K8_BVCT4",
+            url: "https://www.youtube.com/embed/TO1K8_BVCT4?si=AD2_DnpvnDTvU2rT",
           },
           {
             id: "pv6.3",
             videoTitle:
               "Python 3 Tutorial for Beginners #18 - Methods & Attributes",
             duration: "9:26",
-            url: "https://www.youtube.com/watch?v=LwFnF9XoEfM",
+            url: "https://www.youtube.com/embed/LwFnF9XoEfM?si=Kv80al8GSiVokFTg",
           },
         ],
         assignment: {
@@ -272,39 +267,39 @@ export const coursesData = {
             videoTitle:
               "Python 3 Tutorial for Beginners #19 - Modules & Packages",
             duration: "10:15",
-            url: "https://www.youtube.com/watch?v=f26nAmfJggw",
+            url: "https://www.youtube.com/embed/f26nAmfJggw?si=f1tR-bvIDZJUIBh1",
           },
           {
             id: "pv7.2",
             videoTitle:
               "Python 3 Tutorial for Beginners #20 - Bar Tab Calculator",
             duration: "13:21",
-            url: "https://www.youtube.com/watch?v=h4NetyxAhv4",
+            url: "https://www.youtube.com/embed/h4NetyxAhv4?si=xNMpOKfrWUF_M09y",
           },
           {
             id: "pv7.3",
             videoTitle:
               "Python 3 Tutorial for Beginners #21 - List Comprehensions",
             duration: "7:28",
-            url: "https://www.youtube.com/watch?v=7G0jqG_kiig",
+            url: "https://www.youtube.com/embed/7G0jqG_kiig?si=1RpSH3JXN8l6xQLn",
           },
           {
             id: "pv7.4",
             videoTitle: "Python 3 Tutorial for Beginners #22 - Maps",
             duration: "7:26",
-            url: "https://www.youtube.com/watch?v=3Da00hgQ834",
+            url: "https://www.youtube.com/embed/3Da00hgQ834?si=QttyCuDtmZL_qKYt",
           },
           {
             id: "pv7.5",
             videoTitle: "Python 3 Tutorial for Beginners #23 - Filters",
             duration: "6:49",
-            url: "https://www.youtube.com/watch?v=jPoY--eTG5A",
+            url: "https://www.youtube.com/embed/jPoY--eTG5A?si=tDAqRWwGYBgAUSRz",
           },
           {
             id: "pv7.6",
             videoTitle: "Python 3 Tutorial for Beginners #24 - Lambdas",
             duration: "4:02",
-            url: "https://www.youtube.com/watch?v=3waZGETmzjY",
+            url: "https://www.youtube.com/embed/3waZGETmzjY?si=LsMU9TqwzHo_6D_Y",
           },
         ],
         assignment: {
@@ -669,19 +664,6 @@ export const coursesData = {
     duration: "7 Modules | ~12 Weeks",
     level: "Beginner – No experience required",
     comingSoon: false,
-    playlists: {
-      html: "https://www.youtube.com/playlist?list=PL4cUxeGkcC9ibZ2TSBaGGNrgh4ZgYE6Cc",
-      css_basics:
-        "https://www.youtube.com/playlist?list=PL4cUxeGkcC9gQeDH6xYika1-UP60arkbX",
-      css_positioning:
-        "https://www.youtube.com/playlist?list=PL4cUxeGkcC9guxdK2A3Zaj3N1sc9ZiswZ",
-      css_flexbox:
-        "https://www.youtube.com/playlist?list=PL4cUxeGkcC9i371QO_Rt_814IeE0X6b6b",
-      javascript:
-        "https://www.youtube.com/playlist?list=PL4cUxeGkcC9i9aeJcx65OOpvCDvfZ3U8O",
-      git: "https://www.youtube.com/playlist?list=PL4cUxeGkcC9g8O48y00vPlY_R8H1TclP3",
-    },
-    source: "The Net Ninja (YouTube)",
     modules: [
       {
         id: "module_1",
@@ -1233,150 +1215,150 @@ export const coursesData = {
             id: "fv5.1",
             videoTitle: "CSS Positioning Tutorial #1 - Introduction",
             duration: "2:18",
-            url: "https://www.youtube.com/watch?v=7_tZpZgV0Gg",
+            url: "https://www.youtube.com/embed/7ZXsPj43heo?si=Ta37jIi3Ae3FfgoW",
           },
           {
             id: "fv5.2",
             videoTitle: "CSS Positioning Tutorial #2 - Box Model Review",
             duration: "5:58",
-            url: "https://www.youtube.com/watch?v=aG-VvG-XNRE",
+            url: "https://www.youtube.com/embed/d601NaSSqSE?si=WUdbpeZUVJgxU6ve",
           },
           {
             id: "fv5.3",
             videoTitle: "CSS Positioning Tutorial #3 - Normal Document Flow",
             duration: "3:06",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw8c",
+            url: "https://www.youtube.com/embed/l8NH6YppJFA?si=m6GimPqcWPKDH9OK",
           },
           {
             id: "fv5.4",
             videoTitle: "CSS Positioning Tutorial #4 - Floating Elements",
             duration: "10:12",
-            url: "https://www.youtube.com/watch?v=x7E2D6xH66E",
+            url: "https://www.youtube.com/embed/VwxGKpvW8Zk?si=tMHEEjCJxaOcQqY_",
           },
           {
             id: "fv5.5",
             videoTitle: "CSS Positioning Tutorial #5 - Clearing Floats",
             duration: "8:51",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RE",
+            url: "https://www.youtube.com/embed/nE9lIRbIfI0?si=GCSsyEf4k6m0V2-c",
           },
           {
             id: "fv5.6",
             videoTitle: "CSS Positioning Tutorial #6 - Floating Columns",
             duration: "5:07",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw9a",
+            url: "https://www.youtube.com/embed/bJJ7jgfSvZY?si=91JbZ4gCd8FbSyR6",
           },
           {
             id: "fv5.7",
             videoTitle: "CSS Positioning Tutorial #7 - Text Columns",
             duration: "3:45",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw9b",
+            url: "https://www.youtube.com/embed/W77geg_3B5o?si=PrhJ820iO7XjsNFh",
           },
           {
             id: "fv5.8",
             videoTitle: "CSS Positioning Tutorial #8 - Position Relative",
             duration: "4:58",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw9c",
+            url: "https://www.youtube.com/embed/YBJqKWXL2vg?si=fJDfvO8VXUUj7sXf",
           },
           {
             id: "fv5.9",
             videoTitle: "CSS Positioning Tutorial #9 - Absolute Position",
             duration: "5:22",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw9d",
+            url: "https://www.youtube.com/embed/2JMGG_8T-vY?si=CE_zXwb9amQT_mCT",
           },
           {
             id: "fv5.10",
             videoTitle: "CSS Positioning Tutorial #10 - Fixed Position",
             duration: "4:35",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw9e",
+            url: "https://www.youtube.com/embed/8fQWx-d5qc8?si=clpMFvgsfucFIHjh",
           },
           {
             id: "fv5.11",
             videoTitle:
               "CSS Positioning Tutorial #11 - Z - Index & Stacking Order",
             duration: "8:32",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw9f",
+            url: "https://www.youtube.com/embed/k4taTzkhzHc?si=QILQWnbCffxWQr9J",
           },
           {
             id: "fv5.12",
             videoTitle: "CSS Positioning Tutorial #12 - Clipping Content",
             duration: "4:46",
-            url: "https://www.youtube.com/watch?v=E7v4QGfLw9g",
+            url: "https://www.youtube.com/embed/ED1mhlAVAGU?si=Jtm2AHOWOC_OpP7A",
           },
           {
             id: "fv5.13",
             videoTitle: "CSS Flexbox Tutorial #1 - Introduction",
             duration: "5:18",
-            url: "https://www.youtube.com/watch?v=qD97z88P6uM",
+            url: "https://www.youtube.com/embed/Y8zMYaD1bz0?si=0hHRHSMH4JBcH4sk",
           },
           {
             id: "fv5.14",
             videoTitle: "CSS Flexbox Tutorial #2 - Flex Containers",
             duration: "6:27",
-            url: "https://www.youtube.com/watch?v=7-qWlhWnS6c",
+            url: "https://www.youtube.com/embed/ux4h6pejCSM?si=hv-OCwG7clB8h1PX",
           },
           {
             id: "fv5.15",
             videoTitle: "CSS Flexbox Tutorial #3 - Flex Grow",
             duration: "4:59",
-            url: "https://www.youtube.com/watch?v=wz33CgI3E2k",
+            url: "https://www.youtube.com/embed/yPK8cwBEOmg?si=WFbRnFXH2agxKyC0",
           },
           {
             id: "fv5.16",
             videoTitle: "CSS Flexbox Tutorial #4 - Flex Shrink",
             duration: "4:10",
-            url: "https://www.youtube.com/watch?v=68E6A6LwX6E",
+            url: "https://www.youtube.com/embed/tSdq8amjMso?si=7KVJXlht3mlBNNmV",
           },
           {
             id: "fv5.17",
             videoTitle: "CSS Flexbox Tutorial #5 - Flex Wrap",
             duration: "4:43",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RF",
+            url: "https://www.youtube.com/embed/rlZ-fC5eWWk?si=lqYRCdBFWWBHfctW",
           },
           {
             id: "fv5.18",
             videoTitle: "CSS Flexbox Tutorial #6 - Flex Basis",
             duration: "5:02",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RG",
+            url: "https://www.youtube.com/embed/j5RxNRFWMwo?si=KM8Z6gWRvWB6mDpZ",
           },
           {
             id: "fv5.19",
             videoTitle:
               "CSS Flexbox Tutorial #7 - Creating a Menu with Flexbox",
             duration: "8:03",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RH",
+            url: "https://www.youtube.com/embed/2plKBskaKfY?si=eNQFCwX3yOUfz8VN",
           },
           {
             id: "fv5.20",
             videoTitle:
               "CSS Flexbox Tutorial #8 - Creating Nested Menu's with Flexbox",
             duration: "8:10",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RI",
+            url: "https://www.youtube.com/embed/8Ls7maJvjwQ?si=BWbFe66dOKbt1AZ8",
           },
           {
             id: "fv5.21",
             videoTitle: "CSS Flexbox Tutorial #9 - Axis",
             duration: "6:44",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RJ",
+            url: "https://www.youtube.com/embed/8vcSr1yVvXQ?si=yiN7ZQ52b944DruR",
           },
           {
             id: "fv5.22",
             videoTitle:
               "CSS Flexbox Tutorial #10 - Align Items on the Cross Axis",
             duration: "4:42",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RK",
+            url: "https://www.youtube.com/embed/WY2itpeUK7Q?si=oBkpGjSwTPzr-0es",
           },
           {
             id: "fv5.23",
             videoTitle:
               "CSS Flexbox Tutorial #11 - Grid vs Stacked Layout Example",
             duration: "9:04",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RL",
+            url: "https://www.youtube.com/embed/B_E6Kh9YkFM?si=z7HOOSkOfBxEPXMV",
           },
           {
             id: "fv5.24",
             videoTitle: "CSS Flexbox Tutorial #12 - Element Order",
             duration: "4:27",
-            url: "https://www.youtube.com/watch?v=7yR6Z7Gk5RM",
+            url: "https://www.youtube.com/embed/FPl-7mTW20U?si=U0yAQ8H3kUtCkYdr",
           },
         ],
         assignment: {
@@ -1516,319 +1498,312 @@ export const coursesData = {
             id: "fv7.1",
             videoTitle: "JavaScript Tutorial For Beginners 01 - Introduction",
             duration: "3:41",
-            url: "https://www.youtube.com/watch?v=qC_ZfWf0uK0",
+            url: "https://www.youtube.com/embed/qoSksQ4s_hg?si=Z0UssVijPoKrnjyL",
           },
           {
             id: "fv7.2",
             videoTitle: "JavaScript for Beginners 02 - What is JavaScript?",
             duration: "4:04",
-            url: "https://www.youtube.com/watch?v=U8XF698wV_w",
+            url: "https://www.youtube.com/embed/qoSksQ4s_hg?si=Z0UssVijPoKrnjyL",
           },
           {
             id: "fv7.3",
             videoTitle:
               "JavaScript Tutorial For Beginners 03 - Hello World! in JavaScript",
             duration: "3:18",
-            url: "https://www.youtube.com/watch?v=7E84g9E8XwY",
+            url: "https://www.youtube.com/embed/ranSYb-EhrU?si=mtJHinJy5W3hIjM1",
           },
           {
             id: "fv7.4",
             videoTitle: "New Modern JavaScript Update",
             duration: "0:52",
-            url: "https://www.youtube.com/watch?v=pG-aI6gM_S8",
+            url: "https://www.youtube.com/embed/GCcfKNswi4c?si=5LuQS_IhDTooGnhr",
           },
           {
             id: "fv7.5",
             videoTitle:
               "JavaScript Tutorial For Beginners #4 - Where to put your JS",
             duration: "5:14",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_A",
+            url: "https://www.youtube.com/embed/czlwRUeTCgw?si=E4I-336QPYk97tav",
           },
           {
             id: "fv7.6",
             videoTitle:
               "JavaScript Tutorial For Beginners #5 - Google Chrome Developer Tools",
             duration: "4:52",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_B",
+            url: "https://www.youtube.com/embed/JzZFccCEgGA?si=JqI92Ba9PhxMuhXT",
           },
           {
             id: "fv7.7",
             videoTitle:
               "JavaScript Tutorial For Beginners #6 - Basic JavaScript Syntax & Rules",
             duration: "7:50",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_C",
+            url: "https://www.youtube.com/embed/QLatPwsbDrQ?si=zd6G_qShDoY1dCfA",
           },
           {
             id: "fv7.8",
             videoTitle:
               "JavaScript Tutorial For Beginners #7 - JavaScript Variables",
             duration: "9:00",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_D",
+            url: "https://www.youtube.com/embed/u0Mq3FzpsmI?si=7xAwl5Qs-y_oel02",
           },
           {
             id: "fv7.9",
             videoTitle:
               "JavaScript Tutorial For Beginners #8 - Basic Mathematical Operators",
             duration: "6:17",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_E",
+            url: "https://www.youtube.com/embed/_MC0Gw07w8M?si=5k4qOvSQR3wBpI4n",
           },
           {
             id: "fv7.10",
             videoTitle:
               "JavaScript Tutorial For Beginners #9 - Math Operator Short-hand",
             duration: "4:56",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_F",
+            url: "https://www.youtube.com/embed/Z1eV0RBRam0?si=wR5DfHzcULoYhNox",
           },
           {
             id: "fv7.11",
             videoTitle:
               "JavaScript Tutorial For Beginners #10 - Logging to the Console",
             duration: "3:40",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_G",
+            url: "https://www.youtube.com/embed/tH-q9QFNUdA?si=JpQOLel6TQW-IIEG",
           },
           {
             id: "fv7.12",
             videoTitle:
               "JavaScript Tutorial For Beginners #11 - Booleans in JavaScript",
             duration: "6:14",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_H",
+            url: "https://www.youtube.com/embed/B4ZCFdrBmbE?si=9hzQtyzMeMBA7xk-",
           },
           {
             id: "fv7.13",
             videoTitle: "JavaScript Tutorial For Beginners #12 - If Statements",
             duration: "8:46",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_I",
+            url: "https://www.youtube.com/embed/Lp-Du2fKoug?si=kUMaK6GrMhleYm4N",
           },
           {
             id: "fv7.14",
             videoTitle:
               "JavaScript Tutorial For Beginners #13 - Else If Statements",
             duration: "4:04",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_J",
+            url: "https://www.youtube.com/embed/1v1Bk3Q02Sc?si=QJAm_3xh0S94gQb1",
           },
           {
             id: "fv7.15",
             videoTitle:
               "JavaScript Tutorial For Beginners #14 - Comparison Operators",
             duration: "5:26",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_K",
+            url: "https://www.youtube.com/embed/LjGaaWX_NbE?si=ueyyZezs1UVnDGvD",
           },
           {
             id: "fv7.16",
             videoTitle:
               "JavaScript Tutorial For Beginners #15 - Logical Operators",
             duration: "6:02",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_L",
+            url: "https://www.youtube.com/embed/mbT7sSmVUS8?si=-KD4PJocuY0kIBxC",
           },
           {
             id: "fv7.17",
             videoTitle: "JavaScript Tutorial For Beginners #16 - While Loops",
             duration: "4:10",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_M",
+            url: "https://www.youtube.com/embed/PpbFyLTtpWI?si=ruH2Oi1QfL2OnUO6",
           },
           {
             id: "fv7.18",
             videoTitle: "JavaScript Tutorial For Beginners #17 - For Loops",
             duration: "7:50",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_N",
+            url: "https://www.youtube.com/embed/U87UmD-5h4o?si=AJMeStA892dxDy9H",
           },
           {
             id: "fv7.19",
             videoTitle:
               "JavaScript Tutorial For Beginners #18 - Break & Continue",
             duration: "4:14",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_O",
+            url: "https://www.youtube.com/embed/QSuTH0C_3_Y?si=KdBXjFS0Kj-sZiY5",
           },
           {
             id: "fv7.20",
             videoTitle:
               "JavaScript Tutorial For Beginners 19 - Practical Example using Loops",
             duration: "4:03",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_P",
+            url: "https://www.youtube.com/embed/eZBTLsv2ktM?si=xvyft-2BBEbc0BoM",
           },
           {
             id: "fv7.21",
             videoTitle: "JavaScript Tutorial For Beginners #20 - Functions",
             duration: "9:19",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_Q",
+            url: "https://www.youtube.com/embed/KH57lIgwe2g?si=kxnZZ76CI3l55vCy",
           },
           {
             id: "fv7.22",
             videoTitle:
               "JavaScript Tutorial For Beginners #21 - Variable Scope",
             duration: "6:06",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_R",
+            url: "https://www.youtube.com/embed/kjdZ1h3CIs4?si=rW48eZln9sMnQ7xS",
           },
           {
             id: "fv7.23",
             videoTitle: "JavaScript Tutorial For Beginners #22 - Numbers",
             duration: "6:10",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_S",
+            url: "https://www.youtube.com/embed/TD3Pfuxgnuc?si=eSnBO5bjaGIGrxWT",
           },
           {
             id: "fv7.24",
             videoTitle:
               "JavaScript Tutorial For Beginners - NaN (Not a Number)",
             duration: "6:35",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_T",
+            url: "https://www.youtube.com/embed/0ZiltZDg9Gg?si=mIGP6AmZouw5hCLh",
           },
           {
             id: "fv7.25",
             videoTitle: "JavaScript Tutorial For Beginners #24 - Strings",
             duration: "9:38",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_U",
+            url: "https://www.youtube.com/embed/k8MIbEVXhE0?si=1Ywi196rNBsphn6S",
           },
           {
             id: "fv7.26",
             videoTitle:
               "JavaScript Tutorial For Beginners #25 - Slice and Split Strings",
             duration: "6:39",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_V",
+            url: "https://www.youtube.com/embed/HEdikBHsMag?si=YFqKS5a9ywapfl9j",
           },
           {
             id: "fv7.27",
             videoTitle: "JavaScript Tutorial For Beginners #26 - Arrays",
             duration: "6:48",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_W",
+            url: "https://www.youtube.com/embed/EUnV-fCY0Pc?si=D63LsKHgx8xPVl4E",
           },
           {
             id: "fv7.28",
             videoTitle:
               "JavaScript Tutorial For Beginners #27 - Introduction to Objects",
             duration: "6:37",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_X",
+            url: "https://www.youtube.com/embed/EUnV-fCY0Pc?si=D63LsKHgx8xPVl4E",
           },
           {
             id: "fv7.29",
             videoTitle:
               "JavaScript Tutorial For Beginners #28 - Creating a new JavaScript Object",
             duration: "10:07",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_Y",
+            url: "https://www.youtube.com/embed/wA5vU_HQfVI?si=0h03a8SKDJnNtuNY",
           },
           {
             id: "fv7.30",
             videoTitle: "JavaScript Tutorial For Beginners #29 - THIS Keyword",
             duration: "5:24",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xy_Z",
+            url: "https://www.youtube.com/embed/yVdU2coJ1VQ?si=KW6XBCZcF4CeXfdn",
           },
           {
             id: "fv7.31",
             videoTitle:
               "JavaScript Tutorial For Beginners #30 - Constructor Functions",
             duration: "6:49",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xz1a",
+            url: "https://www.youtube.com/embed/SrhHszXkMRU?si=bG3Tzd4MP48ga4RJ",
           },
           {
             id: "fv7.32",
             videoTitle:
               "JavaScript Tutorial For Beginners #31 - The Date Object",
             duration: "9:23",
-            url: "https://www.youtube.com/watch?v=Y8YfWw8Xz1b",
+            url: "https://www.youtube.com/embed/irrxnH-nkqg?si=PHr3JRvj_3iGEmmx",
           },
           {
             id: "fv7.33",
             videoTitle:
               "JavaScript Tutorial For Beginners #32 - What is the DOM in JavaScript?",
             duration: "4:31",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kk",
+            url: "https://www.youtube.com/embed/H63dVFDuJDM?si=n573tl12nXhwVVPY",
           },
           {
             id: "fv7.34",
             videoTitle:
               "JavaScript Tutorial For Beginners #33 - Traversing the DOM",
             duration: "7:44",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kl",
+            url: "https://www.youtube.com/embed/SowaJlX1uKA?si=tfChPy2v0Sl4usbG",
           },
           {
             id: "fv7.35",
             videoTitle:
               "JavaScript Tutorial For Beginners #34 - Changing Page Content",
             duration: "5:39",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0km",
+            url: "https://www.youtube.com/embed/FQuwArzGPYo?si=aSneiASgTtCdUQJ8",
           },
           {
             id: "fv7.36",
             videoTitle:
               "JavaScript Tutorial For Beginners #35 - Changing Element Attributes",
             duration: "6:03",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kn",
+            url: "https://www.youtube.com/embed/V0S0LXvnW-o?si=o3GmC2Bar9hiYX8w",
           },
           {
             id: "fv7.37",
             videoTitle:
               "JavaScript Tutorial For Beginners #36 - Changing CSS Styles",
             duration: "4:50",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0ko",
+            url: "https://www.youtube.com/embed/97agDBCyxAE?si=AydXio8e7XLro9Jt",
           },
           {
             id: "fv7.38",
             videoTitle:
               "JavaScript Tutorial For Beginners #37 - Adding Elements to the DOM",
             duration: "7:44",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kp",
+            url: "https://www.youtube.com/embed/TrGI9Yki-24?si=Dpmi9zkdkKx8RvQH",
           },
           {
             id: "fv7.39",
             videoTitle:
               "JavaScript Tutorial For Beginners #38 - Removing Elements from the DOM",
             duration: "4:13",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0quest",
+            url: "https://www.youtube.com/embed/rBGgguNnutE?si=Ok7_ltdYTCuM-trD",
           },
           {
             id: "fv7.40",
             videoTitle:
               "JavaScript Tutorial For Beginners # 39 - Introduction to JavaScript Events",
             duration: "8:30",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kr",
+            url: "https://www.youtube.com/embed/bf_9IeihQ0M?si=pByj1NAGc1RgekRe",
           },
           {
             id: "fv7.41",
             videoTitle:
               "JavaScript Tutorial For Beginners #40 - The onClick Event",
             duration: "8:05",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0ks",
+            url: "https://www.youtube.com/embed/XQEfWd1lh4Q?si=ba5VoZZGptyd-DCB",
           },
           {
             id: "fv7.42",
             videoTitle:
               "JavaScript Tutorial For Beginners #41 - Window onLoad Event",
             duration: "5:07",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kt",
+            url: "https://www.youtube.com/embed/RVA4HoEE_q8?si=u7qZoDsjZYOpBXJx",
           },
           {
             id: "fv7.43",
             videoTitle:
               "JavaScript Tutorial For Beginners #42 - JavaScript Timers",
             duration: "12:12",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0ku",
+            url: "https://www.youtube.com/embed/Az5J_EkhYCY?si=v9qLEY1v-JgE7mzc",
           },
           {
             id: "fv7.44",
             videoTitle:
               "JavaScript Tutorial For Beginners #43 - Accessing Form Elements",
             duration: "6:04",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kv",
+            url: "https://www.youtube.com/embed/BhlvQfIaE4k?si=0173QvUeilj_X-XR",
           },
           {
             id: "fv7.45",
             videoTitle:
               "JavaScript Tutorial For Beginners #44 - VERY Simple Form Validation",
             duration: "5:37",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kw",
+            url: "https://www.youtube.com/embed/b0pxAb_yy2U?si=jn4lmvFk2bqkisGn",
           },
           {
             id: "fv7.46",
             videoTitle:
               "JavaScript Tutorial For Beginners #45 - JavaScript Libraries",
             duration: "8:34",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0kx",
-          },
-          {
-            id: "fv7.47",
-            videoTitle:
-              "JavaScript Tutorial For Beginners #46 - What to Study Next",
-            duration: "4:31",
-            url: "https://www.youtube.com/watch?v=FIORjGvT0ky",
+            url: "https://www.youtube.com/embed/uq7omoxwA7A?si=TDkkZfyCIbvHqZGY",
           },
         ],
         assignment: {
