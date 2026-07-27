@@ -249,7 +249,7 @@ const Footer = ({
             <h4 className="footer-title">Connect With Us</h4>
             <div className="footer-icon-badges">
               <a
-                href="https://www.instagram.com/daiel_official?igsh=a2NnOWsxbWdjZjhq"
+                href="https://www.instagram.com/daieltech?igsh=MWd6aDRpNXZ6Ynljcg=="
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-icon-btn instagram"
