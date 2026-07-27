@@ -1,6 +1,18 @@
 import React from "react";
 import "./Footer.css";
-import { Send, Camera, Play, MessageCircle, ExternalLink, PhoneCall, AlertCircle, Sparkles, FolderGit2, HeartHandshake, Award } from "lucide-react";
+import {
+  Send,
+  Camera,
+  Play,
+  MessageCircle,
+  ExternalLink,
+  PhoneCall,
+  AlertCircle,
+  Sparkles,
+  FolderGit2,
+  HeartHandshake,
+  Award,
+} from "lucide-react";
 import logo from "../assets/logo-removebg-preview.png";
 
 const Footer = ({
@@ -43,7 +55,10 @@ const Footer = ({
                     if (onBecomeMentorSelect) onBecomeMentorSelect();
                   }}
                 >
-                  <HeartHandshake size={15} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                  <HeartHandshake
+                    size={15}
+                    style={{ verticalAlign: "middle", marginRight: 4 }}
+                  />
                   Careers / Become a Mentor
                 </a>
               </li>
@@ -99,7 +114,10 @@ const Footer = ({
                     if (onStudentProjectsSelect) onStudentProjectsSelect();
                   }}
                 >
-                  <FolderGit2 size={15} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                  <FolderGit2
+                    size={15}
+                    style={{ verticalAlign: "middle", marginRight: 4 }}
+                  />
                   Student Projects
                 </a>
               </li>
@@ -111,7 +129,10 @@ const Footer = ({
                     if (onCertificateSelect) onCertificateSelect();
                   }}
                 >
-                  <Award size={15} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                  <Award
+                    size={15}
+                    style={{ verticalAlign: "middle", marginRight: 4 }}
+                  />
                   Certificates
                 </a>
               </li>
@@ -123,8 +144,15 @@ const Footer = ({
             <h4 className="footer-title">Support & Feedback</h4>
             <ul className="footer-links">
               <li>
-                <a href="https://wa.me/2347063210011" target="_blank" rel="noopener noreferrer">
-                  <PhoneCall size={15} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                <a
+                  href="https://wa.me/2347063210011"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <PhoneCall
+                    size={15}
+                    style={{ verticalAlign: "middle", marginRight: 4 }}
+                  />
                   Support Center (WhatsApp)
                 </a>
               </li>
@@ -133,10 +161,14 @@ const Footer = ({
                   href="#feedback"
                   onClick={(e) => {
                     e.preventDefault();
-                    if (onEmailComposerSelect) onEmailComposerSelect("feedback");
+                    if (onEmailComposerSelect)
+                      onEmailComposerSelect("feedback");
                   }}
                 >
-                  <Sparkles size={15} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                  <Sparkles
+                    size={15}
+                    style={{ verticalAlign: "middle", marginRight: 4 }}
+                  />
                   Feedback & Suggestions
                 </a>
               </li>
@@ -148,7 +180,10 @@ const Footer = ({
                     if (onEmailComposerSelect) onEmailComposerSelect("issue");
                   }}
                 >
-                  <AlertCircle size={15} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                  <AlertCircle
+                    size={15}
+                    style={{ verticalAlign: "middle", marginRight: 4 }}
+                  />
                   Report an Issue
                 </a>
               </li>
@@ -219,7 +254,7 @@ const Footer = ({
             <h4 className="footer-title">Connect With Us</h4>
             <div className="footer-icon-badges">
               <a
-                href="https://www.instagram.com/daieltech?igsh=MWd6aDRpNXZ6Ynljcg=="
+                href="https://www.instagram.com/daiel_official?igsh=a2NnOWsxbWdjZjhq"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-icon-btn instagram"
@@ -269,11 +304,7 @@ const Footer = ({
 
         <div className="footer-bottom">
           <div className="footer-logo-area">
-            <img
-              src={logo}
-              alt="DAIEL TECH Logo"
-              className="footer-logo"
-            />
+            <img src={logo} alt="DAIEL TECH Logo" className="footer-logo" />
             <span className="footer-brand">DAIEL TECH</span>
           </div>
           <p className="copyright">
