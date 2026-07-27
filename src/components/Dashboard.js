@@ -277,12 +277,23 @@ const Dashboard = ({
         <div className="dash-nav-links">
           {navLinks.map((link) => {
             const isActive = (link.id === "sandboxes" && currentView === "sandbox") ||
+                             (link.id === "achievements" && (currentView === "certificate" || activeTab === "achievements")) ||
                              (link.id === activeTab && currentView === "dashboard");
             return (
               <button
                 key={link.id}
                 className={`dash-nav-item ${isActive ? "active" : ""}`}
                 onClick={() => {
+                  if (link.id === "achievements") {
+                    setMobileSidebarOpen(false);
+                    setActiveTab("achievements");
+                    if (onNavigate) {
+                      onNavigate("certificate", { courseId: selectedCourseDetails || 1 });
+                    } else {
+                      setCurrentView("certificate");
+                    }
+                    return;
+                  }
                   setActiveTab(link.id);
                   setMobileSidebarOpen(false);
                   if (onNavigate) {
@@ -544,6 +555,19 @@ const Dashboard = ({
                     window.scrollTo(0, 0);
                   }}
                   allCourses={allCourses}
+                />
+              )}
+
+              {activeTab === "achievements" && (
+                <Certificate
+                  courseId={selectedCourseDetails || 1}
+                  loggedInUser={loggedInUser}
+                  onBack={() => {
+                    setActiveTab("dashboard");
+                    if (onNavigate) {
+                      onNavigate("dashboard", { tab: "dashboard" });
+                    }
+                  }}
                 />
               )}
             </div>
