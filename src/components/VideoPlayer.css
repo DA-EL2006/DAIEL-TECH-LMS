@@ -376,3 +376,77 @@
     padding: 12px 20px;
   }
 }
+
+/* 75% WATCH PROGRESS BAR STYLES */
+.watch-progress-box {
+  margin-top: 20px;
+  margin-bottom: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.watch-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+}
+
+.watch-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.watch-badge {
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.watch-badge.locked {
+  background: rgba(244, 63, 94, 0.12);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+.watch-badge.unlocked {
+  background: rgba(0, 242, 254, 0.12);
+  color: #00f2fe;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+.watch-bar-track {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.watch-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #00f2fe);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.watch-bar-fill.unlocked {
+  background: linear-gradient(90deg, #10b981, #00f2fe);
+}
+
+.watch-threshold-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ff4757;
+  box-shadow: 0 0 6px #ff4757;
+}
+

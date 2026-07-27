@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   BookOpen, Play, Award,
   Search, Flame, Zap, Target,
-  Code, Hexagon, LogOut
+  Code, Hexagon, LogOut, Menu, X
 } from "lucide-react";
 import "./Dashboard.css";
 import { coursesData } from "../data/coursesData";
@@ -74,6 +74,8 @@ const Dashboard = ({
   loggedInUser, 
   currentView, 
   setCurrentView, 
+  activeTab: propActiveTab,
+  setActiveTab: propSetActiveTab,
   selectedCourseDetails, 
   setSelectedCourseDetails, 
   selectedLessonId, 
@@ -82,12 +84,17 @@ const Dashboard = ({
   setActiveSandboxTask,
   selectedLegalTab,
   setSelectedLegalTab,
+  onNavigate,
   onResumeCourse, 
   onLogout 
 }) => {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [internalActiveTab, setInternalActiveTab] = useState("dashboard");
+  const activeTab = propActiveTab || internalActiveTab;
+  const setActiveTab = propSetActiveTab || setInternalActiveTab;
+
   const [currentTime, setCurrentTime] = useState(new Date());
   const [searchFocused, setSearchFocused] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const [completedLessons, setCompletedLessons] = useState(() => {
     try {
@@ -239,10 +246,31 @@ const Dashboard = ({
 
   return (
     <div className="dash-container">
+      {/* MOBILE DASHBOARD TOP BAR */}
+      <div className="dash-mobile-header font-mono">
+        <button
+          className="dash-mobile-toggle"
+          onClick={() => setMobileSidebarOpen((prev) => !prev)}
+          title="Toggle Navigation Menu"
+        >
+          {mobileSidebarOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+        <div className="dash-mobile-title">DAIEL TECH LMS</div>
+      </div>
+
+      {/* MOBILE OVERLAY BACKDROP */}
+      {mobileSidebarOpen && (
+        <div
+          className="dash-sidebar-backdrop"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
+
       {/* 1. GLOBAL NAVIGATION & HUD */}
-      <nav className="dash-sidebar">
+      <nav className={`dash-sidebar ${mobileSidebarOpen ? "mobile-open" : ""}`}>
         <div className="dash-logo-mark">
           <Hexagon size={28} className="logo-icon" />
+          <span className="mobile-brand-title">DAIEL LMS</span>
         </div>
         
         <div className="dash-nav-links">
@@ -255,7 +283,10 @@ const Dashboard = ({
                 className={`dash-nav-item ${isActive ? "active" : ""}`}
                 onClick={() => {
                   setActiveTab(link.id);
-                  if (link.id === "sandboxes") {
+                  setMobileSidebarOpen(false);
+                  if (onNavigate) {
+                    onNavigate(link.id === "sandboxes" ? "sandbox" : "dashboard", { tab: link.id });
+                  } else if (link.id === "sandboxes") {
                     setCurrentView("sandbox");
                   } else {
                     setCurrentView("dashboard");
@@ -273,7 +304,10 @@ const Dashboard = ({
         {onLogout && (
           <button
             className="dash-nav-item logout-btn"
-            onClick={onLogout}
+            onClick={() => {
+              setMobileSidebarOpen(false);
+              onLogout();
+            }}
             title="Log Out"
             style={{ marginTop: 'auto' }}
           >

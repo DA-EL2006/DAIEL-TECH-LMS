@@ -5,7 +5,9 @@ import {
   ChevronRight,
   CheckCircle,
   Save,
-  Check,
+  CheckSquare,
+  Square,
+  Lock,
 } from "lucide-react";
 import { coursesData } from "../data/coursesData";
 import "./VideoPlayer.css";
@@ -14,6 +16,9 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
   const [currentLessonId, setCurrentLessonId] = useState(initialLessonId);
   const [notes, setNotes] = useState("");
   const [saveStatus, setSaveStatus] = useState(""); // '' | 'saving' | 'saved'
+  const [watchProgress, setWatchProgress] = useState(0); // 0 to 100%
+  const [hasWatched75, setHasWatched75] = useState(false);
+  const [checkedTasks, setCheckedTasks] = useState({});
 
   const course = coursesData[courseId];
 
@@ -65,7 +70,67 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
 
   const isCompleted = completedList.includes(activeLessonId);
 
+  // Load 75% watched state & task checkbox state
+  useEffect(() => {
+    if (!activeLessonId) return;
+
+    const wasWatched = localStorage.getItem(`daiel_watched75_${courseId}_${activeLessonId}`);
+    const isAlreadyCompleted = completedList.includes(activeLessonId);
+    if (wasWatched === "true" || isAlreadyCompleted) {
+      setHasWatched75(true);
+      setWatchProgress(100);
+    } else {
+      setHasWatched75(false);
+      setWatchProgress(0);
+    }
+
+    try {
+      const savedTasks = localStorage.getItem(`daiel_tasks_${courseId}_${activeLessonId}`);
+      setCheckedTasks(savedTasks ? JSON.parse(savedTasks) : {});
+    } catch (e) {
+      setCheckedTasks({});
+    }
+  }, [courseId, activeLessonId, completedList]);
+
+  // Parse lesson duration string to seconds
+  const getDurationInSeconds = (durStr) => {
+    if (!durStr) return 300;
+    const parts = durStr.split(":").map(Number);
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    return 300;
+  };
+
+  // Video Watch Timer Progress tracking (reaches 75% threshold)
+  useEffect(() => {
+    if (!activeLessonId || hasWatched75 || isCompleted) return;
+
+    const totalSeconds = getDurationInSeconds(activeLesson?.duration);
+    let elapsedSeconds = Math.round((watchProgress / 100) * totalSeconds);
+
+    const interval = setInterval(() => {
+      elapsedSeconds += 1;
+      const pct = Math.min(Math.round((elapsedSeconds / totalSeconds) * 100), 100);
+
+      setWatchProgress((prev) => {
+        const nextPct = Math.max(prev, pct);
+        if (nextPct >= 75) {
+          setHasWatched75(true);
+          localStorage.setItem(`daiel_watched75_${courseId}_${activeLessonId}`, "true");
+        }
+        return nextPct;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [activeLessonId, activeLesson, hasWatched75, isCompleted, courseId, watchProgress]);
+
   const handleToggleComplete = () => {
+    if (!hasWatched75 && !isCompleted) {
+      alert(`🔒 Watch Requirement: Please watch at least 75% of the video before marking it as complete! Current watch progress: ${watchProgress}%.`);
+      return;
+    }
+
     try {
       const saved = localStorage.getItem("daiel_completed_lessons");
       const parsed = saved ? JSON.parse(saved) : {};
@@ -85,19 +150,14 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
       setCompletedList(list);
 
       // Update completion timestamps for stats
-      const savedTimestamps = localStorage.getItem(
-        "daiel_completion_timestamps",
-      );
+      const savedTimestamps = localStorage.getItem("daiel_completion_timestamps");
       const timestamps = savedTimestamps ? JSON.parse(savedTimestamps) : {};
       if (isAdding) {
         timestamps[activeLessonId] = new Date().toISOString();
       } else {
         delete timestamps[activeLessonId];
       }
-      localStorage.setItem(
-        "daiel_completion_timestamps",
-        JSON.stringify(timestamps),
-      );
+      localStorage.setItem("daiel_completion_timestamps", JSON.stringify(timestamps));
     } catch (e) {
       console.error(e);
     }
@@ -151,12 +211,29 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
     setSaveStatus("saving");
   };
 
+  const isNextLocked = nextLessonId && !isCompleted && !completedList.includes(nextLessonId);
+
   const handleNavigate = (newLessonId) => {
-    if (newLessonId) {
-      setCurrentLessonId(newLessonId);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!newLessonId) return;
+    if (newLessonId === nextLessonId && isNextLocked) {
+      alert("🔒 Next lesson is locked! Complete the current video lesson (and watch at least 75%) before proceeding to the next video.");
+      return;
     }
+    setCurrentLessonId(newLessonId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const toggleTaskCheck = (idx) => {
+    const updated = { ...checkedTasks, [idx]: !checkedTasks[idx] };
+    setCheckedTasks(updated);
+    localStorage.setItem(
+      `daiel_tasks_${courseId}_${activeLessonId}`,
+      JSON.stringify(updated)
+    );
+  };
+
+  const rawTasks = activeLesson?.tasks || [];
+  const formattedTasks = rawTasks.flatMap((t) => (Array.isArray(t) ? t : [t]));
 
   if (!course || !activeLesson) {
     return (
@@ -252,6 +329,27 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
               </div>
             </div>
 
+            {/* 75% WATCH REQUIREMENT PROGRESS BAR */}
+            <div className="watch-progress-box">
+              <div className="watch-progress-info">
+                <span className="watch-label">Video Watch Requirement (75% Minimum):</span>
+                <span className={`watch-badge ${hasWatched75 || isCompleted ? "unlocked" : "locked"}`}>
+                  {hasWatched75 || isCompleted ? (
+                    <>🎉 75% Threshold Unlocked</>
+                  ) : (
+                    <>🔒 {watchProgress}% / 75% Watched</>
+                  )}
+                </span>
+              </div>
+              <div className="watch-bar-track">
+                <div
+                  className={`watch-bar-fill ${hasWatched75 || isCompleted ? "unlocked" : ""}`}
+                  style={{ width: `${Math.min(hasWatched75 || isCompleted ? 100 : watchProgress, 100)}%` }}
+                />
+                <div className="watch-threshold-marker" style={{ left: "75%" }} title="75% Requirement Threshold" />
+              </div>
+            </div>
+
             <div className="video-controls">
               <button
                 className="nav-btn"
@@ -263,47 +361,81 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
               </button>
 
               <button
-                className={`nav-btn complete-toggle-btn ${isCompleted ? "completed" : ""}`}
+                className={`nav-btn complete-toggle-btn ${isCompleted ? "completed" : ""} ${!hasWatched75 && !isCompleted ? "disabled" : ""}`}
                 onClick={handleToggleComplete}
                 style={{
                   background: isCompleted
                     ? "var(--color-primary, #0053e4)"
-                    : "rgba(255, 255, 255, 0.05)",
-                  color: isCompleted ? "#ffffff" : "var(--text-primary)",
+                    : hasWatched75
+                    ? "rgba(0, 242, 254, 0.15)"
+                    : "rgba(255, 255, 255, 0.04)",
+                  color: isCompleted ? "#ffffff" : hasWatched75 ? "#00f2fe" : "var(--text-secondary)",
                   borderColor: isCompleted
                     ? "var(--color-primary, #0053e4)"
+                    : hasWatched75
+                    ? "#00f2fe"
                     : "rgba(255, 255, 255, 0.1)",
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
                   fontWeight: "700",
+                  opacity: !hasWatched75 && !isCompleted ? 0.6 : 1,
+                  cursor: !hasWatched75 && !isCompleted ? "not-allowed" : "pointer"
                 }}
+                title={!hasWatched75 && !isCompleted ? "Watch at least 75% of the video to unlock completion" : "Mark as completed"}
               >
-                <CheckCircle size={18} />
-                {isCompleted ? "Completed" : "Mark Completed"}
+                {!hasWatched75 && !isCompleted ? <Lock size={16} /> : <CheckCircle size={18} />}
+                {isCompleted ? "Completed" : hasWatched75 ? "Mark Completed" : `Mark Completed (${watchProgress}%)`}
               </button>
 
               <button
-                className="nav-btn"
+                className={`nav-btn ${isNextLocked ? "locked" : ""}`}
                 onClick={() => handleNavigate(nextLessonId)}
                 disabled={!nextLessonId}
+                title={isNextLocked ? "Complete current lesson to unlock next video" : "Next Lesson"}
               >
                 Next Lesson
-                <ChevronRight size={20} />
+                {isNextLocked ? <Lock size={16} style={{ marginLeft: "6px" }} /> : <ChevronRight size={20} />}
               </button>
             </div>
 
-            {activeLesson.tasks && activeLesson.tasks.length > 0 && (
+            {formattedTasks.length > 0 && (
               <div className="video-summary">
                 <h3>
-                  <CheckCircle size={20} color="var(--color-byte)" /> Actionable
-                  Tasks
+                  <CheckCircle size={20} color="var(--color-byte)" /> Compulsory Video Tasks
                 </h3>
-                <ul>
-                  {activeLesson.tasks.map((task, idx) => (
-                    <li key={idx} className="summary-task-item">
-                      <Check className="task-icon" size={18} />
-                      <span>{task}</span>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", marginBottom: "14px" }}>
+                  Complete all tasks below as you follow along with the lesson:
+                </p>
+                <ul className="compulsory-task-list" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {formattedTasks.map((task, idx) => (
+                    <li
+                      key={idx}
+                      className={`summary-task-item ${checkedTasks[idx] ? "completed" : ""}`}
+                      onClick={() => toggleTaskCheck(idx)}
+                      style={{
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "10px",
+                        padding: "12px 14px",
+                        borderRadius: "10px",
+                        background: checkedTasks[idx] ? "rgba(0, 242, 254, 0.06)" : "rgba(255, 255, 255, 0.03)",
+                        border: `1px solid ${checkedTasks[idx] ? "rgba(0, 242, 254, 0.2)" : "rgba(255, 255, 255, 0.06)"}`,
+                        marginBottom: "10px",
+                        transition: "all 0.2s ease"
+                      }}
+                    >
+                      <button className="task-checkbox-btn" style={{ background: "none", border: "none", cursor: "pointer", padding: 0, marginTop: "2px" }}>
+                        {checkedTasks[idx] ? (
+                          <CheckSquare size={18} color="#00f2fe" />
+                        ) : (
+                          <Square size={18} color="var(--text-secondary)" />
+                        )}
+                      </button>
+                      <span className="task-text" style={{ textDecoration: checkedTasks[idx] ? "line-through" : "none", opacity: checkedTasks[idx] ? 0.75 : 1, lineHeight: "1.5", fontSize: "0.95rem" }}>
+                        {task}
+                      </span>
                     </li>
                   ))}
                 </ul>

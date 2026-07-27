@@ -398,26 +398,69 @@ export const coursesData = {
           {
             id: "v1.1",
             videoTitle: "Setting Up the ML Environment",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/WUeBzT43JyY?si=B0ZogNmR19c7c9Qf",
+            tasks: [
+              [
+                "Install Anaconda or Miniconda, launch Jupyter Notebook, and verify NumPy, Pandas, and Matplotlib imports with a sample array/dataframe/plot.",
+              ],
+            ],
           },
           {
             id: "v1.2",
             videoTitle: "Essential Python Refresher for Data Science",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/PNSIWjWAA7o?si=KgQvDgQRZ1CdYI62",
+            tasks: [
+              [
+                "Build a small Python script that uses lists, dictionaries, loops, a function, and a class to summarize dataset statistics.",
+              ],
+            ],
           },
           {
             id: "v1.3",
             videoTitle: "Introduction to NumPy for Numerical Computation",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/uRsE5WGiKWo?si=PE4XCcgKFrG-JI68",
+            tasks: [
+              [
+                "Create a NumPy array with numbers 1 to 10, reshape it into a 2x5 matrix, and compute row/column sums.",
+                "Generate two random NumPy arrays, perform element-wise multiplication, and compare results using broadcasting and vectorized operations.",
+              ],
+            ],
           },
           {
             id: "v1.4",
             videoTitle: "Data Manipulation with Pandas",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/mkYBJwX_dMs?si=NiPYTR3ISUCn4dZC",
+            tasks: [
+              [
+                "Load a CSV file into a Pandas DataFrame, clean missing values, group by a column, compute aggregated statistics, and export the result to a new CSV file.",
+              ],
+            ],
           },
           {
             id: "v1.5",
             videoTitle: "Data Visualization with Matplotlib & Seaborn",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/ooqXQ37XHMM?si=kCRYEyG2g2sHj5mf",
+            tasks: [
+              [
+                "Generate a Seaborn heatmap from a dataset correlation matrix, label the axes, and save the plot as a PNG file.",
+              ],
+            ],
           },
           {
             id: "v1.6",
             videoTitle: "Walkthrough: End-to-End Real Dataset Exploration",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/Liv6eeb1VfE?si=q2B7L9Rzh-GEKYoe",
+            tasks: [
+              [
+                "Perform end-to-end EDA on Titanic or Iris: inspect structure, clean data, compute summary statistics, visualize key features, and document 3 insights.",
+              ],
+            ],
           },
         ],
         assignment:
@@ -431,26 +474,68 @@ export const coursesData = {
           {
             id: "v2.1",
             videoTitle: "The Role of Math in Machine Learning",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/wOTFGRSUQ6Q?si=r_dNsji1Rbno_qHT",
+            tasks: [
+              [
+                "Demonstrate math in ML by computing vectors, matrices, and simple model predictions with NumPy and explain why these operations matter.",
+              ],
+            ],
           },
           {
             id: "v2.2",
             videoTitle: "Linear Algebra Essentials",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/fNk_zzaMoSs?si=MEBFtm8MYpWE_mwr",
+            tasks: [
+              [
+                "Use NumPy to compute vector dot products, matrix multiplication, and eigenvalues for a 2x2 matrix. Visualize the result with a short summary.",
+              ],
+            ],
           },
           {
             id: "v2.3",
             videoTitle: "Calculus for Optimization",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/WUvTyaaNkzM?si=HrwVgS1IkJqziyCP",
+            tasks: [
+              [
+                "Implement numerical derivatives and partial derivatives for simple functions, then visualize how the gradient changes with the input values.",
+              ],
+            ],
           },
           {
             id: "v2.4",
             videoTitle: "Core Probability & Statistics for Data Science",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/Q22oEoo7gXc?si=vTdJ9UsU7-ZZ7ah3",
+            tasks: [
+              [
+                "Compute mean, variance, and sample random values from a normal distribution in Python. Use Bayes theorem to estimate a simple conditional probability.",
+              ],
+            ],
           },
           {
             id: "v2.5",
             videoTitle: "Implementing Gradient Descent",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/vsWrXfO3wWw?si=M0co9NiXKvJ5uI-1",
+            tasks: [
+              [
+                "Implement gradient descent from scratch in Python for a simple quadratic cost function and plot the parameter update path.",
+              ],
+            ],
           },
           {
             id: "v2.6",
             videoTitle: "Visualizing Loss Surfaces and Optimization",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/qg4PchTECck?si=6QlNR2L5N6jjqtNS",
+            tasks: [
+              [
+                "Visualize a loss surface and overlay optimization trajectories for gradient descent using Matplotlib.",
+              ],
+            ],
           },
         ],
         assignment:
@@ -464,26 +549,68 @@ export const coursesData = {
           {
             id: "v3.1",
             videoTitle: "Linear and Polynomial Regression Models",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/8jazNUpO3lQ?si=sQ20azlF81AAP9Rf",
+            tasks: [
+              [
+                "Train a linear regression model on a toy dataset, then add polynomial features and compare training/validation error to illustrate bias-variance tradeoff.",
+              ],
+            ],
           },
           {
             id: "v3.2",
             videoTitle: "Logistic Regression and Classification Concepts",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/zM4VZR0px8E?si=i3wDLY6UtNzILmnK",
+            tasks: [
+              [
+                "Train logistic regression on a binary dataset, plot the decision boundary, and compute cross-entropy loss plus accuracy.",
+              ],
+            ],
           },
           {
             id: "v3.3",
             videoTitle: "K-Nearest Neighbors (KNN) Algorithm",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/CQveSaMyEwM?si=R_DSCtkxE2vyDFkp",
+            tasks: [
+              [
+                "Use scikit-learn KNN to fit a classifier, compare k=1,3,5, and evaluate accuracy for different distance metrics.",
+              ],
+            ],
           },
           {
             id: "v3.4",
             videoTitle: "Building Pipelines with Scikit-Learn",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/YyFuIubbqpo?si=19BdkWMbCg1yJucW",
+            tasks: [
+              [
+                "Build a Scikit-learn Pipeline with preprocessing and a model, then run fit(), predict(), and score() on a dataset.",
+              ],
+            ],
           },
           {
             id: "v3.5",
             videoTitle: "Evaluating Model Performance",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/Nz73vXn5afE?si=A59jw711CFuLUZ9K",
+            tasks: [
+              [
+                "Compute MAE/RMSE for regression and accuracy, confusion matrix, precision, recall, F1 for classification using scikit-learn.",
+              ],
+            ],
           },
           {
             id: "v3.6",
             videoTitle: "Cross-Validation Techniques",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/gJo0uNL-5Qw?si=3HAz3zZsHA3D90YF",
+            tasks: [
+              [
+                "Apply k-fold and stratified k-fold cross-validation to a classification model and compare the average scores.",
+              ],
+            ],
           },
         ],
         assignment:
@@ -497,26 +624,68 @@ export const coursesData = {
           {
             id: "v4.1",
             videoTitle: "Introduction to Decision Trees",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/_L39rN6gz7Y?si=2aoE9c4-F6joLTvt",
+            tasks: [
+              [
+                "Train a decision tree classifier, inspect splitting criteria, evaluate feature importance, and discuss overfitting behavior.",
+              ],
+            ],
           },
           {
             id: "v4.2",
             videoTitle: "Ensemble Learning with Random Forests",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/J4Wdy0Wc_xQ?si=8cAlvgtVP6Ne1oxl",
+            tasks: [
+              [
+                "Fit a Random Forest model, compare it to a single tree, and display the top feature importances.",
+              ],
+            ],
           },
           {
             id: "v4.3",
             videoTitle: "Boosting Techniques: XGBoost and LightGBM",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/OtD8wVaFm6E?si=pyk012tb9eA_KT8m",
+            tasks: [
+              [
+                "Train an XGBoost or LightGBM model, tune learning rate and max_depth, and compare performance to a baseline model.",
+              ],
+            ],
           },
           {
             id: "v4.4",
             videoTitle: "Support Vector Machines (SVM)",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/efR1C6CvhmE?si=Uv7j6jh8IgJ0pIir",
+            tasks: [
+              [
+                "Train SVM models with linear and RBF kernels, evaluate support vectors, and compare decision margins.",
+              ],
+            ],
           },
           {
             id: "v4.5",
             videoTitle: "Hyperparameter Tuning Strategies",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/HdlDYng8g9s?si=m6npJYY4uvKhvQ-_",
+            tasks: [
+              [
+                "Use GridSearchCV or RandomizedSearchCV to tune model hyperparameters, then report the best combination and validation score.",
+              ],
+            ],
           },
           {
             id: "v4.6",
             videoTitle: "Feature Selection & Importance",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/EqLBAmtKMnQ?si=vfzaRLIA13ryjmcG",
+            tasks: [
+              [
+                "Use feature selection or importance ranking methods to choose top features, then compare model accuracy before and after selection.",
+              ],
+            ],
           },
         ],
         assignment:
@@ -530,26 +699,68 @@ export const coursesData = {
           {
             id: "v5.1",
             videoTitle: "K-Means Clustering Algorithm",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/4b5d3muPQmA?si=FBk_YrARf0uqRFUx",
+            tasks: [
+              [
+                "Apply K-Means clustering to a dataset, use the elbow method and silhouette score to choose the best k, and visualize the clusters.",
+              ],
+            ],
           },
           {
             id: "v5.2",
             videoTitle: "Density-Based Clustering with DBSCAN",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/RDZUdRSDOok?si=jgNfjeI9-s56xWwv",
+            tasks: [
+              [
+                "Cluster a dataset using DBSCAN, identify noise points, compare results to K-Means, and explain when DBSCAN is preferable.",
+              ],
+            ],
           },
           {
             id: "v5.3",
             videoTitle: "Hierarchical Clustering",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/7xHsRkOdVwo?si=DCJRqEr-ZH0d-uUf",
+            tasks: [
+              [
+                "Perform hierarchical clustering, plot a dendrogram, and choose cluster count based on the hierarchy structure.",
+              ],
+            ],
           },
           {
             id: "v5.4",
             videoTitle: "Dimensionality Reduction with PCA",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/FgakZw6K1QQ?si=p9SP7dK2O_gICTTo",
+            tasks: [
+              [
+                "Use PCA to reduce data dimensionality, plot explained variance and a scree plot, then visualize the first two principal components.",
+              ],
+            ],
           },
           {
             id: "v5.5",
             videoTitle: "Advanced Visualization with t-SNE",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/NEaUSP4YerM?si=AAjgPErNbmneOzrN",
+            tasks: [
+              [
+                "Apply t-SNE to high-dimensional data, plot the 2D embedding, and describe cluster structure observed in the visualization.",
+              ],
+            ],
           },
           {
             id: "v5.6",
             videoTitle: "Practical Application: Customer Segmentation",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/-LGwdrajMZ0?si=QUsfclGtvTx0hsUc",
+            tasks: [
+              [
+                "Apply clustering to a customer dataset, interpret each segment, and recommend business actions for the identified groups.",
+              ],
+            ],
           },
         ],
         assignment:
@@ -563,26 +774,68 @@ export const coursesData = {
           {
             id: "v6.1",
             videoTitle: "Introduction to Artificial Neural Networks",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/jmmW0F0biz0?si=b-djxyGkZmBzfJ-o",
+            tasks: [
+              [
+                "Build a simple perceptron or multi-layer network example, experiment with activation functions, and document how outputs change.",
+              ],
+            ],
           },
           {
             id: "v6.2",
             videoTitle: "Forward Pass & Backpropagation",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/IN2XmBhILt4?si=FJMQhnimxQcqrrli",
+            tasks: [
+              [
+                "Implement forward and backward passes for a 2-layer network in NumPy, compute loss, and update weights for one training step.",
+              ],
+            ],
           },
           {
             id: "v6.3",
             videoTitle: "Getting Started with TensorFlow and Keras",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/VhRtaziEWd4?si=TCwdvd_hZxgVou5s",
+            tasks: [
+              [
+                "Build a Keras Sequential model with Dense layers, compile it, train on a small dataset, and evaluate test performance.",
+              ],
+            ],
           },
           {
             id: "v6.4",
             videoTitle: "Deep Learning Regularization Techniques",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/hpFzuMSYg9k?si=edkqxfGJbVX4nz89",
+            tasks: [
+              [
+                "Train a model with dropout, L1/L2, early stopping, or batch normalization and compare validation performance against a baseline.",
+              ],
+            ],
           },
           {
             id: "v6.5",
             videoTitle: "Introduction to Convolutional Neural Networks (CNNs)",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/YGILT182T6w?si=ogMoc6bpeVZj-q2W",
+            tasks: [
+              [
+                "Build a simple CNN in Keras, explain the role of conv and pooling layers, and visualize feature map shapes.",
+              ],
+            ],
           },
           {
             id: "v6.6",
             videoTitle: "Building an Image Classifier with Keras",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/jztwpsIzEGc?si=X-oqO6QbEEU3S8_H",
+            tasks: [
+              [
+                "Train an image classifier on CIFAR-10 using Keras, evaluate test accuracy, and show sample predictions with labels.",
+              ],
+            ],
           },
         ],
         assignment:
@@ -596,30 +849,79 @@ export const coursesData = {
           {
             id: "v7.1",
             videoTitle: "Advanced Feature Engineering Techniques",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/0jPhNvqiuCA?si=UiM-pXygxS7w3iss",
+            tasks: [
+              [
+                "Engineer features with encoding, scaling, polynomial terms, and interactions, then compare model performance before and after.",
+              ],
+            ],
           },
           {
             id: "v7.2",
             videoTitle: "Building Robust Scikit-learn Pipelines",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/YyFuIubbqpo?si=bj-v-oWLLf7vdTT7",
+            tasks: [
+              [
+                "Build a Scikit-learn Pipeline using ColumnTransformer for preprocessing and a model estimator, then fit and evaluate it.",
+              ],
+            ],
           },
           {
             id: "v7.3",
             videoTitle: "Strategies for Imbalanced Datasets",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/JnlM4yLFNbk",
+            tasks: [
+              [
+                "Address imbalanced classes using SMOTE or class weights, and compare classifier metrics on balanced versus imbalanced versions.",
+              ],
+            ],
           },
           {
             id: "v7.4",
             videoTitle: "Saving and Loading Machine Learning Models",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/KfnhNlD8WZI?si=FmezS8-dwzSSKdYA",
+            tasks: [
+              [
+                "Serialize a trained model with pickle or joblib, reload it, and verify that it produces identical predictions.",
+              ],
+            ],
           },
           {
             id: "v7.5",
             videoTitle: "Building REST APIs with FastAPI for ML",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/dmUtafXB5aw?si=7Op9wu8m9CtpMTse",
+            tasks: [
+              [
+                "Build a FastAPI endpoint that accepts JSON input, loads a trained model, and returns predictions in JSON format.",
+              ],
+            ],
           },
           {
             id: "v7.6",
             videoTitle: "Experiment Tracking with MLflow",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/6ngxBkx05Fs?si=NtHoKcfJDBUyAoBJ",
+            tasks: [
+              [
+                "Track experiments with MLflow: log parameters, metrics, artifacts, and compare two runs in the UI.",
+              ],
+            ],
           },
           {
             id: "v7.7",
             videoTitle: "Containerizing ML Applications with Docker",
+            duration: "10:00",
+            url: "https://www.youtube.com/embed/nMXsVbEz_Os?si=SUO7ZmPxB7UyGMZ9",
+            tasks: [
+              [
+                "Create a Dockerfile for an ML app, build the image, and run the container locally to verify the service works.",
+              ],
+            ],
           },
         ],
         assignment:
@@ -629,30 +931,63 @@ export const coursesData = {
         id: "m8",
         title: "Module 8",
         subtitle: "🏆 CAPSTONE PROJECT – End-to-End ML Solution",
-        lessons: [
+        description:
+          "CAPSTONE: Solve a real-world ML problem (classification, regression, or clustering) end-to-end. Submit: (1) cleaned dataset + EDA report, (2) model training notebook with evaluation, (3) deployed FastAPI endpoint, (4) 10-slide summary presentation, (5) GitHub repo with README. You must choose one (1) of the project tracks below and build it completely from scratch.",
+        lessons: [],
+        projects: [
           {
-            id: "v8.1",
-            videoTitle: "Capstone Overview and Project Selection",
+            id: "project_alpha",
+            title: "Project Alpha: Predictive Classification Engine",
+            description:
+              "Build an end-to-end classification pipeline (e.g., Customer Churn or Credit Scoring) that predicts categorical outcomes, performs feature engineering, and serves predictions via a REST API.",
+            core_requirements: [
+              "Clean the dataset, handle missing values, and address any imbalanced classes using SMOTE or class weights.",
+              "Train and tune a classification model (e.g., Random Forest, XGBoost, or Logistic Regression) and evaluate using precision, recall, confusion matrix, and F1-score.",
+              "Deploy the trained model using FastAPI to accept JSON input and return a live prediction.",
+            ],
+            architectural_concept_map: {
+              diagram_placeholder: "",
+              execution_flowchart:
+                "[Raw Dataset] ──> [EDA & Preprocessing] ──> [Model Training & Hyperparameter Tuning] ──> [Pickled Model] ──> [FastAPI Prediction Endpoint]",
+            },
           },
           {
-            id: "v8.2",
-            videoTitle: "Model Selection & Tuning",
+            id: "project_beta",
+            title: "Project Beta: Dynamic Regression Valuation Model",
+            description:
+              "Develop a regression solution to estimate continuous values (e.g., Real Estate Prices or Sales Forecasting) based on multiple features, utilizing advanced scaling and pipelines.",
+            core_requirements: [
+              "Perform exploratory data analysis (EDA) and engineer new features, such as interaction terms or polynomial features.",
+              "Build a Scikit-Learn Pipeline that chains scalers, encoders, and regression models (Linear, Random Forest, etc.).",
+              "Optimize hyperparameters using GridSearchCV or RandomizedSearchCV, and evaluate performance using RMSE and MAE.",
+            ],
+            architectural_concept_map: {
+              diagram_placeholder: "",
+              specifications: [
+                "Pipeline Construction: Use ColumnTransformer to process numerical and categorical data seamlessly before feeding it into the estimator.",
+                "Evaluation Phase: Apply k-fold cross-validation to ensure the model generalizes well to unseen data without overfitting.",
+              ],
+            },
           },
           {
-            id: "v8.3",
-            videoTitle: "Building the Deployment Pipeline",
-          },
-          {
-            id: "v8.4",
-            videoTitle: "Finalizing Deliverables",
-          },
-          {
-            id: "v8.5",
-            videoTitle: "Final Presentation & Review",
+            id: "project_gamma",
+            title: "Project Gamma: Intelligent Market Segmentation System",
+            description:
+              "Create an unsupervised machine learning system that groups unlabelled data (e.g., Customer Segmentation) into distinct clusters to drive targeted business strategies.",
+            core_requirements: [
+              "Preprocess the dataset and reduce the dimensionality of high-dimensional data using PCA.",
+              "Apply clustering algorithms (K-Means or DBSCAN) and determine the optimal number of clusters using the elbow method and silhouette scores.",
+              "Visualize the distinct clusters using 2D scatter plots (PCA or t-SNE) and summarize the defining characteristics of each segment.",
+            ],
+            architectural_concept_map: {
+              diagram_placeholder: "",
+              specifications: [
+                "Dimensionality Reduction Core: Apply standard scaling and PCA to retain at least 90% of the dataset variance before clustering.",
+                "Cluster Profiling: Group the original data by the newly generated cluster labels to extract actionable business insights.",
+              ],
+            },
           },
         ],
-        assignment:
-          "CAPSTONE: Solve a real-world ML problem (classification, regression, or clustering) end-to-end. Submit: (1) cleaned dataset + EDA report, (2) model training notebook with evaluation, (3) deployed FastAPI endpoint, (4) 10-slide summary presentation, (5) GitHub repo with README.",
       },
     ],
   },

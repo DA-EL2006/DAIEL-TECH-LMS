@@ -6,7 +6,6 @@ import {
   Trophy, 
   Flame, 
   Zap, 
-  Grid, 
   X, 
   Code
 } from "lucide-react";
@@ -22,9 +21,8 @@ const DuolingoPath = ({
   onAssignmentSelect,
   allCourses = []
 }) => {
-  const [activeCourseId, setActiveCourseId] = useState(selectedCourseId);
+  const [activeCourseId] = useState(selectedCourseId);
   const [selectedNode, setSelectedNode] = useState(null); // Node popover modal
-  const [showCourseModal, setShowCourseModal] = useState(false); // View More Courses modal
 
   const currentCourse = coursesData[activeCourseId] || coursesData[1];
   const courseMeta = allCourses.find((c) => c.id === activeCourseId) || {
@@ -54,8 +52,19 @@ const DuolingoPath = ({
   // Horizontal position pattern for winding path (sinusoidal alignment)
   const positionPattern = ["center", "right", "far-right", "right", "center", "left", "far-left", "left"];
 
+  // Build a sequential list of all lessons across all modules for locking
+  const allCourseLessons = [];
+  modules.forEach((m) => {
+    (m.lessons || []).forEach((l) => {
+      allCourseLessons.push({ ...l, moduleId: m.id });
+    });
+  });
+
   const handleNodeClick = (lesson, mod, isLocked) => {
-    if (isLocked) return;
+    if (isLocked) {
+      alert("🔒 This video lesson is locked! You must complete all previous video lessons to unlock it.");
+      return;
+    }
     setSelectedNode({
       lesson,
       moduleTitle: mod.title,
@@ -64,8 +73,12 @@ const DuolingoPath = ({
     });
   };
 
-  const handleAssignmentClick = (mod) => {
+  const handleAssignmentClick = (mod, isModCompleted) => {
     if (!mod.assignment) return;
+    if (!isModCompleted) {
+      alert("🔒 Unit Capstone Locked! Complete all video lessons in this unit to unlock the Capstone Challenge.");
+      return;
+    }
     const assignmentObj = typeof mod.assignment === 'string' 
       ? { title: `${mod.title} Capstone`, objective: mod.assignment, steps: [], hints: [] }
       : mod.assignment;
@@ -86,14 +99,6 @@ const DuolingoPath = ({
         <div className="duo-course-info">
           <div className="duo-course-badge">{courseMeta.category}</div>
           <h2 className="duo-course-title">{currentCourse?.title}</h2>
-          <button 
-            className="duo-btn-switch-course"
-            onClick={() => setShowCourseModal(true)}
-            title="View & Switch Courses"
-          >
-            <Grid size={16} />
-            <span>Switch Course</span>
-          </button>
         </div>
 
         <div className="duo-stats-bar">
@@ -163,11 +168,9 @@ const DuolingoPath = ({
               <div className="duo-nodes-path">
                 {lessons.map((lesson, lessonIdx) => {
                   const isCompleted = completedList.includes(lesson.id);
-                  const globalLessonIdx = lessons.findIndex((l) => l.id === lesson.id);
-                  const isFirstLesson = modIdx === 0 && globalLessonIdx === 0;
-                  const prevLessonId = globalLessonIdx > 0 
-                    ? lessons[globalLessonIdx - 1].id 
-                    : (modIdx > 0 && modules[modIdx - 1]?.lessons?.slice(-1)[0]?.id);
+                  const globalLessonIdx = allCourseLessons.findIndex((l) => l.id === lesson.id);
+                  const isFirstLesson = globalLessonIdx === 0;
+                  const prevLessonId = globalLessonIdx > 0 ? allCourseLessons[globalLessonIdx - 1].id : null;
                   
                   const isUnlocked = isCompleted || isFirstLesson || (prevLessonId && completedList.includes(prevLessonId));
                   const isCurrent = isUnlocked && !isCompleted;
@@ -214,7 +217,7 @@ const DuolingoPath = ({
                   <div className="duo-node-row center trophy-row">
                     <button
                       className={`duo-path-node trophy-node ${isModCompleted ? 'unlocked' : ''}`}
-                      onClick={() => handleAssignmentClick(mod)}
+                      onClick={() => handleAssignmentClick(mod, isModCompleted)}
                       title={`Unit ${modIdx + 1} Capstone Challenge`}
                     >
                       <div className="node-inner-circle">
@@ -305,54 +308,6 @@ const DuolingoPath = ({
         </div>
       )}
 
-      {/* 4. MORE COURSES MODAL */}
-      {showCourseModal && (
-        <div className="duo-modal-overlay" onClick={() => setShowCourseModal(false)}>
-          <div className="duo-modal-card course-selector-card dash-glass-panel" onClick={(e) => e.stopPropagation()}>
-            <div className="course-modal-header">
-              <h3>Available Learning Paths</h3>
-              <button className="duo-modal-close" onClick={() => setShowCourseModal(false)}>
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className="course-modal-list">
-              {allCourses.map((c) => {
-                const isActive = c.id === activeCourseId;
-                const cData = coursesData[c.id];
-                const cModules = cData?.modules || [];
-                let cTotal = 0;
-                cModules.forEach((m) => (cTotal += (m.lessons || []).length));
-                const cDone = (completedLessons[c.id] || []).length;
-                const cProgress = cTotal > 0 ? Math.round((cDone / cTotal) * 100) : 0;
-
-                return (
-                  <div
-                    key={c.id}
-                    className={`course-option-card ${isActive ? 'active' : ''}`}
-                    onClick={() => {
-                      setActiveCourseId(c.id);
-                      if (onSelectCourse) onSelectCourse(c.id);
-                      setShowCourseModal(false);
-                    }}
-                  >
-                    <img src={c.image} alt={c.title} className="option-img" />
-                    <div className="option-details">
-                      <span className="option-category">{c.category}</span>
-                      <h4>{c.title}</h4>
-                      <p>{c.description}</p>
-                      <div className="option-meta">
-                        <span>{cTotal} Lessons</span> • <span>{cProgress}% Progress</span>
-                      </div>
-                    </div>
-                    {isActive && <div className="active-pill">Active</div>}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

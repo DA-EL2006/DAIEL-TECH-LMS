@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import { CourseProvider } from "./context/CourseContext";
 import InfoSection from "./components/InfoSection";
@@ -13,19 +13,40 @@ import CourseDetails from "./components/CourseDetails";
 import LegalPages from "./components/LegalPages";
 
 function App() {
-  const [currentView, setCurrentView] = useState("landing"); // dashboard | course | landing | course-details | video-player | sandbox
+  // Session Persistence: restore logged-in user from localStorage
+  const [loggedInUser, setLoggedInUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem("daiel_logged_in_user");
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  const [currentView, setCurrentView] = useState(() => {
+    return localStorage.getItem("daiel_current_view") || (loggedInUser ? "dashboard" : "landing");
+  });
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem("daiel_active_tab") || "dashboard";
+  });
   const [selectedCourse] = useState(null);
-  const [selectedCourseDetails, setSelectedCourseDetails] = useState(null);
-  const [selectedLessonId, setSelectedLessonId] = useState(null);
+  const [selectedCourseDetails, setSelectedCourseDetails] = useState(() => {
+    const saved = localStorage.getItem("daiel_selected_course_details");
+    return saved ? Number(saved) : 1;
+  });
+  const [selectedLessonId, setSelectedLessonId] = useState(() => {
+    return localStorage.getItem("daiel_selected_lesson_id") || null;
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [selectedLegalTab, setSelectedLegalTab] = useState("terms");
+  const [selectedLegalTab, setSelectedLegalTab] = useState(() => {
+    return localStorage.getItem("daiel_selected_legal_tab") || "terms";
+  });
   const [activeSandboxTask, setActiveSandboxTask] = useState(null);
 
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("daiel-theme-v2");
     if (saved) return saved;
-    return "dark"; // Always default to dark mode
+    return "dark"; // Default to dark mode
   });
 
   useEffect(() => {
@@ -37,9 +58,116 @@ function App() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
+  // Central Navigation & URL Hash Routing Engine
+  const navigateTo = useCallback((view, params = {}, pushHistory = true) => {
+    const { courseId, lessonId, tab, legalTab, sandboxTask } = params;
+
+    const targetView = view || "landing";
+    const targetCourseId = courseId !== undefined ? courseId : selectedCourseDetails;
+    const targetLessonId = lessonId !== undefined ? lessonId : selectedLessonId;
+    const targetTab = tab !== undefined ? tab : activeTab;
+    const targetLegalTab = legalTab !== undefined ? legalTab : selectedLegalTab;
+
+    setCurrentView(targetView);
+    if (targetCourseId) setSelectedCourseDetails(targetCourseId);
+    if (targetLessonId) setSelectedLessonId(targetLessonId);
+    if (targetTab) setActiveTab(targetTab);
+    if (targetLegalTab) setSelectedLegalTab(targetLegalTab);
+    if (sandboxTask !== undefined) setActiveSandboxTask(sandboxTask);
+
+    // Save to LocalStorage for refresh persistence
+    localStorage.setItem("daiel_current_view", targetView);
+    if (targetCourseId) localStorage.setItem("daiel_selected_course_details", targetCourseId);
+    if (targetLessonId) localStorage.setItem("daiel_selected_lesson_id", targetLessonId);
+    if (targetTab) localStorage.setItem("daiel_active_tab", targetTab);
+    if (targetLegalTab) localStorage.setItem("daiel_selected_legal_tab", targetLegalTab);
+
+    // Build URL Hash
+    let hash = `#${targetView}`;
+    if (targetView === "dashboard" && targetTab) {
+      hash += `?tab=${targetTab}`;
+    } else if (targetView === "course-details" && targetCourseId) {
+      hash += `?id=${targetCourseId}`;
+    } else if (targetView === "video-player" && targetCourseId && targetLessonId) {
+      hash += `?courseId=${targetCourseId}&lessonId=${targetLessonId}`;
+    } else if (targetView === "legal" && targetLegalTab) {
+      hash += `?tab=${targetLegalTab}`;
+    }
+
+    if (pushHistory && window.location.hash !== hash) {
+      window.history.pushState(
+        { view: targetView, courseId: targetCourseId, lessonId: targetLessonId, tab: targetTab, legalTab: targetLegalTab },
+        "",
+        hash
+      );
+    }
+  }, [selectedCourseDetails, selectedLessonId, activeTab, selectedLegalTab]);
+
+  // Sync hash routing on Browser Back/Forward buttons (popstate)
+  useEffect(() => {
+    const handlePopState = () => {
+      const hash = window.location.hash;
+      if (!hash || hash === "#" || hash === "#landing") {
+        if (loggedInUser) {
+          navigateTo("dashboard", { tab: "dashboard" }, false);
+        } else {
+          navigateTo("landing", {}, false);
+        }
+        return;
+      }
+
+      const [viewPart, queryPart] = hash.substring(1).split("?");
+      const params = {};
+      if (queryPart) {
+        queryPart.split("&").forEach((pair) => {
+          const [k, v] = pair.split("=");
+          params[k] = decodeURIComponent(v);
+        });
+      }
+
+      const view = viewPart || "landing";
+      const courseId = params.id ? Number(params.id) : params.courseId ? Number(params.courseId) : undefined;
+      const lessonId = params.lessonId;
+      const tab = params.tab;
+
+      navigateTo(view, { courseId, lessonId, tab, legalTab: tab }, false);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [loggedInUser, navigateTo]);
+
+  // Initial Route Check on Mount & Refresh
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash !== "#") {
+      const [viewPart, queryPart] = hash.substring(1).split("?");
+      const params = {};
+      if (queryPart) {
+        queryPart.split("&").forEach((pair) => {
+          const [k, v] = pair.split("=");
+          params[k] = decodeURIComponent(v);
+        });
+      }
+
+      const view = viewPart || (loggedInUser ? "dashboard" : "landing");
+      const courseId = params.id ? Number(params.id) : params.courseId ? Number(params.courseId) : undefined;
+      const lessonId = params.lessonId;
+      const tab = params.tab;
+
+      if (view === "dashboard" && !loggedInUser) {
+        navigateTo("landing", {}, false);
+      } else {
+        navigateTo(view, { courseId, lessonId, tab, legalTab: tab }, false);
+      }
+    } else if (loggedInUser && (currentView === "landing" || currentView === "login" || currentView === "signup")) {
+      navigateTo("dashboard", { tab: "dashboard" }, false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleCourseDetailsSelect = (courseId) => {
-    setSelectedCourseDetails(courseId);
-    setCurrentView("course-details");
+    navigateTo("course-details", { courseId });
     window.scrollTo(0, 0);
   };
 
@@ -50,7 +178,7 @@ function App() {
           <Header
             theme={theme}
             toggleTheme={toggleTheme}
-            setCurrentView={setCurrentView}
+            setCurrentView={(view) => navigateTo(view)}
             mobileMenuOpen={mobileMenuOpen}
             setMobileMenuOpen={setMobileMenuOpen}
             currentView={currentView}
@@ -63,11 +191,11 @@ function App() {
             <>
               {currentView === "landing" && (
                 <>
-                  <InfoSection onSignupClick={() => setCurrentView("signup")} />
-                  <WhatWeOffer onSignupClick={() => setCurrentView("signup")} />
+                  <InfoSection onSignupClick={() => navigateTo("signup")} />
+                  <WhatWeOffer onSignupClick={() => navigateTo("signup")} />
                   <ExploreOurCourse 
                     onCourseSelect={handleCourseDetailsSelect}
-                    onEnrollClick={() => setCurrentView("signup")} 
+                    onEnrollClick={() => navigateTo("signup")} 
                   />
                 </>
               )}
@@ -75,25 +203,26 @@ function App() {
               {currentView === "course-details" && (
                 <CourseDetails 
                   courseId={selectedCourseDetails} 
-                  onBack={() => setCurrentView("landing")}
-                  onEnrollClick={() => setCurrentView("signup")}
+                  onBack={() => navigateTo("landing")}
+                  onEnrollClick={() => navigateTo("signup")}
                 />
               )}
 
               {currentView === "signup" && (
                 <Signup
-                  onBack={() => setCurrentView("landing")}
-                  onLoginClick={() => setCurrentView("login")}
+                  onBack={() => navigateTo("landing")}
+                  onLoginClick={() => navigateTo("login")}
                 />
               )}
 
               {currentView === "login" && (
                 <Login
-                  onBack={() => setCurrentView("landing")}
-                  onSignupClick={() => setCurrentView("signup")}
+                  onBack={() => navigateTo("landing")}
+                  onSignupClick={() => navigateTo("signup")}
                   onLoginSuccess={(user) => {
                     setLoggedInUser(user);
-                    setCurrentView("dashboard");
+                    localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
+                    navigateTo("dashboard", { tab: "dashboard" });
                   }}
                 />
               )}
@@ -101,7 +230,7 @@ function App() {
               {currentView === "legal" && (
                 <LegalPages
                   initialTab={selectedLegalTab}
-                  onBack={() => setCurrentView("landing")}
+                  onBack={() => navigateTo("landing")}
                 />
               )}
             </>
@@ -109,7 +238,9 @@ function App() {
             <Dashboard
               loggedInUser={loggedInUser}
               currentView={currentView}
-              setCurrentView={setCurrentView}
+              setCurrentView={(v) => navigateTo(v)}
+              activeTab={activeTab}
+              setActiveTab={(tab) => navigateTo(currentView, { tab })}
               selectedCourseDetails={selectedCourseDetails}
               setSelectedCourseDetails={setSelectedCourseDetails}
               selectedLessonId={selectedLessonId}
@@ -118,20 +249,21 @@ function App() {
               setActiveSandboxTask={setActiveSandboxTask}
               selectedLegalTab={selectedLegalTab}
               setSelectedLegalTab={setSelectedLegalTab}
+              onNavigate={navigateTo}
               onResumeCourse={(courseId) => {
-                setSelectedCourseDetails(courseId);
                 const lastWatched = localStorage.getItem(`daiel_last_watched_${courseId}`);
                 if (lastWatched) {
-                  setSelectedLessonId(lastWatched);
-                  setCurrentView("video-player");
+                  navigateTo("video-player", { courseId, lessonId: lastWatched });
                 } else {
-                  setCurrentView("course-details");
+                  navigateTo("course-details", { courseId });
                 }
                 window.scrollTo(0, 0);
               }}
               onLogout={() => {
                 setLoggedInUser(null);
-                setCurrentView("landing");
+                localStorage.removeItem("daiel_logged_in_user");
+                localStorage.removeItem("daiel_current_view");
+                navigateTo("landing");
                 window.scrollTo(0, 0);
               }}
             />
@@ -141,8 +273,7 @@ function App() {
         {!loggedInUser && (
           <Footer 
             onLegalSelect={(tab) => {
-              setSelectedLegalTab(tab);
-              setCurrentView("legal");
+              navigateTo("legal", { legalTab: tab });
             }}
           />
         )}
