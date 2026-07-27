@@ -238,3 +238,35 @@
         grid-column: span 1;
     }
 }
+
+/* Light Theme Overrides */
+[data-theme='light'] .footer-premium {
+    background: #f8fafc;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .footer-title {
+    color: #0f172a;
+}
+
+[data-theme='light'] .footer-links a {
+    color: #475569;
+}
+
+[data-theme='light'] .footer-links a:hover {
+    color: #0053E4;
+}
+
+[data-theme='light'] .footer-icon-btn {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+[data-theme='light'] .footer-bottom {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .copyright {
+    color: #64748b;
+}

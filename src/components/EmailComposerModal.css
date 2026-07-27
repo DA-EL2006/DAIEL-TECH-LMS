@@ -287,3 +287,62 @@
     gap: 12px;
   }
 }
+
+@media (max-width: 640px) {
+  .email-modal-window {
+    border-radius: 12px;
+  }
+
+  .email-form {
+    padding: 16px;
+  }
+
+  .email-row-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Light Theme Overrides */
+[data-theme='light'] .email-modal-window {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15), 0 0 30px rgba(0, 83, 228, 0.1);
+}
+
+[data-theme='light'] .email-window-header {
+  background: #f1f5f9;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .email-window-title {
+  color: #475569;
+}
+
+[data-theme='light'] .email-row {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .email-row input {
+  color: #0f172a;
+}
+
+[data-theme='light'] .email-row input::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme='light'] .email-textarea-wrapper textarea {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #0f172a;
+}
+
+[data-theme='light'] .pill-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme='light'] .pill-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}

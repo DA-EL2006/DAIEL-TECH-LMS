@@ -1,14 +1,22 @@
 import React, { useState, useMemo } from "react";
-import { Download, Award, ShieldCheck, ArrowLeft, CheckCircle, Sparkles } from "lucide-react";
+import {
+  Download,
+  Award,
+  ShieldCheck,
+  ArrowLeft,
+  CheckCircle,
+  Sparkles,
+} from "lucide-react";
 import { coursesData } from "../data/coursesData";
 import logo from "../assets/logo-removebg-preview.png";
 import "./Certificate.css";
 
 const Certificate = ({ courseId = 1, loggedInUser, onBack }) => {
   const course = coursesData[courseId] || coursesData[1];
-  
+
   // Interactive Student Name
-  const initialName = loggedInUser?.name || loggedInUser?.username || "Kayode David Odunayo";
+  const initialName =
+    loggedInUser?.name || loggedInUser?.username || "Kayode David Odunayo";
   const [studentName, setStudentName] = useState(initialName);
   const [isEditingName, setIsEditingName] = useState(false);
 
@@ -27,8 +35,13 @@ const Certificate = ({ courseId = 1, loggedInUser, onBack }) => {
       }
 
       const count = completedList.length;
-      const pct = total > 0 ? Math.min(Math.round((count / total) * 100), 100) : 0;
-      return { totalLessons: total, completedCount: count, completionPercentage: pct };
+      const pct =
+        total > 0 ? Math.min(Math.round((count / total) * 100), 100) : 0;
+      return {
+        totalLessons: total,
+        completedCount: count,
+        completionPercentage: pct,
+      };
     } catch (e) {
       return { totalLessons: 0, completedCount: 0, completionPercentage: 0 };
     }
@@ -36,7 +49,7 @@ const Certificate = ({ courseId = 1, loggedInUser, onBack }) => {
 
   // Unique Certificate Serial Number
   const certId = useMemo(() => {
-    return `DAIEL-CERT-2026-${courseId}009-${Math.floor(100000 + (courseId * 77) % 899999)}`;
+    return `DAIEL-CERT-2026-${courseId}009-${Math.floor(100000 + ((courseId * 77) % 899999))}`;
   }, [courseId]);
 
   const issueDate = new Date().toLocaleDateString("en-US", {
@@ -61,7 +74,8 @@ const Certificate = ({ courseId = 1, loggedInUser, onBack }) => {
 
         <div className="cert-live-stats font-mono">
           <span className="stat-pill">
-            <CheckCircle size={14} className="icon-green" /> Completed: {completedCount} / {totalLessons} Lessons
+            <CheckCircle size={14} className="icon-green" /> Completed:{" "}
+            {completedCount} / {totalLessons} Lessons
           </span>
           <span className="stat-pill highlight">
             <Sparkles size={14} /> Progress: {completionPercentage}%
@@ -126,12 +140,19 @@ const Certificate = ({ courseId = 1, loggedInUser, onBack }) => {
           {/* Certificate Body Text */}
           <div className="cert-body-text">
             <p>
-              for successfully completing the comprehensive professional track in
+              for successfully completing the comprehensive professional track
+              in
             </p>
-            <h3 className="cert-course-title">{course?.title || "Technology & Software Engineering"}</h3>
+            <h3 className="cert-course-title">
+              {course?.title || "Technology & Software Engineering"}
+            </h3>
             <p className="cert-course-meta">
-              demonstrating mastery over course modules with an overall progress rating of{" "}
-              <strong className="completion-tag font-mono">{completionPercentage}% Verified Completion</strong>.
+              demonstrating mastery over course modules with an overall progress
+              rating of{" "}
+              <strong className="completion-tag font-mono">
+                {completionPercentage}% Verified Completion
+              </strong>
+              .
             </p>
           </div>
 
@@ -147,12 +168,16 @@ const Certificate = ({ courseId = 1, loggedInUser, onBack }) => {
             <div className="cert-seal-center">
               <div className="gold-seal-badge">
                 <Award size={44} className="seal-icon" />
-                <div className="seal-text font-mono">DAIEL TECH OFFICIAL SEAL</div>
+                <div className="seal-text font-mono">
+                  DAIEL TECH OFFICIAL SEAL
+                </div>
               </div>
             </div>
 
             <div className="cert-sign-col">
-              <div className="signature-line font-script font-alt">DAIEL Board</div>
+              <div className="signature-line font-script font-alt">
+                DAIEL Board
+              </div>
               <div className="sign-divider"></div>
               <div className="sign-name">Academic Council</div>
               <div className="sign-title">Director of Technology</div>

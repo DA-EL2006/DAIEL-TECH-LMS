@@ -232,3 +232,67 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Light Theme Overrides */
+[data-theme='light'] .mentor-modal-window {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15), 0 0 40px rgba(0, 83, 228, 0.1);
+}
+
+[data-theme='light'] .mentor-modal-header {
+  background: #f1f5f9;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .mentor-header-title {
+  color: #0284c7;
+}
+
+[data-theme='light'] .mentor-hero-banner {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+[data-theme='light'] .mentor-hero-banner h2 {
+  color: #0f172a;
+}
+
+[data-theme='light'] .mentor-hero-banner p {
+  color: #475569;
+}
+
+[data-theme='light'] .perk-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+[data-theme='light'] .perk-card h4 {
+  color: #0f172a;
+}
+
+[data-theme='light'] .perk-card p {
+  color: #475569;
+}
+
+[data-theme='light'] .mentor-app-form {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme='light'] .mentor-app-form h3 {
+  color: #0f172a;
+}
+
+[data-theme='light'] .form-field input,
+[data-theme='light'] .form-field select,
+[data-theme='light'] .form-field textarea {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+[data-theme='light'] .form-field label {
+  color: #475569;
+}
+

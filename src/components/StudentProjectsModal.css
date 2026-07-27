@@ -298,3 +298,67 @@
   color: #94a3b8;
   font-size: 13px;
 }
+
+/* Light Theme Overrides */
+[data-theme='light'] .projects-modal-window {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15), 0 0 40px rgba(0, 83, 228, 0.1);
+}
+
+[data-theme='light'] .projects-modal-header {
+  background: #f1f5f9;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .projects-header-title {
+  color: #0284c7;
+}
+
+[data-theme='light'] .projects-course-tabs {
+  background: #f8fafc;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .course-tab-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme='light'] .course-tab-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+[data-theme='light'] .project-item-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme='light'] .project-title-text {
+  color: #0f172a;
+}
+
+[data-theme='light'] .project-desc-text {
+  color: #475569;
+}
+
+[data-theme='light'] .capstone-track-card {
+  background: #f8fafc;
+  border-color: #f59e0b;
+}
+
+[data-theme='light'] .capstone-track-card h5 {
+  color: #0f172a;
+}
+
+[data-theme='light'] .capstone-track-card p {
+  color: #475569;
+}
+
+[data-theme='light'] .video-tasks-box {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
