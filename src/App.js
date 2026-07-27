@@ -320,6 +320,7 @@ function App() {
             onStudentProjectsSelect={() => setStudentProjectsModalOpen(true)}
             onBecomeMentorSelect={() => setBecomeMentorModalOpen(true)}
             onCoursesSelect={handleCoursesNavigation}
+            onCertificateSelect={() => navigateTo("certificate", { courseId: selectedCourseDetails || 1 })}
           />
         )}
 
