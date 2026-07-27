@@ -10,6 +10,8 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import CourseDetails from "./components/CourseDetails";
+import VideoPlayer from "./components/VideoPlayer";
+import Certificate from "./components/Certificate";
 import LegalPages from "./components/LegalPages";
 import EmailComposerModal from "./components/EmailComposerModal";
 import StudentProjectsModal from "./components/StudentProjectsModal";
@@ -226,6 +228,23 @@ function App() {
                   courseId={selectedCourseDetails} 
                   onBack={() => navigateTo("landing")}
                   onEnrollClick={() => navigateTo("signup")}
+                  onVideoSelect={(lessonId) => navigateTo("video-player", { courseId: selectedCourseDetails, lessonId })}
+                />
+              )}
+
+              {currentView === "video-player" && (
+                <VideoPlayer
+                  courseId={selectedCourseDetails}
+                  initialLessonId={selectedLessonId}
+                  onBack={() => navigateTo("course-details", { courseId: selectedCourseDetails })}
+                />
+              )}
+
+              {currentView === "certificate" && (
+                <Certificate
+                  courseId={selectedCourseDetails}
+                  loggedInUser={loggedInUser}
+                  onBack={() => navigateTo("landing")}
                 />
               )}
 

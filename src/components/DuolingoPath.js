@@ -60,11 +60,7 @@ const DuolingoPath = ({
     });
   });
 
-  const handleNodeClick = (lesson, mod, isLocked) => {
-    if (isLocked) {
-      alert("🔒 This video lesson is locked! You must complete all previous video lessons to unlock it.");
-      return;
-    }
+  const handleNodeClick = (lesson, mod) => {
     setSelectedNode({
       lesson,
       moduleTitle: mod.title,
@@ -73,12 +69,8 @@ const DuolingoPath = ({
     });
   };
 
-  const handleAssignmentClick = (mod, isModCompleted) => {
+  const handleAssignmentClick = (mod) => {
     if (!mod.assignment) return;
-    if (!isModCompleted) {
-      alert("🔒 Unit Capstone Locked! Complete all video lessons in this unit to unlock the Capstone Challenge.");
-      return;
-    }
     const assignmentObj = typeof mod.assignment === 'string' 
       ? { title: `${mod.title} Capstone`, objective: mod.assignment, steps: [], hints: [] }
       : mod.assignment;

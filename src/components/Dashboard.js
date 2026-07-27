@@ -11,6 +11,7 @@ import VideoPlayer from "./VideoPlayer";
 import SandboxIDE from "./SandboxIDE";
 import LegalPages from "./LegalPages";
 import DuolingoPath from "./DuolingoPath";
+import Certificate from "./Certificate";
 
 import pythonImg from '../assets/python_banner.png';
 import mlImg from '../assets/ml_banner.png';
@@ -333,6 +334,32 @@ const Dashboard = ({
                 <div className="cmd-hint">⌘K</div>
               </div>
               <div className="hud-actions">
+                <button
+                  className="cert-hud-btn font-mono"
+                  onClick={() => {
+                    if (onNavigate) {
+                      onNavigate("certificate", { courseId: selectedCourseDetails || 1 });
+                    } else {
+                      setCurrentView("certificate");
+                    }
+                  }}
+                  title="View & Download Official Course Certificate"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(245,158,11,0.2) 100%)',
+                    border: '1px solid #d4af37',
+                    color: '#f59e0b',
+                    padding: '6px 12px',
+                    borderRadius: '8px',
+                    fontWeight: '700',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Award size={14} /> Certificate
+                </button>
                 <div className="streak-indicator-hud">
                   <Flame size={14} className="flame-icon" />
                   <span>{totalCompletedCount} Days</span>
@@ -581,6 +608,20 @@ const Dashboard = ({
               courseId={selectedCourseDetails} 
               initialLessonId={selectedLessonId}
               onBack={() => setCurrentView("course-details")}
+            />
+          )}
+
+          {currentView === "certificate" && (
+            <Certificate 
+              courseId={selectedCourseDetails || 1}
+              loggedInUser={loggedInUser}
+              onBack={() => {
+                if (onNavigate) {
+                  onNavigate("dashboard", { tab: "dashboard" });
+                } else {
+                  setCurrentView("dashboard");
+                }
+              }}
             />
           )}
 

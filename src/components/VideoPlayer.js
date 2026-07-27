@@ -126,11 +126,6 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
   }, [activeLessonId, activeLesson, hasWatched75, isCompleted, courseId, watchProgress]);
 
   const handleToggleComplete = () => {
-    if (!hasWatched75 && !isCompleted) {
-      alert(`🔒 Watch Requirement: Please watch at least 75% of the video before marking it as complete! Current watch progress: ${watchProgress}%.`);
-      return;
-    }
-
     try {
       const saved = localStorage.getItem("daiel_completed_lessons");
       const parsed = saved ? JSON.parse(saved) : {};
@@ -173,29 +168,21 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
 
   // Load notes when lesson changes
   useEffect(() => {
-    if (activeLessonId) {
-      const savedNotes = localStorage.getItem(
-        `daiel-notes-${courseId}-${activeLessonId}`,
-      );
-      if (savedNotes) {
-        setNotes(savedNotes);
-      } else {
-        setNotes("");
-      }
-      setSaveStatus("");
+    const savedNotes = localStorage.getItem(`daiel-notes-${courseId}-${activeLessonId}`);
+    if (savedNotes) {
+      setNotes(savedNotes);
+    } else {
+      setNotes("");
     }
+    setSaveStatus("");
   }, [courseId, activeLessonId]);
 
-  // Auto-save notes logic
+  // Debounced Auto-Save Notes Effect
   useEffect(() => {
     if (!activeLessonId) return;
-
     const timeoutId = setTimeout(() => {
       if (notes.trim() !== "") {
-        localStorage.setItem(
-          `daiel-notes-${courseId}-${activeLessonId}`,
-          notes,
-        );
+        localStorage.setItem(`daiel-notes-${courseId}-${activeLessonId}`, notes);
         setSaveStatus("saved");
         setTimeout(() => setSaveStatus(""), 2000); // Clear status after 2 seconds
       } else {
@@ -211,14 +198,10 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
     setSaveStatus("saving");
   };
 
-  const isNextLocked = nextLessonId && !isCompleted && !completedList.includes(nextLessonId);
+  const isNextLocked = false;
 
   const handleNavigate = (newLessonId) => {
     if (!newLessonId) return;
-    if (newLessonId === nextLessonId && isNextLocked) {
-      alert("🔒 Next lesson is locked! Complete the current video lesson (and watch at least 75%) before proceeding to the next video.");
-      return;
-    }
     setCurrentLessonId(newLessonId);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
