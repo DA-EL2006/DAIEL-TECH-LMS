@@ -56,7 +56,7 @@ const Footer = ({ onLegalSelect }) => {
                 <a href="#student-community">Student Community</a>
               </li>
               <li>
-                <a href="#support-center">Support Center</a>
+                <a href="https://wa.me/2347063210011">Support Center</a>
               </li>
               <li>
                 <a href="#feedback">Feedback & Suggestions</a>
@@ -72,7 +72,7 @@ const Footer = ({ onLegalSelect }) => {
             <h4 className="footer-title">Legal</h4>
             <ul className="footer-links">
               <li>
-                <a 
+                <a
                   href="#terms"
                   onClick={(e) => {
                     if (onLegalSelect) {
@@ -85,7 +85,7 @@ const Footer = ({ onLegalSelect }) => {
                 </a>
               </li>
               <li>
-                <a 
+                <a
                   href="#privacy"
                   onClick={(e) => {
                     if (onLegalSelect) {
@@ -98,7 +98,7 @@ const Footer = ({ onLegalSelect }) => {
                 </a>
               </li>
               <li>
-                <a 
+                <a
                   href="#conduct"
                   onClick={(e) => {
                     if (onLegalSelect) {
@@ -111,7 +111,7 @@ const Footer = ({ onLegalSelect }) => {
                 </a>
               </li>
               <li>
-                <a 
+                <a
                   href="#refund"
                   onClick={(e) => {
                     if (onLegalSelect) {
@@ -158,7 +158,7 @@ const Footer = ({ onLegalSelect }) => {
               </li>
               <li>
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/daieltech?igsh=MWd6aDRpNXZ6Ynljcg=="
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"
@@ -171,7 +171,7 @@ const Footer = ({ onLegalSelect }) => {
               </li>
               <li>
                 <a
-                  href="https://youtube.com"
+                  href="https://youtube.com/daieltech?si=kg1NkRfZtSw9bILZ"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"
@@ -184,7 +184,7 @@ const Footer = ({ onLegalSelect }) => {
               </li>
               <li>
                 <a
-                  href="https://whatsapp.com"
+                  href="https://whatsapp.com/channel/0029VbCvVRdAu3aXqzRRn82i"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"

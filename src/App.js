@@ -11,6 +11,9 @@ import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import CourseDetails from "./components/CourseDetails";
 import LegalPages from "./components/LegalPages";
+import EmailComposerModal from "./components/EmailComposerModal";
+import StudentProjectsModal from "./components/StudentProjectsModal";
+import BecomeMentorModal from "./components/BecomeMentorModal";
 
 function App() {
   // Session Persistence: restore logged-in user from localStorage
@@ -42,6 +45,12 @@ function App() {
     return localStorage.getItem("daiel_selected_legal_tab") || "terms";
   });
   const [activeSandboxTask, setActiveSandboxTask] = useState(null);
+
+  // Modals state
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [emailCategory, setEmailCategory] = useState("issue");
+  const [studentProjectsModalOpen, setStudentProjectsModalOpen] = useState(false);
+  const [becomeMentorModalOpen, setBecomeMentorModalOpen] = useState(false);
 
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("daiel-theme-v2");
@@ -171,6 +180,18 @@ function App() {
     window.scrollTo(0, 0);
   };
 
+  const handleCoursesNavigation = () => {
+    if (loggedInUser) {
+      navigateTo("dashboard", { tab: "courses" });
+    } else {
+      navigateTo("landing");
+      setTimeout(() => {
+        const el = document.getElementById("explore-courses");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  };
+
   return (
     <CourseProvider>
       <div className="app">
@@ -272,11 +293,33 @@ function App() {
 
         {!loggedInUser && (
           <Footer 
-            onLegalSelect={(tab) => {
-              navigateTo("legal", { legalTab: tab });
+            onLegalSelect={(tab) => navigateTo("legal", { legalTab: tab })}
+            onEmailComposerSelect={(cat) => {
+              setEmailCategory(cat);
+              setEmailModalOpen(true);
             }}
+            onStudentProjectsSelect={() => setStudentProjectsModalOpen(true)}
+            onBecomeMentorSelect={() => setBecomeMentorModalOpen(true)}
+            onCoursesSelect={handleCoursesNavigation}
           />
         )}
+
+        {/* Interactive Modals */}
+        <EmailComposerModal
+          isOpen={emailModalOpen}
+          onClose={() => setEmailModalOpen(false)}
+          initialCategory={emailCategory}
+        />
+
+        <StudentProjectsModal
+          isOpen={studentProjectsModalOpen}
+          onClose={() => setStudentProjectsModalOpen(false)}
+        />
+
+        <BecomeMentorModal
+          isOpen={becomeMentorModalOpen}
+          onClose={() => setBecomeMentorModalOpen(false)}
+        />
       </div>
     </CourseProvider>
   );
