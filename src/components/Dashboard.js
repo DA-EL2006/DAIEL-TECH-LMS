@@ -744,19 +744,88 @@ const Dashboard = ({
             />
           )}
 
-          {currentView === "sandbox" && (
-            <SandboxIDE 
-              activeTask={activeSandboxTask}
-              courseType={activeSandboxTask?.courseType || (selectedCourseDetails === 1 ? "python" : "frontend")}
-              onBack={() => {
-                if (selectedCourseDetails) {
-                  setCurrentView("course-details");
-                } else {
-                  setCurrentView("dashboard");
-                }
-              }}
-            />
-          )}
+          {currentView === "sandbox" && (() => {
+            const currentCourseId = activeSandboxTask?.courseType === "python"
+              ? 1
+              : activeSandboxTask?.courseType === "frontend"
+              ? 3
+              : activeSandboxTask?.courseType === "ml"
+              ? 2
+              : (selectedCourseDetails || 1);
+
+            const isPurchased = hasCourseAccess(currentCourseId);
+            const courseData = coursesData[currentCourseId] || { id: currentCourseId, title: `Course #${currentCourseId}`, price: 5000 };
+
+            if (!isPurchased) {
+              return (
+                <div className="locked-sandbox-container" style={{
+                  padding: '60px 24px',
+                  textAlign: 'center',
+                  background: 'var(--dash-surface)',
+                  borderRadius: '24px',
+                  border: '1px solid var(--dash-border)',
+                  margin: '40px auto',
+                  maxWidth: '680px',
+                  boxShadow: '0 10px 30px var(--color-shadow)'
+                }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '72px',
+                    height: '72px',
+                    borderRadius: '50%',
+                    background: 'rgba(239, 68, 68, 0.12)',
+                    color: '#ef4444',
+                    marginBottom: '20px'
+                  }}>
+                    <Lock size={36} />
+                  </div>
+                  <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '12px', color: 'var(--dash-text-main)' }}>
+                    Interactive Sandbox Locked
+                  </h2>
+                  <p style={{ opacity: '0.85', marginBottom: '28px', fontSize: '1rem', lineHeight: '1.6', color: 'var(--dash-text-muted)', maxWidth: '520px', margin: '0 auto 28px' }}>
+                    The interactive code editor and sandbox for <strong>{courseData.title}</strong> is locked. Purchase this course to unlock live code compilation, terminal tools, assignments, and capstone projects!
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                    <FlutterwavePayButton
+                      course={courseData}
+                      user={loggedInUser}
+                      onSuccess={() => {
+                        setCurrentView("sandbox");
+                      }}
+                      buttonText={`Pay ₦${(courseData.price || 5000).toLocaleString()} - Unlock ${courseData.title}`}
+                      style={{ padding: '14px 28px', fontSize: '1rem' }}
+                    />
+                    <button
+                      className="btn-view-path"
+                      onClick={() => {
+                        setActiveTab("explore");
+                        setCurrentView("dashboard");
+                      }}
+                      style={{ padding: '14px 24px' }}
+                    >
+                      Explore All Courses
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <SandboxIDE 
+                activeTask={activeSandboxTask}
+                courseType={activeSandboxTask?.courseType || (selectedCourseDetails === 1 ? "python" : "frontend")}
+                onBack={() => {
+                  if (selectedCourseDetails) {
+                    setCurrentView("course-details");
+                  } else {
+                    setCurrentView("dashboard");
+                  }
+                }}
+              />
+            );
+          })()}
 
           {currentView === "legal" && (
             <LegalPages 
