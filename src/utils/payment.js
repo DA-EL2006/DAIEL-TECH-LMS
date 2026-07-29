@@ -4,7 +4,7 @@
  */
 
 export const FLUTTERWAVE_CONFIG = {
-  publicKey: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY || "FLWPUBK_TEST-0b811b687e7a828a5e3471cb1985e4ac",
+  publicKey: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY || "FLWPUBK_TEST-0b811b687e7a828a5e3471cb1985e4ac-X",
   secretKey: process.env.REACT_APP_FLUTTERWAVE_SECRET_KEY || "",
   encryptionKey: process.env.REACT_APP_FLUTTERWAVE_ENCRYPTION_KEY || "",
   clientId: process.env.REACT_APP_FLUTTERWAVE_CLIENT_ID || "",
@@ -248,10 +248,8 @@ export const getFlutterwaveConfig = (course, user) => {
   // Dynamically extract name, email, phone from login/signup details
   const customer = getActiveCustomerDetails(user);
 
-  // Sanitize public key to remove trailing '-X' or invalid characters if present
-  const cleanPublicKey = (FLUTTERWAVE_CONFIG.publicKey || "")
-    .replace(/-X$/, "")
-    .trim();
+  // Clean public key string
+  const cleanPublicKey = (FLUTTERWAVE_CONFIG.publicKey || "").trim();
 
   const customizations = {
     title: "DAIEL TECH LMS",
