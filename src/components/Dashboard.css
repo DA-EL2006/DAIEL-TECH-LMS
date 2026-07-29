@@ -990,7 +990,7 @@
   align-items: center;
   gap: 12px;
   padding: 12px 18px;
-  background: var(--dash-bg-main);
+  background: var(--color-nav-bg);
   border-bottom: 1px solid var(--dash-border);
   position: sticky;
   top: 0;
@@ -1002,7 +1002,7 @@
   border: 1px solid var(--dash-border);
   color: var(--dash-text-main);
   border-radius: 8px;
-  padding: 6px;
+  padding: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1011,9 +1011,9 @@
 
 .dash-mobile-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--dash-solid-primary);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .mobile-brand-title {
@@ -1026,7 +1026,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   z-index: 100;
 }
@@ -1039,28 +1039,64 @@
   .dash-sidebar {
     position: fixed;
     top: 0;
-    left: -260px;
+    left: -280px;
     bottom: 0;
-    width: 240px;
+    width: 260px;
     z-index: 101;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--dash-bg-main);
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.6);
+    background: var(--color-nav-bg);
+    box-shadow: 4px 0 20px var(--color-shadow);
+    align-items: stretch;
+    padding: 24px 16px;
   }
 
   .dash-sidebar.mobile-open {
     left: 0;
   }
 
-  .mobile-brand-title {
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--dash-text-main);
-    margin-left: 8px;
+  .dash-logo-mark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 0 12px;
   }
 
-  .dash-bento-grid {
+  .mobile-brand-title {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--dash-text-main);
+  }
+
+  .dash-nav-links {
+    gap: 8px;
+  }
+
+  .dash-nav-item {
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    justify-content: flex-start;
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .dash-nav-item .nav-label {
+    position: static !important;
+    opacity: 1 !important;
+    transform: none !important;
+    color: inherit !important;
+    pointer-events: auto !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0;
+  }
+
+  .dash-bento-grid, .bento-metrics-grid {
     grid-template-columns: 1fr !important;
   }
 
@@ -1080,6 +1116,11 @@
 
   .cmd-search-bar {
     width: 100%;
+  }
+
+  .hud-actions {
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .terminal-footer {

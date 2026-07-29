@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
@@ -16,13 +16,13 @@
 .login-card {
     background: var(--color-card-bg);
     border: 1px solid var(--color-card-border);
-    border-radius: 20px;
+    border-radius: 24px;
     width: 100%;
     max-width: 450px;
     padding: 40px;
     position: relative;
     box-shadow: 0 25px 50px -12px var(--color-shadow);
-    animation: slideUp 0.5s ease-out;
+    animation: slideUp 0.4s ease-out;
     backdrop-filter: blur(10px);
 }
 
@@ -62,11 +62,9 @@
 
 .login-header h2 {
     font-size: 2rem;
+    font-weight: 800;
     margin-bottom: 10px;
-    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-muted) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--color-text);
 }
 
 .login-header p {
@@ -89,14 +87,14 @@
 label {
     color: var(--color-text);
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 input {
     background: var(--color-card-bg);
     border: 1px solid var(--color-card-border);
-    border-radius: 10px;
-    padding: 12px 15px;
+    border-radius: 12px;
+    padding: 14px 16px;
     color: var(--color-text);
     font-size: 1rem;
     transition: all 0.3s;
@@ -104,9 +102,9 @@ input {
 
 input:focus {
     outline: none;
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
     background: var(--color-card-hover);
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+    box-shadow: 0 0 12px rgba(0, 83, 228, 0.25);
 }
 
 .form-footer {
@@ -119,10 +117,10 @@ input:focus {
 
 .submit-btn-premium {
     position: relative;
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
-    color: #fff;
+    background: linear-gradient(135deg, #0053E4 0%, #0045B8 100%);
+    color: #ffffff !important;
     border: none;
-    padding: 15px 40px;
+    padding: 16px 40px;
     width: 100%;
     border-radius: 50px;
     font-weight: 700;
@@ -130,11 +128,13 @@ input:focus {
     cursor: pointer;
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 8px 20px rgba(0, 83, 228, 0.35);
 }
 
 .submit-btn-premium:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px var(--color-shadow);
+    box-shadow: 0 12px 25px rgba(0, 83, 228, 0.5);
+    color: #ffffff !important;
 }
 
 .btn-glow {
@@ -155,7 +155,7 @@ input:focus {
 }
 
 .submit-btn-premium:disabled {
-    background: linear-gradient(135deg, #444 0%, #666 100%);
+    background: #94a3b8;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -171,25 +171,25 @@ input:focus {
 
 .auth-links p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--color-text-muted);
 }
 
 .auth-link {
-    color: var(--color-accent);
+    color: var(--color-primary);
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
     transition: color 0.3s;
 }
 
 .auth-link:hover {
-    color: var(--color-accent-light);
+    color: var(--color-primary-dark);
     text-decoration: underline;
 }
 
 .error-text {
-    color: #ff4d4d;
-    font-size: 0.8rem;
+    color: #ef4444;
+    font-size: 0.85rem;
     margin-top: 2px;
 }
 

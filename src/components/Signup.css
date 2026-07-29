@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
@@ -15,17 +15,18 @@
 }
 
 .signup-card {
-    background: var(--color-bg-card, #1a1a1a);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: 24px;
     width: 100%;
     max-width: 800px;
     padding: 40px;
     position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.5s ease-out;
+    box-shadow: 0 25px 50px -12px var(--color-shadow);
+    animation: slideUp 0.4s ease-out;
     margin-top: auto;
     margin-bottom: auto;
+    backdrop-filter: blur(10px);
 }
 
 @keyframes slideUp {
@@ -46,7 +47,7 @@
     right: 20px;
     background: transparent;
     border: none;
-    color: #fff;
+    color: var(--color-text);
     font-size: 2rem;
     cursor: pointer;
     opacity: 0.6;
@@ -64,15 +65,13 @@
 
 .signup-header h2 {
     font-size: 2.2rem;
+    font-weight: 800;
     margin-bottom: 10px;
-    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--color-text);
 }
 
 .signup-header p {
-    color: #888;
+    color: var(--color-text-muted);
     font-size: 1rem;
 }
 
@@ -89,6 +88,10 @@
 }
 
 @media (max-width: 600px) {
+    .signup-card {
+        padding: 24px 16px;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
     }
@@ -105,19 +108,19 @@
 }
 
 label {
-    color: #ddd;
+    color: var(--color-text);
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 input,
 select,
 textarea {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 12px 15px;
-    color: #fff;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--color-text);
     font-size: 1rem;
     transition: all 0.3s;
 }
@@ -126,15 +129,14 @@ input:focus,
 select:focus,
 textarea:focus {
     outline: none;
-    border-color: var(--color-accent, #00f2fe);
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+    border-color: var(--color-primary);
+    background: var(--color-card-hover);
+    box-shadow: 0 0 12px rgba(0, 83, 228, 0.25);
 }
 
 select option {
-    background-color: #1a1a1a;
-    /* Match card background */
-    color: #fff;
+    background-color: var(--color-card-bg);
+    color: var(--color-text);
 }
 
 .radio-group {
@@ -149,6 +151,7 @@ select option {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    color: var(--color-text);
 }
 
 .animate-in {
@@ -180,32 +183,36 @@ select option {
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     color: var(--color-text-muted);
 }
 
 .checkbox-container a {
-    color: var(--color-accent);
+    color: var(--color-primary);
     text-decoration: none;
+    font-weight: 600;
 }
 
 .submit-btn-premium {
     position: relative;
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
-    color: #fff;
+    background: linear-gradient(135deg, #0053E4 0%, #0045B8 100%);
+    color: #ffffff !important;
     border: none;
-    padding: 15px 40px;
+    padding: 16px 40px;
     border-radius: 50px;
     font-weight: 700;
     font-size: 1.1rem;
     cursor: pointer;
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 8px 20px rgba(0, 83, 228, 0.35);
+    width: 100%;
 }
 
 .submit-btn-premium:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px var(--color-shadow);
+    box-shadow: 0 12px 25px rgba(0, 83, 228, 0.5);
+    color: #ffffff !important;
 }
 
 .btn-glow {
@@ -226,7 +233,7 @@ select option {
 }
 
 .submit-btn-premium:disabled {
-    background: linear-gradient(135deg, #444 0%, #666 100%);
+    background: #94a3b8;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -234,7 +241,6 @@ select option {
 }
 
 .auth-links {
-    margin-top: 15px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -243,131 +249,37 @@ select option {
 
 .auth-links p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--color-text-muted);
 }
 
 .auth-link {
-    color: var(--color-accent);
+    color: var(--color-primary);
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
     transition: color 0.3s;
 }
 
 .auth-link:hover {
-    color: var(--color-accent-light);
+    color: var(--color-primary-dark);
     text-decoration: underline;
 }
 
-.redirect-hint {
-    margin-top: 15px;
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    font-style: italic;
-}
-
-/* Responsive updates */
-@media (max-width: 768px) {
-    .signup-card {
-        padding: 30px 20px;
-        margin: 10px;
-        border-radius: 15px;
-    }
-
-    .signup-header h2 {
-        font-size: 1.8rem;
-    }
-
-    .form-grid {
-        gap: 15px;
-    }
-
-    .submit-btn-premium {
-        width: 100%;
-        padding: 12px 25px;
-    }
-}
-
-@media (max-width: 480px) {
-    .signup-overlay {
-        padding: 10px;
-    }
-
-    .signup-card {
-        padding: 20px 15px;
-    }
-
-    .signup-header h2 {
-        font-size: 1.5rem;
-    }
-
-    .radio-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
 .error-text {
-    color: #ff4d4d;
-    font-size: 0.8rem;
-}
-
-/* Success UI Styles */
-.success-card {
-    text-align: center;
-    max-width: 500px;
-    padding: 60px 40px;
-}
-
-.success-icon {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes scaleIn {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Theming compatibility */
-.signup-card {
-    background: var(--color-card-bg);
-    border: 1px solid var(--color-card-border);
-    backdrop-filter: blur(10px);
-}
-
-label {
-    color: var(--color-text);
-}
-
-input,
-select,
-textarea {
-    background: var(--color-card-bg);
-    border: 1px solid var(--color-card-border);
-    color: var(--color-text);
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    background: var(--color-card-hover);
-}
-
-.signup-header h2 {
-    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-muted) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 2px;
 }
 
 .congrats-text {
     color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.redirect-hint {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-top: 15px;
 }
