@@ -497,7 +497,7 @@
 
 .btn-start-assignment:hover {
   background: #fbbf24;
-  color: var(--bg-primary);
+  color: #000000 !important;
 }
 
 /* Coming Soon & Not Found */

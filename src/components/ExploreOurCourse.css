@@ -178,7 +178,7 @@
 .enroll-btn-premium {
   background: var(--color-primary, #0053e4);
   border: none;
-  color: white;
+  color: #ffffff !important;
   padding: 10px 15px;
   border-radius: 12px;
   font-size: 14px;
@@ -191,6 +191,7 @@
 
 .enroll-btn-premium:hover {
   background: var(--color-primary-dark, #0045b8);
+  color: #ffffff !important;
   transform: scale(1.02);
   box-shadow: 0 6px 20px rgba(0, 83, 228, 0.5);
 }
