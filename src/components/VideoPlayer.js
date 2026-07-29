@@ -10,27 +10,34 @@ import {
   Lock,
 } from "lucide-react";
 import { coursesData } from "../data/coursesData";
+import { hasCourseAccess, isLessonFreePreview } from "../utils/payment";
+import FlutterwavePayButton from "./FlutterwavePayButton";
 import "./VideoPlayer.css";
 
-const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
+const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
   const [currentLessonId, setCurrentLessonId] = useState(initialLessonId);
   const [notes, setNotes] = useState("");
   const [saveStatus, setSaveStatus] = useState(""); // '' | 'saving' | 'saved'
   const [watchProgress, setWatchProgress] = useState(0); // 0 to 100%
   const [hasWatched75, setHasWatched75] = useState(false);
   const [checkedTasks, setCheckedTasks] = useState({});
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const course = coursesData[courseId];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const isPurchased = React.useMemo(() => hasCourseAccess(courseId), [courseId, refreshKey]);
 
   // Flatten modules to get a sequential list of all lessons
   const allLessons = [];
   if (course && course.modules) {
-    course.modules.forEach((mod) => {
-      mod.lessons.forEach((lesson) => {
+    course.modules.forEach((mod, modIdx) => {
+      mod.lessons.forEach((lesson, lesIdx) => {
         allLessons.push({
           ...lesson,
           moduleTitle: mod.title,
           moduleSubtitle: mod.subtitle,
+          moduleIndex: modIdx,
+          lessonIndex: lesIdx,
         });
       });
     });
@@ -42,6 +49,14 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
   const activeLesson =
     currentIndex !== -1 ? allLessons[currentIndex] : allLessons[0];
   const activeLessonId = activeLesson ? activeLesson.id : null;
+
+  const activeIsFreePreview = isLessonFreePreview(
+    courseId,
+    activeLessonId,
+    activeLesson?.moduleIndex || 0,
+    activeLesson?.lessonIndex || 0
+  );
+  const isLessonAllowed = isPurchased || activeIsFreePreview;
 
   const prevLessonId =
     currentIndex > 0 ? allLessons[currentIndex - 1].id : null;
@@ -281,16 +296,54 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack }) => {
         {/* Main Video & Info Column */}
         <div className="video-main-content">
           <div className="video-container">
-            <iframe
-              width="560"
-              height="315"
-              src={videoEmbedUrl}
-              title={activeLesson.videoTitle || "YouTube video player"}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
+            {isLessonAllowed ? (
+              <iframe
+                width="560"
+                height="315"
+                src={videoEmbedUrl}
+                title={activeLesson.videoTitle || "YouTube video player"}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            ) : (
+              <div 
+                className="locked-video-overlay"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justify: 'center',
+                  background: 'linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%)',
+                  padding: '40px 20px',
+                  textAlign: 'center',
+                  borderRadius: '12px',
+                  minHeight: '350px',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)'
+                }}
+              >
+                <div style={{ background: 'rgba(239, 68, 68, 0.15)', padding: '16px', borderRadius: '50%', marginBottom: '16px' }}>
+                  <Lock size={48} color="#ef4444" />
+                </div>
+                <h2 style={{ color: '#ffffff', marginBottom: '10px', fontSize: '1.4rem' }}>
+                  🔒 Premium Lesson Locked
+                </h2>
+                <p style={{ color: '#94a3b8', maxWidth: '520px', marginBottom: '24px', lineHeight: '1.6', fontSize: '0.95rem' }}>
+                  Lesson 1 was provided as a free preview. To continue learning <strong>{course.title}</strong>, access all 8 modules, capstone projects, and receive your graduation certificate, unlock the full course with Flutterwave.
+                </p>
+                <FlutterwavePayButton
+                  course={course}
+                  user={loggedInUser}
+                  onSuccess={(res) => {
+                    setRefreshKey(prev => prev + 1);
+                    alert(`🎉 Course Unlocked! Payment reference: ${res.tx_ref}`);
+                  }}
+                  buttonText={`Pay ₦${(course.price || 5000).toLocaleString()} via Flutterwave to Unlock`}
+                />
+              </div>
+            )}
           </div>
 
           <div className="video-info-card">

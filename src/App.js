@@ -218,7 +218,8 @@ function App() {
                   <WhatWeOffer onSignupClick={() => navigateTo("signup")} />
                   <ExploreOurCourse 
                     onCourseSelect={handleCourseDetailsSelect}
-                    onEnrollClick={() => navigateTo("signup")} 
+                    onEnrollClick={() => navigateTo("signup")}
+                    loggedInUser={loggedInUser}
                   />
                 </>
               )}
@@ -229,6 +230,7 @@ function App() {
                   onBack={() => navigateTo("landing")}
                   onEnrollClick={() => navigateTo("signup")}
                   onVideoSelect={(lessonId) => navigateTo("video-player", { courseId: selectedCourseDetails, lessonId })}
+                  loggedInUser={loggedInUser}
                 />
               )}
 
@@ -237,6 +239,7 @@ function App() {
                   courseId={selectedCourseDetails}
                   initialLessonId={selectedLessonId}
                   onBack={() => navigateTo("course-details", { courseId: selectedCourseDetails })}
+                  loggedInUser={loggedInUser}
                 />
               )}
 

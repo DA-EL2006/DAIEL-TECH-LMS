@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Play, ChevronDown, ChevronUp, Trophy, Rocket, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Play, ChevronDown, ChevronUp, Trophy, Rocket, CheckCircle, Lock, ShieldCheck } from 'lucide-react';
 import './CourseDetails.css';
 import { coursesData } from '../data/coursesData';
-const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssignmentSelect, onProjectSelect }) => {
+import { hasCourseAccess, isLessonFreePreview } from '../utils/payment';
+import FlutterwavePayButton from './FlutterwavePayButton';
+
+const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssignmentSelect, onProjectSelect, loggedInUser }) => {
   const [expandedModule, setExpandedModule] = useState(null);
-  
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const course = coursesData[courseId];
+  const isPurchased = hasCourseAccess(courseId);
 
   const completedLessons = React.useMemo(() => {
     try {
@@ -15,7 +20,8 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
     } catch (e) {
       return [];
     }
-  }, [courseId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseId, refreshKey]);
 
   if (!course) {
     return (
@@ -57,7 +63,12 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
     }
   };
 
-  const handleAction = (type, data) => {
+  const handleAction = (type, data, isAllowed) => {
+    if (!isAllowed) {
+      alert("This content is locked. Please click 'Pay to Unlock Full Course' to get instant access via Flutterwave.");
+      return;
+    }
+
     if (type === 'video' && onVideoSelect) {
       onVideoSelect(data);
     } else if (type === 'assignment' && onAssignmentSelect) {
@@ -67,6 +78,11 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
     } else {
       console.log(`Action triggered: ${type}`);
     }
+  };
+
+  const handlePaymentSuccess = (response) => {
+    setRefreshKey(prev => prev + 1);
+    alert(`🎉 Payment Successful! Reference: ${response.tx_ref}. Full access to ${course.title} has been unlocked!`);
   };
 
   return (
@@ -83,15 +99,51 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
           <div className="course-badges">
             <span className="badge badge-level">{course.level}</span>
             <span className="badge badge-duration">{course.duration}</span>
+            {isPurchased ? (
+              <span className="badge" style={{ background: 'rgba(34, 197, 94, 0.2)', color: '#4ade80', border: '1px solid rgba(34, 197, 94, 0.4)' }}>
+                <ShieldCheck size={14} style={{ display: 'inline', marginRight: 4 }} /> Full Access Unlocked
+              </span>
+            ) : (
+              <span className="badge" style={{ background: 'rgba(249, 115, 22, 0.2)', color: '#fb923c', border: '1px solid rgba(249, 115, 22, 0.4)' }}>
+                Lesson 1 Free Preview Available
+              </span>
+            )}
           </div>
           
           <h1 className="course-title">{course.title}</h1>
           <p className="course-desc">{course.description}</p>
           
-          <div className="hero-actions">
-            <button className="btn-enroll-hero" onClick={onEnrollClick}>
-              Enroll Now - Start Learning
-            </button>
+          <div className="hero-actions" style={{ display: 'flex', gap: '15px', alignItems: 'center', flexWrap: 'wrap' }}>
+            {isPurchased ? (
+              <button 
+                className="btn-enroll-hero" 
+                onClick={() => {
+                  const firstLesson = course.modules[0]?.lessons[0]?.id;
+                  if (firstLesson) handleAction('video', firstLesson, true);
+                }}
+              >
+                Continue Learning
+              </button>
+            ) : (
+              <>
+                <FlutterwavePayButton
+                  course={course}
+                  user={loggedInUser}
+                  onSuccess={handlePaymentSuccess}
+                  buttonText={`Pay ₦${(course.price || 5000).toLocaleString()} to Unlock Full Course`}
+                />
+                <button 
+                  className="btn-enroll-hero" 
+                  style={{ background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
+                  onClick={() => {
+                    const firstLesson = course.modules[0]?.lessons[0]?.id;
+                    if (firstLesson) handleAction('video', firstLesson, true);
+                  }}
+                >
+                  Watch Free Preview (Lesson 1)
+                </button>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -104,7 +156,7 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
         </div>
         
         <div className="modules-list">
-          {course.modules.map((mod, index) => (
+          {course.modules.map((mod, moduleIndex) => (
             <div 
               key={mod.id} 
               className={`module-container ${expandedModule === mod.id ? 'is-open' : ''}`}
@@ -114,7 +166,7 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
                 onClick={() => toggleModule(mod.id)}
               >
                 <div className="module-header-left">
-                  <div className="module-number">{index + 1}</div>
+                  <div className="module-number">{moduleIndex + 1}</div>
                   <div className="module-title-group">
                     <h3>{mod.title}</h3>
                     <h4>{mod.subtitle}</h4>
@@ -133,41 +185,59 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
               <div className="module-body">
                 {mod.lessons && mod.lessons.length > 0 && (
                   <div className="lessons-timeline">
-                    {mod.lessons.map((lesson, idx) => (
-                      <div key={lesson.id} className="timeline-item">
-                        <div className="timeline-marker"></div>
-                        <div className="timeline-content">
-                          
-                          {/* Video Element */}
-                          <div 
-                            className="lesson-video-card"
-                            onClick={() => handleAction('video', lesson.id)}
-                          >
-                            <div className="play-icon-wrapper" style={{
-                              background: completedLessons.includes(lesson.id) ? 'rgba(0, 83, 228, 0.15)' : 'rgba(255, 255, 255, 0.05)',
-                              color: completedLessons.includes(lesson.id) ? 'var(--color-primary, #0053e4)' : 'var(--text-primary)'
-                            }}>
-                              {completedLessons.includes(lesson.id) ? (
-                                <CheckCircle size={18} fill="none" />
-                              ) : (
-                                <Play size={18} fill="currentColor" />
-                              )}
-                            </div>
-                            <div className="video-info">
-                              <span className="video-label" style={{
-                                color: completedLessons.includes(lesson.id) ? 'var(--color-primary, #0053e4)' : 'var(--text-secondary)'
+                    {mod.lessons.map((lesson, lessonIndex) => {
+                      const isFreePreview = isLessonFreePreview(course.id, lesson.id, moduleIndex, lessonIndex);
+                      const isAllowed = isPurchased || isFreePreview;
+
+                      return (
+                        <div key={lesson.id} className="timeline-item">
+                          <div className="timeline-marker"></div>
+                          <div className="timeline-content">
+                            
+                            {/* Video Element */}
+                            <div 
+                              className="lesson-video-card"
+                              onClick={() => handleAction('video', lesson.id, isAllowed)}
+                              style={{ opacity: isAllowed ? 1 : 0.75, cursor: 'pointer' }}
+                            >
+                              <div className="play-icon-wrapper" style={{
+                                background: completedLessons.includes(lesson.id) ? 'rgba(0, 83, 228, 0.15)' : isAllowed ? 'rgba(255, 255, 255, 0.05)' : 'rgba(239, 68, 68, 0.1)',
+                                color: completedLessons.includes(lesson.id) ? 'var(--color-primary, #0053e4)' : isAllowed ? 'var(--text-primary)' : '#ef4444'
                               }}>
-                                Video {index + 1}.{idx + 1} {completedLessons.includes(lesson.id) && '(Completed)'}
-                              </span>
-                              <span className="video-title">{lesson.videoTitle}</span>
+                                {completedLessons.includes(lesson.id) ? (
+                                  <CheckCircle size={18} fill="none" />
+                                ) : isAllowed ? (
+                                  <Play size={18} fill="currentColor" />
+                                ) : (
+                                  <Lock size={18} />
+                                )}
+                              </div>
+                              <div className="video-info">
+                                <span className="video-label" style={{
+                                  color: completedLessons.includes(lesson.id) ? 'var(--color-primary, #0053e4)' : 'var(--text-secondary)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '8px'
+                                }}>
+                                  Video {moduleIndex + 1}.{lessonIndex + 1} {completedLessons.includes(lesson.id) && '(Completed)'}
+                                  {isFreePreview && !isPurchased && (
+                                    <span style={{ background: '#22c55e', color: '#fff', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
+                                      FREE PREVIEW
+                                    </span>
+                                  )}
+                                  {!isAllowed && (
+                                    <span style={{ background: '#ef4444', color: '#fff', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
+                                      LOCKED (PAY TO UNLOCK)
+                                    </span>
+                                  )}
+                                </span>
+                                <span className="video-title">{lesson.videoTitle}</span>
+                              </div>
                             </div>
                           </div>
-
-                          {/* Associated Tasks section removed */}
-
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
 

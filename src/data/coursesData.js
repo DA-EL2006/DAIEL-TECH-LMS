@@ -2,6 +2,8 @@ export const coursesData = {
   1: {
     id: 1,
     title: "Python Programming",
+    price: 5000,
+    currency: "NGN",
     description:
       "A thorough Python programming course taking students from absolute zero to building real applications. Covers core syntax, data structures, OOP, file handling, APIs, databases, and automation. Students graduate able to build functional Python applications from scratch.",
     duration: "8 Modules | ~12 Weeks",
@@ -384,6 +386,8 @@ export const coursesData = {
   2: {
     id: 2,
     title: "Machine Learning",
+    price: 5000,
+    currency: "NGN",
     description:
       "A comprehensive, hands-on machine learning curriculum designed to take learners from mathematical foundations to building, evaluating, and deploying real-world ML models. By the end of this course, students will be able to design, train, and deploy production-ready machine learning systems.",
     duration: "8 Modules | ~16 Weeks",
@@ -994,6 +998,8 @@ export const coursesData = {
   3: {
     id: 3,
     title: "Frontend Development",
+    price: 5000,
+    currency: "NGN",
     description:
       "A complete frontend development course covering the holy trinity of the web — HTML, CSS, and JavaScript — followed by an introduction to the React.js library. Students will build responsive, interactive websites and a React-powered web app.",
     duration: "7 Modules | ~12 Weeks",

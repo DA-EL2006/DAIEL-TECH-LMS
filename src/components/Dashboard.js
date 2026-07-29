@@ -12,6 +12,7 @@ import SandboxIDE from "./SandboxIDE";
 import LegalPages from "./LegalPages";
 import DuolingoPath from "./DuolingoPath";
 import Certificate from "./Certificate";
+import { getPurchasedCourseIds } from "../utils/payment";
 
 import pythonImg from '../assets/python_banner.png';
 import mlImg from '../assets/ml_banner.png';
@@ -219,23 +220,28 @@ const Dashboard = ({
     ? loggedInUser.fullName.trim().split(' ')[0]
     : 'Student';
 
-  const frontendLessons = getCourseLessons(3);
-  const completedFrontend = completedLessons[3] || [];
-  const frontendProgress = frontendLessons.length > 0 ? Math.round((completedFrontend.length / frontendLessons.length) * 100) : 0;
+  const purchasedIds = getPurchasedCourseIds();
+  const enrolledCoursesList = purchasedIds.length > 0
+    ? purchasedIds.map((cId) => {
+        const cData = coursesData[cId];
+        const cLessons = getCourseLessons(cId);
+        const cCompleted = completedLessons[cId] || [];
+        const cProgress = cLessons.length > 0 ? Math.round((cCompleted.length / cLessons.length) * 100) : 0;
+        return {
+          id: cId,
+          name: cData ? cData.title : `Course #${cId}`,
+          instructor: "Daiel Tech",
+          progress: cProgress,
+          thumbnail: cId === 1 ? pythonImg : cId === 2 ? mlImg : frontendImg,
+        };
+      })
+    : [];
 
   const user = {
     name: firstName,
     streak: totalCompletedCount,
-    completionRate: frontendProgress,
-    enrolledCourses: [
-      {
-        id: 3,
-        name: "Frontend Development",
-        instructor: "Daiel Tech",
-        progress: frontendProgress,
-        thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      }
-    ],
+    completionRate: enrolledCoursesList.length > 0 ? enrolledCoursesList[0].progress : 0,
+    enrolledCourses: enrolledCoursesList,
   };
 
   const navLinks = [

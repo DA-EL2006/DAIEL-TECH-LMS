@@ -106,6 +106,8 @@ const Signup = ({ onBack, onLoginClick }) => {
         const response = await axios.post('https://sheetdb.io/api/v1/8y8e88qu4ga5s', dataToLog);
         
         if (response.status === 201 || response.status === 200) {
+          localStorage.setItem("daiel_logged_in_user", JSON.stringify(formData));
+          localStorage.setItem("daiel_user_data", JSON.stringify(formData));
           setIsSuccess(true);
         }
       } catch (error) {
