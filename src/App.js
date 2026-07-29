@@ -177,20 +177,29 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const getAuthRedirectTarget = () => {
+    if (typeof window === "undefined") return "signup";
+    const hasRegistered =
+      localStorage.getItem("daiel_has_registered") === "true" ||
+      !!localStorage.getItem("daiel_user_data");
+    return hasRegistered ? "login" : "signup";
+  };
+
   const handleCourseDetailsSelect = (courseId) => {
-    navigateTo("course-details", { courseId });
-    window.scrollTo(0, 0);
+    if (loggedInUser) {
+      navigateTo("course-details", { courseId });
+      window.scrollTo(0, 0);
+    } else {
+      navigateTo(getAuthRedirectTarget());
+      window.scrollTo(0, 0);
+    }
   };
 
   const handleCoursesNavigation = () => {
     if (loggedInUser) {
       navigateTo("dashboard", { tab: "courses" });
     } else {
-      navigateTo("landing");
-      setTimeout(() => {
-        const el = document.getElementById("explore-courses");
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      navigateTo(getAuthRedirectTarget());
     }
   };
 
@@ -214,11 +223,11 @@ function App() {
             <>
               {currentView === "landing" && (
                 <>
-                  <InfoSection onSignupClick={() => navigateTo("signup")} />
-                  <WhatWeOffer onSignupClick={() => navigateTo("signup")} />
+                  <InfoSection onSignupClick={() => navigateTo(getAuthRedirectTarget())} />
+                  <WhatWeOffer onSignupClick={() => navigateTo(getAuthRedirectTarget())} />
                   <ExploreOurCourse 
                     onCourseSelect={handleCourseDetailsSelect}
-                    onEnrollClick={() => navigateTo("signup")}
+                    onEnrollClick={() => navigateTo(getAuthRedirectTarget())}
                     loggedInUser={loggedInUser}
                   />
                 </>
@@ -228,7 +237,7 @@ function App() {
                 <CourseDetails 
                   courseId={selectedCourseDetails} 
                   onBack={() => navigateTo("landing")}
-                  onEnrollClick={() => navigateTo("signup")}
+                  onEnrollClick={() => navigateTo(getAuthRedirectTarget())}
                   onVideoSelect={(lessonId) => navigateTo("video-player", { courseId: selectedCourseDetails, lessonId })}
                   loggedInUser={loggedInUser}
                 />
@@ -263,6 +272,7 @@ function App() {
                   onBack={() => navigateTo("landing")}
                   onSignupClick={() => navigateTo("signup")}
                   onLoginSuccess={(user) => {
+                    localStorage.setItem("daiel_has_registered", "true");
                     setLoggedInUser(user);
                     localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
                     navigateTo("dashboard", { tab: "dashboard" });
@@ -303,10 +313,11 @@ function App() {
                 window.scrollTo(0, 0);
               }}
               onLogout={() => {
+                localStorage.setItem("daiel_has_registered", "true");
                 setLoggedInUser(null);
                 localStorage.removeItem("daiel_logged_in_user");
                 localStorage.removeItem("daiel_current_view");
-                navigateTo("landing");
+                navigateTo("login");
                 window.scrollTo(0, 0);
               }}
             />

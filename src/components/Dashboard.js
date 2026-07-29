@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  BookOpen, Play, Award,
+  BookOpen, Play, Award, Compass, Lock,
   Search, Flame, Zap, Target,
   Code, Hexagon, LogOut, Menu, X
 } from "lucide-react";
@@ -12,7 +12,9 @@ import SandboxIDE from "./SandboxIDE";
 import LegalPages from "./LegalPages";
 import DuolingoPath from "./DuolingoPath";
 import Certificate from "./Certificate";
-import { getPurchasedCourseIds } from "../utils/payment";
+import ExploreOurCourse from "./ExploreOurCourse";
+import FlutterwavePayButton from "./FlutterwavePayButton";
+import { getPurchasedCourseIds, hasCourseAccess } from "../utils/payment";
 
 import pythonImg from '../assets/python_banner.png';
 import mlImg from '../assets/ml_banner.png';
@@ -247,6 +249,7 @@ const Dashboard = ({
   const navLinks = [
     { id: "dashboard", label: "Overview", icon: Target },
     { id: "courses", label: "Learning", icon: BookOpen },
+    { id: "explore", label: "Explore Courses", icon: Compass },
     { id: "sandboxes", label: "Sandboxes", icon: Code },
     { id: "achievements", label: "Badges", icon: Award },
   ];
@@ -402,12 +405,21 @@ const Dashboard = ({
                       <p className="hero-subtitle">System initialized. Ready to begin your learning journey.</p>
                       
                       <div className="hero-actions">
-                        <button className="btn-resume-learning" onClick={() => onResumeCourse && onResumeCourse(3)}>
+                        <button 
+                          className="btn-resume-learning" 
+                          onClick={() => {
+                            if (purchasedIds.length > 0) {
+                              if (onResumeCourse) onResumeCourse(purchasedIds[0]);
+                            } else {
+                              setActiveTab("explore");
+                            }
+                          }}
+                        >
                           <Play size={16} className="play-icon" fill="currentColor" />
-                          Resume Learning
+                          {purchasedIds.length > 0 ? "Resume Learning" : "Start Learning"}
                         </button>
-                        <button className="btn-view-path" onClick={() => setActiveTab("courses")}>
-                          View Path
+                        <button className="btn-view-path" onClick={() => setActiveTab("explore")}>
+                          Explore Courses
                         </button>
                       </div>
                     </div>
@@ -536,33 +548,110 @@ const Dashboard = ({
                 </>
               )}
 
-              {activeTab === "courses" && (
-                <DuolingoPath
-                  selectedCourseId={selectedCourseDetails || 1}
-                  onSelectCourse={(courseId) => setSelectedCourseDetails(courseId)}
-                  completedLessons={completedLessons}
-                  toggleLessonComplete={toggleLessonComplete}
-                  onVideoSelect={(courseId, lessonId) => {
-                    setSelectedCourseDetails(courseId);
-                    setSelectedLessonId(lessonId);
-                    setCurrentView("video-player");
-                    window.scrollTo(0, 0);
-                  }}
-                  onAssignmentSelect={(assignment) => {
-                    setActiveSandboxTask({
-                      courseType: (selectedCourseDetails || 1) === 1 ? "python" : "frontend",
-                      module: assignment.moduleName || "Assignment",
-                      title: assignment.title,
-                      description: assignment.objective,
-                      objectives: assignment.steps || [],
-                      hint: assignment.hints ? assignment.hints.join('\n\n') : ""
-                    });
-                    setCurrentView("sandbox");
-                    window.scrollTo(0, 0);
-                  }}
-                  allCourses={allCourses}
-                />
+              {activeTab === "explore" && (
+                <div className="dash-explore-tab-wrapper" style={{ padding: '20px 0' }}>
+                  <ExploreOurCourse
+                    onCourseSelect={(cId) => {
+                      setSelectedCourseDetails(cId);
+                      setCurrentView("course-details");
+                      window.scrollTo(0, 0);
+                    }}
+                    onEnrollClick={(cId) => {
+                      setSelectedCourseDetails(cId);
+                      setCurrentView("course-details");
+                      window.scrollTo(0, 0);
+                    }}
+                    loggedInUser={loggedInUser}
+                  />
+                </div>
               )}
+
+              {activeTab === "courses" && (() => {
+                const currentCourseId = selectedCourseDetails || 1;
+                const isCoursePurchased = hasCourseAccess(currentCourseId);
+                const currentCourseData = coursesData[currentCourseId] || { id: currentCourseId, title: `Course #${currentCourseId}`, price: 5000 };
+
+                if (!isCoursePurchased) {
+                  return (
+                    <div className="locked-course-path-container" style={{
+                      padding: '60px 24px',
+                      textAlign: 'center',
+                      background: 'var(--dash-surface)',
+                      borderRadius: '24px',
+                      border: '1px solid var(--dash-border)',
+                      margin: '20px auto',
+                      maxWidth: '680px',
+                      boxShadow: '0 10px 30px var(--color-shadow)'
+                    }}>
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '72px',
+                        height: '72px',
+                        borderRadius: '50%',
+                        background: 'rgba(239, 68, 68, 0.12)',
+                        color: '#ef4444',
+                        marginBottom: '20px'
+                      }}>
+                        <Lock size={36} />
+                      </div>
+                      <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '12px', color: 'var(--dash-text-main)' }}>
+                        Learning Path Locked
+                      </h2>
+                      <p style={{ opacity: '0.85', marginBottom: '28px', fontSize: '1rem', lineHeight: '1.6', color: 'var(--dash-text-muted)', maxWidth: '520px', margin: '0 auto 28px' }}>
+                        The interactive step-by-step learning map for <strong>{currentCourseData.title}</strong> is locked. Purchase this course to unlock all interactive modules, video lessons, and projects!
+                      </p>
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                        <FlutterwavePayButton
+                          course={currentCourseData}
+                          user={loggedInUser}
+                          onSuccess={() => {
+                            setActiveTab("courses");
+                          }}
+                          buttonText={`Pay ₦${(currentCourseData.price || 5000).toLocaleString()} - Unlock Full Course`}
+                          style={{ padding: '14px 28px', fontSize: '1rem' }}
+                        />
+                        <button
+                          className="btn-view-path"
+                          onClick={() => setActiveTab("explore")}
+                          style={{ padding: '14px 24px' }}
+                        >
+                          Explore Other Courses
+                        </button>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <DuolingoPath
+                    selectedCourseId={currentCourseId}
+                    onSelectCourse={(courseId) => setSelectedCourseDetails(courseId)}
+                    completedLessons={completedLessons}
+                    toggleLessonComplete={toggleLessonComplete}
+                    onVideoSelect={(courseId, lessonId) => {
+                      setSelectedCourseDetails(courseId);
+                      setSelectedLessonId(lessonId);
+                      setCurrentView("video-player");
+                      window.scrollTo(0, 0);
+                    }}
+                    onAssignmentSelect={(assignment) => {
+                      setActiveSandboxTask({
+                        courseType: currentCourseId === 1 ? "python" : "frontend",
+                        module: assignment.moduleName || "Assignment",
+                        title: assignment.title,
+                        description: assignment.objective,
+                        objectives: assignment.steps || [],
+                        hint: assignment.hints ? assignment.hints.join('\n\n') : ""
+                      });
+                      setCurrentView("sandbox");
+                      window.scrollTo(0, 0);
+                    }}
+                    allCourses={allCourses}
+                  />
+                );
+              })()}
 
               {activeTab === "achievements" && (
                 <Certificate
