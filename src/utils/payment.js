@@ -251,30 +251,20 @@ export const getFlutterwaveConfig = (course, user) => {
   // Clean public key string
   const cleanPublicKey = (FLUTTERWAVE_CONFIG.publicKey || "").trim();
 
-  const customizations = {
-    title: "DAIEL TECH LMS",
-    description: `Payment for ${courseTitle}`,
-  };
-
-  // Only pass logo URL if it's a valid remote HTTPS resource to prevent local CORS script errors
-  if (
-    typeof window !== "undefined" &&
-    !window.location.hostname.includes("localhost")
-  ) {
-    customizations.logo = `${window.location.origin}/logo-1.svg`;
-  }
-
   return {
     public_key: cleanPublicKey,
     tx_ref: `daiel_lms_${Date.now()}_course_${courseId}`,
     amount: amount,
     currency: FLUTTERWAVE_CONFIG.currency,
-    payment_options: "card,banktransfer,ussd,account",
+    payment_options: "card, banktransfer, ussd",
     customer: {
       email: customer.email,
       phone_number: customer.phone,
       name: customer.name,
     },
-    customizations: customizations,
+    customizations: {
+      title: "DAIEL TECH LMS",
+      description: `Payment for ${courseTitle}`,
+    },
   };
 };
