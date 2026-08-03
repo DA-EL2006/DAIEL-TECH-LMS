@@ -166,22 +166,26 @@ const SandboxIDE = ({ activeTask, courseType, onBack }) => {
 
   useEffect(() => {
     if (courseType === "python") {
-      const script1 = document.createElement("script");
-      script1.src =
-        "https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js";
-      script1.async = true;
-      document.body.appendChild(script1);
+      if (window.Sk) return; // Skulpt already loaded
 
-      const script2 = document.createElement("script");
-      script2.src =
-        "https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js";
-      script2.async = true;
-      document.body.appendChild(script2);
+      let script1 = document.querySelector('script[src*="skulpt.min.js"]');
+      let script2 = document.querySelector('script[src*="skulpt-stdlib.js"]');
 
-      return () => {
-        document.body.removeChild(script1);
-        document.body.removeChild(script2);
-      };
+      if (!script1) {
+        script1 = document.createElement("script");
+        script1.src = "https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js";
+        script1.async = true;
+        script1.crossOrigin = "anonymous";
+        document.body.appendChild(script1);
+      }
+
+      if (!script2) {
+        script2 = document.createElement("script");
+        script2.src = "https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js";
+        script2.async = true;
+        script2.crossOrigin = "anonymous";
+        document.body.appendChild(script2);
+      }
     }
   }, [courseType]);
 

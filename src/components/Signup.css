@@ -283,3 +283,83 @@ select option {
     color: var(--color-text-muted);
     margin-top: 15px;
 }
+
+/* Password Strength Meter & Real-Time Rules Checklist */
+.full-width-pass {
+    grid-column: 1 / -1;
+}
+
+.pass-strength-meter {
+    margin-top: 10px;
+    background: var(--dash-surface, rgba(15, 23, 42, 0.6));
+    border: 1px solid var(--dash-border, rgba(255, 255, 255, 0.1));
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.pass-strength-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+}
+
+.strength-title {
+    color: var(--color-text-muted, #94a3b8);
+    font-weight: 600;
+}
+
+.strength-value {
+    font-weight: 700;
+}
+
+.pass-meter-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.pass-meter-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.pass-rules-checklist {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 12px;
+    margin-top: 12px;
+    background: var(--dash-surface, rgba(15, 23, 42, 0.4));
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px dashed var(--dash-border, rgba(255, 255, 255, 0.12));
+}
+
+@media (max-width: 600px) {
+    .pass-rules-checklist {
+        grid-template-columns: 1fr;
+    }
+}
+
+.rule-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #94a3b8);
+    transition: color 0.2s ease;
+}
+
+.rule-item.passed {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.rule-icon {
+    font-size: 0.85rem;
+    font-weight: 800;
+}

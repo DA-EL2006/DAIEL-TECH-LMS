@@ -53,9 +53,11 @@
 /* Typing Text Styling */
 .briefly-text {
     font-family: 'DM Sans', 'Poppins', Helvetica, sans-serif;
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-size: clamp(1.4rem, 3.5vw, 2.1rem);
     font-weight: 800;
-    line-height: 1.3;
+    line-height: 1.8;
+    word-spacing: 2px;
+    letter-spacing: 0.4px;
 
     /* High-Saturation Rainbow */
     background: linear-gradient(135deg, #ff3333, #ffaa00, #ffff33, #33cc33, #3388ff, #8a2be2, #e066ff);
@@ -63,7 +65,7 @@
     background-clip: text;
     color: transparent;
 
-    min-height: 280px;
+    min-height: 320px;
     white-space: pre-wrap;
 }
 

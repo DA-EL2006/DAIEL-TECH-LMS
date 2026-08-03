@@ -1,0 +1,223 @@
+/* EmailVerificationModal.css - 6-Digit OTP Verification Screen */
+
+.otp-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: otpFadeIn 0.3s ease;
+}
+
+@keyframes otpFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.otp-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: var(--dash-surface, #0f172a);
+  border: 1px solid var(--dash-border, rgba(255, 255, 255, 0.12));
+  border-radius: 24px;
+  padding: 36px 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: otpScaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes otpScaleUp {
+  from { transform: scale(0.88) translateY(15px); }
+  to { transform: scale(1) translateY(0); }
+}
+
+.otp-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: var(--dash-surface-hover, #1e293b);
+  border: 1px solid var(--dash-border, rgba(255, 255, 255, 0.1));
+  color: var(--dash-text-muted, #94a3b8);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.otp-close-btn:hover {
+  background: #ef4444;
+  color: #ffffff !important;
+}
+
+.otp-header-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 83, 228, 0.2), rgba(16, 185, 129, 0.2));
+  border: 1px solid var(--dash-solid-primary, #0053E4);
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 25px rgba(0, 83, 228, 0.3);
+}
+
+.otp-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--dash-text-main, #f8fafc);
+  margin: 0 0 8px 0;
+}
+
+.otp-subtitle {
+  font-size: 14px;
+  color: var(--dash-text-muted, #94a3b8);
+  margin: 0 0 28px 0;
+  line-height: 1.5;
+}
+
+.otp-target-email {
+  color: var(--dash-solid-primary, #3b82f6);
+  font-weight: 700;
+}
+
+/* 6-Digit Input Grid */
+.otp-input-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.otp-single-box {
+  width: 52px;
+  height: 60px;
+  background: var(--dash-surface-hover, #1e293b);
+  border: 2px solid var(--dash-border, rgba(255, 255, 255, 0.15));
+  border-radius: 14px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #10b981;
+  outline: none;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.otp-single-box:focus {
+  border-color: var(--dash-solid-primary, #0053E4);
+  background: rgba(0, 83, 228, 0.1);
+  box-shadow: 0 0 16px rgba(0, 83, 228, 0.4);
+  transform: translateY(-2px);
+}
+
+.otp-error-msg {
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Action Buttons */
+.otp-btn-verify {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0053E4, #0045B8);
+  color: #ffffff !important;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 83, 228, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.otp-btn-verify:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 83, 228, 0.6);
+  color: #ffffff !important;
+}
+
+.otp-resend-row {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--dash-text-muted, #94a3b8);
+}
+
+.btn-resend-link {
+  background: transparent;
+  border: none;
+  color: var(--dash-solid-primary, #3b82f6);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0 4px;
+}
+
+.btn-resend-link:disabled {
+  color: var(--dash-text-muted, #64748b);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* Local Demo OTP Code Banner */
+.otp-demo-banner {
+  background: linear-gradient(135deg, rgba(0, 83, 228, 0.15), rgba(16, 185, 129, 0.15));
+  border: 1px dashed #0053E4;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  width: 100%;
+}
+
+.demo-banner-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.demo-otp-value {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 26px;
+  font-weight: 800;
+  color: #10b981;
+  letter-spacing: 6px;
+  margin: 4px 0;
+}
+
+.demo-banner-sub {
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+@media (max-width: 480px) {
+  .otp-single-box {
+    width: 42px;
+    height: 52px;
+    font-size: 20px;
+  }
+}

@@ -173,6 +173,7 @@
 .learn-more-btn:hover {
   background: var(--color-card-hover);
   border-color: var(--color-text);
+  color: var(--color-text) !important;
 }
 
 .enroll-btn-premium {
@@ -220,7 +221,7 @@
 
 .view-all-courses-btn:hover {
   background: var(--color-primary, #0053e4);
-  color: white;
+  color: #ffffff !important;
   transform: scale(1.05);
   box-shadow: 0 0 30px rgba(0, 83, 228, 0.4);
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './InfoSection.css';
 import backgroundImage from '../background-image.jpg';
 import BrieflyAboutUs from './BrieflyAboutUs';
-import CoursesWeOffer from './CoursesWeOffer';
 
 // Import images from assets
 import screen1 from '../assets/screen1.jpg';
@@ -45,13 +44,10 @@ const InfoSection = ({ onSignupClick }) => {
             </div>
             
             <div className="info-content-wrapper">
-                {/* Top Row: Briefly About Us (Now solo or shifted) */}
+                {/* Top Row: Briefly About Us */}
                 <div className="briefly-row" id="about">
                     <BrieflyAboutUs />
                 </div>
-                
-                {/* Bottom Section: Courses We Offer */}
-                <CoursesWeOffer onSignupClick={onSignupClick} />
             </div>
         </section>
     );

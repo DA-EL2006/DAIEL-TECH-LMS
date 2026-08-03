@@ -27,15 +27,29 @@ const Footer = ({
             <h4 className="footer-title">Company</h4>
             <ul className="footer-links">
               <li>
-                <a href="#about">About Daiel Tech</a>
+                <a
+                  href="#about"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const element = document.getElementById("about");
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                >
+                  About Daiel Tech
+                </a>
               </li>
               <li>
                 <a
-                  href="#courses"
+                  href="#explore-courses"
                   onClick={(e) => {
+                    e.preventDefault();
                     if (onCoursesSelect) {
-                      e.preventDefault();
                       onCoursesSelect();
+                    } else {
+                      const element = document.getElementById("explore-courses");
+                      if (element) element.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
                 >
@@ -62,7 +76,10 @@ const Footer = ({
                   href="#contact"
                   onClick={(e) => {
                     e.preventDefault();
-                    if (onEmailComposerSelect) onEmailComposerSelect("contact");
+                    const element = document.getElementById("contact");
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
                   }}
                 >
                   Contact Us

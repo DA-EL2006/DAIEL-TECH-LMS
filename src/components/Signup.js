@@ -76,11 +76,37 @@ const Signup = ({ onBack, onLoginClick }) => {
     }));
   };
 
+  // Strong Password Validation Rules Evaluation
+  const pass = formData.password || "";
+  const passCriteria = {
+    hasMinLength: pass.length >= 8,
+    hasUpper: /[A-Z]/.test(pass),
+    hasLower: /[a-z]/.test(pass),
+    hasNumber: /[0-9]/.test(pass),
+    hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(pass),
+  };
+
+  const passedCount = Object.values(passCriteria).filter(Boolean).length;
+  const isPasswordStrong = passedCount === 5;
+
+  const getStrengthLabel = () => {
+    if (!pass) return { label: "", color: "" };
+    if (passedCount <= 2) return { label: "Weak Password", color: "#ef4444" };
+    if (passedCount <= 4) return { label: "Medium Strength", color: "#f59e0b" };
+    return { label: "Strong Password ✓", color: "#10b981" };
+  };
+
+  const strengthInfo = getStrengthLabel();
+
   const validate = () => {
     const newErrors = {};
     if (!formData.fullName) newErrors.fullName = "Name is required";
     if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (!isPasswordStrong) {
+      newErrors.password = "Password must fulfill all security criteria below.";
+    }
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
@@ -197,15 +223,62 @@ const Signup = ({ onBack, onLoginClick }) => {
             </div>
 
             {/* Passwords */}
-            <div className="form-group">
+            <div className="form-group full-width-pass">
               <label>Password</label>
               <input 
                 type="password" 
                 name="password" 
                 value={formData.password}
                 onChange={handleChange}
+                placeholder="Create a strong password..."
                 required
               />
+              {errors.password && <span className="error-text">{errors.password}</span>}
+
+              {/* Password Strength Progress Bar */}
+              {formData.password && (
+                <div className="pass-strength-meter">
+                  <div className="pass-strength-label-row">
+                    <span className="strength-title">Password Security Strength:</span>
+                    <span className="strength-value" style={{ color: strengthInfo.color }}>
+                      {strengthInfo.label}
+                    </span>
+                  </div>
+                  <div className="pass-meter-track">
+                    <div 
+                      className="pass-meter-fill" 
+                      style={{ 
+                        width: `${(passedCount / 5) * 100}%`,
+                        backgroundColor: strengthInfo.color
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+
+              {/* Password Rules Checklist */}
+              <div className="pass-rules-checklist">
+                <div className={`rule-item ${passCriteria.hasMinLength ? "passed" : ""}`}>
+                  <span className="rule-icon">{passCriteria.hasMinLength ? "✓" : "○"}</span>
+                  <span>At least 8 characters long</span>
+                </div>
+                <div className={`rule-item ${passCriteria.hasUpper ? "passed" : ""}`}>
+                  <span className="rule-icon">{passCriteria.hasUpper ? "✓" : "○"}</span>
+                  <span>At least one uppercase letter (A-Z)</span>
+                </div>
+                <div className={`rule-item ${passCriteria.hasLower ? "passed" : ""}`}>
+                  <span className="rule-icon">{passCriteria.hasLower ? "✓" : "○"}</span>
+                  <span>At least one lowercase letter (a-z)</span>
+                </div>
+                <div className={`rule-item ${passCriteria.hasNumber ? "passed" : ""}`}>
+                  <span className="rule-icon">{passCriteria.hasNumber ? "✓" : "○"}</span>
+                  <span>At least one numeric digit (0-9)</span>
+                </div>
+                <div className={`rule-item ${passCriteria.hasSpecial ? "passed" : ""}`}>
+                  <span className="rule-icon">{passCriteria.hasSpecial ? "✓" : "○"}</span>
+                  <span>At least one special symbol (!@#$%^&*)</span>
+                </div>
+              </div>
             </div>
 
             <div className="form-group">

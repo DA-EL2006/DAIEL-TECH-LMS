@@ -86,12 +86,12 @@
 }
 
 .dash-nav-item:hover {
-  color: var(--dash-text-main);
+  color: var(--dash-text-main) !important;
   background: var(--dash-surface-hover);
 }
 
 .dash-nav-item.active {
-  color: #ffffff;
+  color: #ffffff !important;
   background: var(--dash-solid-primary);
 }
 
@@ -517,7 +517,7 @@
 
 .btn-task-start:hover {
   background: var(--dash-solid-primary);
-  color: #fff;
+  color: #ffffff !important;
 }
 
 /* --- 4. COURSES FEED --- */
@@ -651,6 +651,7 @@
 
 .action-btn:hover {
   background: var(--color-primary-dark);
+  color: #ffffff !important;
 }
 
 /* --- 5. TERMINAL FOOTER --- */
@@ -1129,4 +1130,25 @@
     gap: 6px;
     text-align: center;
   }
+}
+
+/* Light Mode Overrides for Dashboard */
+:root[data-theme='light'] .dash-glass-panel {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme='light'] .cmd-search-bar {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+
+:root[data-theme='light'] .cmd-search-bar input {
+  color: #0f172a;
+}
+
+:root[data-theme='light'] .dash-theme-toggle-btn:hover {
+  background: var(--dash-solid-primary) !important;
+  color: #ffffff !important;
 }

@@ -16,8 +16,14 @@ import LegalPages from "./components/LegalPages";
 import EmailComposerModal from "./components/EmailComposerModal";
 import StudentProjectsModal from "./components/StudentProjectsModal";
 import BecomeMentorModal from "./components/BecomeMentorModal";
+import ErrorBoundary from "./components/ErrorBoundary";
+import EmailVerificationModal from "./components/EmailVerificationModal";
+import { sendResendVerificationEmail } from "./utils/resendEmail";
 
 function App() {
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [pendingVerificationUser, setPendingVerificationUser] = useState(null);
+
   // Session Persistence: restore logged-in user from localStorage
   const [loggedInUser, setLoggedInUser] = useState(() => {
     try {
@@ -199,7 +205,12 @@ function App() {
     if (loggedInUser) {
       navigateTo("dashboard", { tab: "courses" });
     } else {
-      navigateTo(getAuthRedirectTarget());
+      const element = document.getElementById("explore-courses");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigateTo("landing");
+      }
     }
   };
 
@@ -233,127 +244,171 @@ function App() {
                 </>
               )}
 
-              {currentView === "course-details" && (
-                <CourseDetails 
-                  courseId={selectedCourseDetails} 
-                  onBack={() => navigateTo("landing")}
-                  onEnrollClick={() => navigateTo(getAuthRedirectTarget())}
-                  onVideoSelect={(lessonId) => navigateTo("video-player", { courseId: selectedCourseDetails, lessonId })}
-                  loggedInUser={loggedInUser}
-                />
-              )}
+                  {currentView === "course-details" && (
+                    <CourseDetails 
+                      courseId={selectedCourseDetails} 
+                      onBack={() => navigateTo("landing")}
+                      onEnrollClick={() => navigateTo(getAuthRedirectTarget())}
+                      onVideoSelect={(lessonId) => navigateTo("video-player", { courseId: selectedCourseDetails, lessonId })}
+                      loggedInUser={loggedInUser}
+                    />
+                  )}
 
-              {currentView === "video-player" && (
-                <VideoPlayer
-                  courseId={selectedCourseDetails}
-                  initialLessonId={selectedLessonId}
-                  onBack={() => navigateTo("course-details", { courseId: selectedCourseDetails })}
-                  loggedInUser={loggedInUser}
-                />
-              )}
+                  {currentView === "video-player" && (
+                    <VideoPlayer
+                      courseId={selectedCourseDetails}
+                      initialLessonId={selectedLessonId}
+                      onBack={() => navigateTo("course-details", { courseId: selectedCourseDetails })}
+                      loggedInUser={loggedInUser}
+                    />
+                  )}
 
-              {currentView === "certificate" && (
-                <Certificate
-                  courseId={selectedCourseDetails}
-                  loggedInUser={loggedInUser}
-                  onBack={() => navigateTo("landing")}
-                />
-              )}
+                  {currentView === "certificate" && (
+                    <Certificate
+                      courseId={selectedCourseDetails}
+                      loggedInUser={loggedInUser}
+                      onBack={() => navigateTo("landing")}
+                    />
+                  )}
 
-              {currentView === "signup" && (
-                <Signup
-                  onBack={() => navigateTo("landing")}
-                  onLoginClick={() => navigateTo("login")}
-                />
-              )}
+                  {currentView === "signup" && (
+                    <Signup
+                      onBack={() => navigateTo("landing")}
+                      onLoginClick={() => navigateTo("login")}
+                    />
+                  )}
 
-              {currentView === "login" && (
-                <Login
-                  onBack={() => navigateTo("landing")}
-                  onSignupClick={() => navigateTo("signup")}
-                  onLoginSuccess={(user) => {
-                    localStorage.setItem("daiel_has_registered", "true");
-                    setLoggedInUser(user);
-                    localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
-                    navigateTo("dashboard", { tab: "dashboard" });
-                  }}
-                />
-              )}
+                  {currentView === "login" && (
+                    <Login
+                      onBack={() => navigateTo("landing")}
+                      onSignupClick={() => navigateTo("signup")}
+                      onLoginSuccess={(user) => {
+                        const verifiedSaved = localStorage.getItem("daiel_verified_users");
+                        const verifiedList = verifiedSaved ? JSON.parse(verifiedSaved) : [];
+                        const isVerified = user.email && verifiedList.includes(user.email);
 
-              {currentView === "legal" && (
-                <LegalPages
-                  initialTab={selectedLegalTab}
-                  onBack={() => navigateTo("landing")}
-                />
+                        if (isVerified) {
+                          localStorage.setItem("daiel_has_registered", "true");
+                          setLoggedInUser(user);
+                          localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
+                          navigateTo("dashboard", { tab: "dashboard" });
+                        } else {
+                          const otpCode = Math.floor(100000 + Math.random() * 900000);
+                          sendResendVerificationEmail({
+                            toEmail: user.email,
+                            toName: user.fullName || "Developer",
+                            otpCode
+                          });
+                          setPendingVerificationUser({ user, otpCode });
+                          setShowOtpModal(true);
+                        }
+                      }}
+                    />
+                  )}
+
+                  {currentView === "legal" && (
+                    <LegalPages
+                      initialTab={selectedLegalTab}
+                      onBack={() => navigateTo("landing")}
+                    />
+                  )}
+                </>
+              ) : (
+                <ErrorBoundary>
+                  <Dashboard
+                    loggedInUser={loggedInUser}
+                    currentView={currentView}
+                    setCurrentView={(v) => navigateTo(v)}
+                    activeTab={activeTab}
+                    setActiveTab={(tab) => navigateTo(currentView, { tab })}
+                    selectedCourseDetails={selectedCourseDetails}
+                    setSelectedCourseDetails={setSelectedCourseDetails}
+                    selectedLessonId={selectedLessonId}
+                    setSelectedLessonId={setSelectedLessonId}
+                    activeSandboxTask={activeSandboxTask}
+                    setActiveSandboxTask={setActiveSandboxTask}
+                    selectedLegalTab={selectedLegalTab}
+                    setSelectedLegalTab={setSelectedLegalTab}
+                    onNavigate={navigateTo}
+                    onResumeCourse={(courseId) => {
+                      const lastWatched = localStorage.getItem(`daiel_last_watched_${courseId}`);
+                      if (lastWatched) {
+                        navigateTo("video-player", { courseId, lessonId: lastWatched });
+                      } else {
+                        navigateTo("course-details", { courseId });
+                      }
+                      window.scrollTo(0, 0);
+                    }}
+                    onLogout={() => {
+                      localStorage.setItem("daiel_has_registered", "true");
+                      setLoggedInUser(null);
+                      localStorage.removeItem("daiel_logged_in_user");
+                      localStorage.removeItem("daiel_current_view");
+                      navigateTo("login");
+                      window.scrollTo(0, 0);
+                    }}
+                    theme={theme}
+                    toggleTheme={toggleTheme}
+                  />
+                </ErrorBoundary>
               )}
-            </>
-          ) : (
-            <Dashboard
-              loggedInUser={loggedInUser}
-              currentView={currentView}
-              setCurrentView={(v) => navigateTo(v)}
-              activeTab={activeTab}
-              setActiveTab={(tab) => navigateTo(currentView, { tab })}
-              selectedCourseDetails={selectedCourseDetails}
-              setSelectedCourseDetails={setSelectedCourseDetails}
-              selectedLessonId={selectedLessonId}
-              setSelectedLessonId={setSelectedLessonId}
-              activeSandboxTask={activeSandboxTask}
-              setActiveSandboxTask={setActiveSandboxTask}
-              selectedLegalTab={selectedLegalTab}
-              setSelectedLegalTab={setSelectedLegalTab}
-              onNavigate={navigateTo}
-              onResumeCourse={(courseId) => {
-                const lastWatched = localStorage.getItem(`daiel_last_watched_${courseId}`);
-                if (lastWatched) {
-                  navigateTo("video-player", { courseId, lessonId: lastWatched });
-                } else {
-                  navigateTo("course-details", { courseId });
+            </main>
+
+            {!loggedInUser && (
+              <Footer 
+                onLegalSelect={(tab) => navigateTo("legal", { legalTab: tab })}
+                onEmailComposerSelect={(cat) => {
+                  setEmailCategory(cat);
+                  setEmailModalOpen(true);
+                }}
+                onStudentProjectsSelect={() => setStudentProjectsModalOpen(true)}
+                onBecomeMentorSelect={() => setBecomeMentorModalOpen(true)}
+                onCoursesSelect={handleCoursesNavigation}
+                onCertificateSelect={() => navigateTo("login")}
+              />
+            )}
+
+            {/* Interactive Modals */}
+            <EmailComposerModal
+              isOpen={emailModalOpen}
+              onClose={() => setEmailModalOpen(false)}
+              initialCategory={emailCategory}
+            />
+
+            <StudentProjectsModal
+              isOpen={studentProjectsModalOpen}
+              onClose={() => setStudentProjectsModalOpen(false)}
+            />
+
+            <BecomeMentorModal
+              isOpen={becomeMentorModalOpen}
+              onClose={() => setBecomeMentorModalOpen(false)}
+            />
+
+            {/* First-Time Email Verification OTP Modal */}
+            <EmailVerificationModal
+              isOpen={showOtpModal}
+              onClose={() => setShowOtpModal(false)}
+              user={pendingVerificationUser?.user}
+              expectedOtp={pendingVerificationUser?.otpCode}
+              onVerificationSuccess={() => {
+                if (pendingVerificationUser?.user) {
+                  const u = pendingVerificationUser.user;
+                  const verifiedSaved = localStorage.getItem("daiel_verified_users");
+                  const verifiedList = verifiedSaved ? JSON.parse(verifiedSaved) : [];
+                  if (u.email && !verifiedList.includes(u.email)) {
+                    verifiedList.push(u.email);
+                    localStorage.setItem("daiel_verified_users", JSON.stringify(verifiedList));
+                  }
+                  localStorage.setItem("daiel_has_registered", "true");
+                  setLoggedInUser(u);
+                  localStorage.setItem("daiel_logged_in_user", JSON.stringify(u));
+                  setShowOtpModal(false);
+                  setPendingVerificationUser(null);
+                  navigateTo("dashboard", { tab: "dashboard" });
                 }
-                window.scrollTo(0, 0);
-              }}
-              onLogout={() => {
-                localStorage.setItem("daiel_has_registered", "true");
-                setLoggedInUser(null);
-                localStorage.removeItem("daiel_logged_in_user");
-                localStorage.removeItem("daiel_current_view");
-                navigateTo("login");
-                window.scrollTo(0, 0);
               }}
             />
-          )}
-        </main>
-
-        {!loggedInUser && (
-          <Footer 
-            onLegalSelect={(tab) => navigateTo("legal", { legalTab: tab })}
-            onEmailComposerSelect={(cat) => {
-              setEmailCategory(cat);
-              setEmailModalOpen(true);
-            }}
-            onStudentProjectsSelect={() => setStudentProjectsModalOpen(true)}
-            onBecomeMentorSelect={() => setBecomeMentorModalOpen(true)}
-            onCoursesSelect={handleCoursesNavigation}
-            onCertificateSelect={() => navigateTo("certificate", { courseId: selectedCourseDetails || 1 })}
-          />
-        )}
-
-        {/* Interactive Modals */}
-        <EmailComposerModal
-          isOpen={emailModalOpen}
-          onClose={() => setEmailModalOpen(false)}
-          initialCategory={emailCategory}
-        />
-
-        <StudentProjectsModal
-          isOpen={studentProjectsModalOpen}
-          onClose={() => setStudentProjectsModalOpen(false)}
-        />
-
-        <BecomeMentorModal
-          isOpen={becomeMentorModalOpen}
-          onClose={() => setBecomeMentorModalOpen(false)}
-        />
       </div>
     </CourseProvider>
   );

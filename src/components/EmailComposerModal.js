@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Send, X, Mail, CheckCircle2, MessageSquare, AlertCircle, Sparkles } from "lucide-react";
+import { Send, X, Mail, CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
 import "./EmailComposerModal.css";
 
 const EmailComposerModal = ({ isOpen, onClose, initialCategory = "issue" }) => {
@@ -89,13 +89,6 @@ Sent via DAIEL TECH LMS Platform`;
                 onClick={() => setCategory("feedback")}
               >
                 <Sparkles size={14} /> Feedback & Suggestions
-              </button>
-              <button
-                type="button"
-                className={`pill-btn ${category === "contact" ? "active contact" : ""}`}
-                onClick={() => setCategory("contact")}
-              >
-                <MessageSquare size={14} /> Contact Us
               </button>
             </div>
 

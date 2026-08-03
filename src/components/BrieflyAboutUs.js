@@ -17,7 +17,7 @@ const BrieflyAboutUs = () => {
         index++;
 
         // Typing speed
-        const speed = Math.random() * 30 + 30; // Slightly slower: 30-60ms
+        const speed = Math.random() * 120 + 30; // Slightly slower: 30-120ms
         timeoutId = setTimeout(typeText, speed);
       } else {
         // Finished typing
@@ -26,12 +26,12 @@ const BrieflyAboutUs = () => {
           setDisplayedText("");
           index = 0;
           typeText();
-        }, 3000);
+        }, 1000);
       }
     };
 
     // Start initial typing
-    timeoutId = setTimeout(typeText, 500);
+    timeoutId = setTimeout(typeText, 1000);
 
     // Cleanup function to clear whatever timeout is currently active
     return () => {
