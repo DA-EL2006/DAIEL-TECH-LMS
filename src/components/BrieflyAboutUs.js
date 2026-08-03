@@ -16,8 +16,9 @@ const BrieflyAboutUs = () => {
         setDisplayedText(fullText.slice(0, index));
         index++;
 
-        // Typing speed
-        const speed = Math.random() * 120 + 30; // Slightly slower: 30-120ms
+        // Typing speed calculated so total typing time is between 800ms and 1000ms (1 sec)
+        const targetDuration = 800 + Math.random() * 200;
+        const speed = targetDuration / fullText.length;
         timeoutId = setTimeout(typeText, speed);
       } else {
         // Finished typing

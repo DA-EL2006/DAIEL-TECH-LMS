@@ -44,8 +44,9 @@ const CoursesWeOffer = ({ onSignupClick }) => {
       if (charIndex <= fullText.length) {
         setDisplayedText(fullText.slice(0, charIndex));
         charIndex++;
-        // Faster typing: 10-30ms
-        const speed = Math.random() * 20 + 10; 
+        // Typing speed calculated so total typing time is between 800ms and 1000ms (1 sec)
+        const targetDuration = 800 + Math.random() * 200;
+        const speed = targetDuration / fullText.length;
         timeoutId = setTimeout(typeText, speed);
       } else {
         // Finished typing one course. Wait, then move to next.
