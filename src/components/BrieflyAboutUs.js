@@ -22,12 +22,12 @@ const BrieflyAboutUs = () => {
         timeoutId = setTimeout(typeText, speed);
       } else {
         // Finished typing
-        // Wait before restarting
+        // Wait 6 seconds before restarting
         timeoutId = setTimeout(() => {
           setDisplayedText("");
           index = 0;
           typeText();
-        }, 1000);
+        }, 6000);
       }
     };
 

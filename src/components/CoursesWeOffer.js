@@ -49,10 +49,10 @@ const CoursesWeOffer = ({ onSignupClick }) => {
         const speed = targetDuration / fullText.length;
         timeoutId = setTimeout(typeText, speed);
       } else {
-        // Finished typing one course. Wait, then move to next.
+        // Finished typing one course. Wait 6 seconds before moving to next.
         timeoutId = setTimeout(() => {
           setCurrentCourseIndex((prevIndex) => (prevIndex + 1) % coursesData.length);
-        }, 2000); // 2 second pause before switching
+        }, 6000); // 6 second pause before switching
       }
     };
 
