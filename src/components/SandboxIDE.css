@@ -915,4 +915,21 @@
   }
 }
 
+@media (max-width: 480px) {
+  .sandbox-header-title h3 {
+    font-size: 0.95rem;
+  }
+
+  .sandbox-action-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .editor-tab {
+    padding: 0 8px;
+    font-size: 0.75rem;
+  }
+}
+
+
 

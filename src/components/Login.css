@@ -228,3 +228,32 @@ input:focus {
         font-size: 1.7rem;
     }
 }
+
+/* Explicit Light Mode Contrast Overrides */
+:root[data-theme='light'] .login-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+:root[data-theme='light'] .login-card label,
+:root[data-theme='light'] .login-header h2,
+:root[data-theme='light'] .login-header p {
+    color: #0f172a !important;
+}
+
+:root[data-theme='light'] .login-card input {
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+:root[data-theme='light'] .login-card input:focus {
+    background: #ffffff !important;
+    border-color: #0053E4 !important;
+    box-shadow: 0 0 0 3px rgba(0, 83, 228, 0.15) !important;
+}
+
+:root[data-theme='light'] .login-card input::placeholder {
+    color: #94a3b8 !important;
+}

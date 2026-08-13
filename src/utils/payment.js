@@ -1,14 +1,13 @@
+import { auth, db } from "../firebase";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+
 /**
  * Payment & Access Control Utility for Flutterwave Sandbox Integration
  * Manages course pricing, purchase persistence, customer details, and lesson access gating.
  */
 
 export const FLUTTERWAVE_CONFIG = {
-  publicKey: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY || "FLWPUBK_TEST-0b811b687e7a828a5e3471cb1985e4ac-X",
-  secretKey: process.env.REACT_APP_FLUTTERWAVE_SECRET_KEY || "",
-  encryptionKey: process.env.REACT_APP_FLUTTERWAVE_ENCRYPTION_KEY || "",
-  clientId: process.env.REACT_APP_FLUTTERWAVE_CLIENT_ID || "",
-  clientSecret: process.env.REACT_APP_FLUTTERWAVE_CLIENT_SECRET || "",
+  publicKey: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY || "",
   currency: "NGN",
   defaultPrice: 5000,
 };
@@ -100,7 +99,7 @@ export const isLessonFreePreview = (
  * @param {number|string} courseId
  * @param {object} transactionData
  */
-export const recordCoursePurchase = (courseId, transactionData = {}) => {
+export const recordCoursePurchase = async (courseId, transactionData = {}) => {
   try {
     const numCourseId = Number(courseId);
 
@@ -146,6 +145,21 @@ export const recordCoursePurchase = (courseId, transactionData = {}) => {
         user.purchasedCourseIds = [...userCourseIds, numCourseId];
       }
       localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
+    }
+
+    // 4. Update Firestore user document if user is authenticated in Firebase
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      try {
+        const userRef = doc(db, "users", currentUser.uid);
+        await updateDoc(userRef, {
+          purchasedCourseIds: arrayUnion(numCourseId),
+          updatedAt: new Date().toISOString()
+        });
+        console.log(`Synced purchase of Course #${numCourseId} to Firestore user ${currentUser.uid}`);
+      } catch (fsErr) {
+        console.warn("Could not sync purchase to Firestore:", fsErr);
+      }
     }
 
     console.log(`Successfully recorded purchase for Course #${numCourseId}`);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import { CourseProvider } from "./context/CourseContext";
 import InfoSection from "./components/InfoSection";
@@ -18,13 +19,17 @@ import StudentProjectsModal from "./components/StudentProjectsModal";
 import BecomeMentorModal from "./components/BecomeMentorModal";
 import ErrorBoundary from "./components/ErrorBoundary";
 import EmailVerificationModal from "./components/EmailVerificationModal";
-import { sendResendVerificationEmail } from "./utils/resendEmail";
+import { auth, db } from "./firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [pendingVerificationUser, setPendingVerificationUser] = useState(null);
 
-  // Session Persistence: restore logged-in user from localStorage
+  // Session Persistence: restore logged-in user from localStorage / Firebase
   const [loggedInUser, setLoggedInUser] = useState(() => {
     try {
       const saved = localStorage.getItem("daiel_logged_in_user");
@@ -33,6 +38,34 @@ function App() {
       return null;
     }
   });
+
+  // Listen to real-time Firebase Auth state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
+        let userProfile = {
+          uid: authUser.uid,
+          email: authUser.email,
+          fullName: authUser.displayName || authUser.email?.split('@')[0] || "User"
+        };
+        try {
+          const userDoc = await getDoc(doc(db, "users", authUser.uid));
+          if (userDoc.exists()) {
+            userProfile = { ...userProfile, ...userDoc.data() };
+          }
+        } catch (err) {
+          console.warn("Could not fetch user document from Firestore:", err);
+        }
+        setLoggedInUser(userProfile);
+        localStorage.setItem("daiel_logged_in_user", JSON.stringify(userProfile));
+      } else {
+        setLoggedInUser(null);
+        localStorage.removeItem("daiel_logged_in_user");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const [currentView, setCurrentView] = useState(() => {
     return localStorage.getItem("daiel_current_view") || (loggedInUser ? "dashboard" : "landing");
@@ -99,26 +132,21 @@ function App() {
     if (targetTab) localStorage.setItem("daiel_active_tab", targetTab);
     if (targetLegalTab) localStorage.setItem("daiel_selected_legal_tab", targetLegalTab);
 
-    // Build URL Hash
-    let hash = `#${targetView}`;
-    if (targetView === "dashboard" && targetTab) {
-      hash += `?tab=${targetTab}`;
-    } else if (targetView === "course-details" && targetCourseId) {
-      hash += `?id=${targetCourseId}`;
-    } else if (targetView === "video-player" && targetCourseId && targetLessonId) {
-      hash += `?courseId=${targetCourseId}&lessonId=${targetLessonId}`;
-    } else if (targetView === "legal" && targetLegalTab) {
-      hash += `?tab=${targetLegalTab}`;
-    }
+    // Map to react-router-dom paths
+    let targetPath = "/";
+    if (targetView === "login") targetPath = "/login";
+    else if (targetView === "signup") targetPath = "/signup";
+    else if (targetView === "dashboard") targetPath = `/dashboard${targetTab ? `?tab=${targetTab}` : ""}`;
+    else if (targetView === "course-details") targetPath = `/courses/${targetCourseId || 1}`;
+    else if (targetView === "video-player") targetPath = `/learn/${targetCourseId || 1}/${targetLessonId || "pv1.1"}`;
+    else if (targetView === "certificate") targetPath = `/certificate/${targetCourseId || 1}`;
+    else if (targetView === "legal") targetPath = `/legal${targetLegalTab ? `?tab=${targetLegalTab}` : ""}`;
+    else if (targetView === "sandbox") targetPath = "/sandbox";
 
-    if (pushHistory && window.location.hash !== hash) {
-      window.history.pushState(
-        { view: targetView, courseId: targetCourseId, lessonId: targetLessonId, tab: targetTab, legalTab: targetLegalTab },
-        "",
-        hash
-      );
+    if (pushHistory && location.pathname !== targetPath) {
+      navigate(targetPath);
     }
-  }, [selectedCourseDetails, selectedLessonId, activeTab, selectedLegalTab]);
+  }, [selectedCourseDetails, selectedLessonId, activeTab, selectedLegalTab, navigate, location.pathname]);
 
   // Sync hash routing on Browser Back/Forward buttons (popstate)
   useEffect(() => {
@@ -283,25 +311,10 @@ function App() {
                       onBack={() => navigateTo("landing")}
                       onSignupClick={() => navigateTo("signup")}
                       onLoginSuccess={(user) => {
-                        const verifiedSaved = localStorage.getItem("daiel_verified_users");
-                        const verifiedList = verifiedSaved ? JSON.parse(verifiedSaved) : [];
-                        const isVerified = user.email && verifiedList.includes(user.email);
-
-                        if (isVerified) {
-                          localStorage.setItem("daiel_has_registered", "true");
-                          setLoggedInUser(user);
-                          localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
-                          navigateTo("dashboard", { tab: "dashboard" });
-                        } else {
-                          const otpCode = Math.floor(100000 + Math.random() * 900000);
-                          sendResendVerificationEmail({
-                            toEmail: user.email,
-                            toName: user.fullName || "Developer",
-                            otpCode
-                          });
-                          setPendingVerificationUser({ user, otpCode });
-                          setShowOtpModal(true);
-                        }
+                        localStorage.setItem("daiel_has_registered", "true");
+                        setLoggedInUser(user);
+                        localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
+                        navigateTo("dashboard", { tab: "dashboard" });
                       }}
                     />
                   )}
@@ -339,7 +352,12 @@ function App() {
                       }
                       window.scrollTo(0, 0);
                     }}
-                    onLogout={() => {
+                    onLogout={async () => {
+                      try {
+                        await signOut(auth);
+                      } catch (err) {
+                        console.error("SignOut error:", err);
+                      }
                       localStorage.setItem("daiel_has_registered", "true");
                       setLoggedInUser(null);
                       localStorage.removeItem("daiel_logged_in_user");

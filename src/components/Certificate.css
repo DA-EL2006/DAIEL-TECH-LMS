@@ -472,3 +472,45 @@
   color: #64748b;
 }
 
+@media (max-width: 768px) {
+  .cert-printable-container {
+    padding: 24px;
+    transform: scale(0.95);
+  }
+
+  .cert-title {
+    font-size: 24px;
+  }
+
+  .cert-recipient-name {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cert-printable-container {
+    padding: 16px;
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .cert-header-brand {
+    font-size: 18px;
+  }
+
+  .cert-recipient-name {
+    font-size: 26px;
+  }
+
+  .cert-actions-bar {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-download-cert, .btn-print-cert, .btn-share-cert {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+

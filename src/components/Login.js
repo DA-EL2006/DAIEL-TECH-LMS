@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { auth, db } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import './Login.css';
 
 const Login = ({ onBack, onSignupClick, onLoginSuccess }) => {
@@ -34,31 +36,54 @@ const Login = ({ onBack, onSignupClick, onLoginSuccess }) => {
     setErrors({});
 
     try {
-      // Fetch users from SheetDB
-      const response = await axios.get('https://sheetdb.io/api/v1/8y8e88qu4ga5s');
-      const users = response.data;
+      // 1. Authenticate using Firebase Authentication
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const authUser = userCredential.user;
 
-      // Check for user
-      const user = users.find(u => u.email === formData.email || u.fullName === formData.email);
+      // 2. Fetch full user profile from Cloud Firestore
+      let userProfile = {
+        uid: authUser.uid,
+        email: authUser.email,
+        fullName: authUser.displayName || authUser.email.split('@')[0]
+      };
 
-      if (!user) {
-        setErrors({ email: "Email or username not found" });
-      } else if (user.password !== formData.password) {
-        setErrors({ password: "Incorrect password" });
-      } else {
-        // Success
-        setLoginSuccess(true);
-        setTimeout(() => {
-          if (onLoginSuccess) {
-            onLoginSuccess(user); // pass full user record
-          } else {
-            onBack();
-          }
-        }, 2000);
+      try {
+        const userDocRef = doc(db, "users", authUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          userProfile = { ...userProfile, ...userDoc.data() };
+        }
+      } catch (firestoreError) {
+        console.warn("Could not fetch user document from Firestore:", firestoreError);
       }
+
+      // 3. Store user in localStorage cache for local UI persistence
+      localStorage.setItem("daiel_logged_in_user", JSON.stringify(userProfile));
+      localStorage.setItem("daiel_user_data", JSON.stringify(userProfile));
+
+      // 4. Update UI state
+      setLoginSuccess(true);
+      setTimeout(() => {
+        if (onLoginSuccess) {
+          onLoginSuccess(userProfile);
+        } else {
+          onBack();
+        }
+      }, 1500);
+
     } catch (error) {
-      console.error("Login error:", error);
-      alert("Failed to connect to the authentication server. Please try again later.");
+      console.error("Firebase Login error:", error);
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+        setErrors({ email: "Invalid email address or password." });
+      } else if (error.code === 'auth/wrong-password') {
+        setErrors({ password: "Incorrect password." });
+      } else if (error.code === 'auth/invalid-email') {
+        setErrors({ email: "Please enter a valid email address." });
+      } else if (error.code === 'auth/too-many-requests') {
+        setErrors({ general: "Access disabled due to repeated failed attempts. Reset your password or try again later." });
+      } else {
+        setErrors({ general: error.message });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -88,6 +113,7 @@ const Login = ({ onBack, onSignupClick, onLoginSuccess }) => {
         </div>
 
         <form onSubmit={handleLogin} className="login-form">
+          {errors.general && <div className="error-text general-error" style={{ marginBottom: "12px", color: "#ef4444", fontSize: "14px", textAlign: "center" }}>{errors.general}</div>}
           <div className="form-group">
             <label>Email Address or Username</label>
             <input 

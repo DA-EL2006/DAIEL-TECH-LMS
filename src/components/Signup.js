@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { auth, db } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import './Signup.css';
 
 const Signup = ({ onBack, onLoginClick }) => {
@@ -120,30 +122,54 @@ const Signup = ({ onBack, onLoginClick }) => {
     e.preventDefault();
     if (validate()) {
       setIsSubmitting(true);
+      setErrors({});
       try {
-        // Map data for SheetDB
-        const dataToLog = {
-          data: [{
-            ...formData,
-            timestamp: new Date().toLocaleString()
-          }]
+        // 1. Create User in Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        const user = userCredential.user;
+
+        // 2. Prepare non-sensitive profile payload for Firestore
+        const userProfile = {
+          uid: user.uid,
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          courseOfInterest: formData.courseOfInterest,
+          skillLevel: formData.skillLevel,
+          learningGoal: formData.learningGoal,
+          educationalBackground: formData.educationalBackground,
+          occupation: formData.occupation === 'Other' ? formData.otherOccupation : formData.occupation,
+          location: formData.location,
+          referralSource: formData.referralSource,
+          purchasedCourseIds: [],
+          enrolledCourses: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
         };
 
-        const response = await axios.post('https://sheetdb.io/api/v1/8y8e88qu4ga5s', dataToLog);
-        
-        if (response.status === 201 || response.status === 200) {
-          localStorage.setItem("daiel_logged_in_user", JSON.stringify(formData));
-          localStorage.setItem("daiel_user_data", JSON.stringify(formData));
-          setIsSuccess(true);
-        }
+        // 3. Save User Profile into Cloud Firestore
+        await setDoc(doc(db, "users", user.uid), userProfile);
+
+        // 4. Save to local storage cache for immediate local UI sync
+        localStorage.setItem("daiel_logged_in_user", JSON.stringify(userProfile));
+        localStorage.setItem("daiel_user_data", JSON.stringify(userProfile));
+
+        setIsSuccess(true);
       } catch (error) {
-        console.error("Submission error details:", {
-          message: error.message,
-          response: error.response?.data,
-          status: error.response?.status,
-          headers: error.response?.headers
-        });
-        alert(`There was an error submitting your registration: ${error.message}. Please check the console for more details.`);
+        console.error("Firebase Registration Error:", error);
+        let errorMsg = "Failed to create account. Please try again.";
+        if (error.code === 'auth/email-already-in-use') {
+          errorMsg = "This email address is already registered. Please login instead.";
+          setErrors({ email: errorMsg });
+        } else if (error.code === 'auth/invalid-email') {
+          errorMsg = "Please provide a valid email address.";
+          setErrors({ email: errorMsg });
+        } else if (error.code === 'auth/weak-password') {
+          errorMsg = "Password is too weak. Please fulfill all security criteria.";
+          setErrors({ password: errorMsg });
+        } else {
+          setErrors({ general: error.message });
+        }
       } finally {
         setIsSubmitting(false);
       }

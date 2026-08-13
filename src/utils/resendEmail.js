@@ -9,9 +9,9 @@ const DEFAULT_RESEND_KEY = process.env.REACT_APP_RESEND_API_KEY || "";
 const OWNER_EMAIL = "davidkayode153@gmail.com";
 
 // Optional EmailJS Credentials for zero-CORS browser delivery
-const EMAILJS_SERVICE_ID = "service_daiel";
-const EMAILJS_TEMPLATE_ID = "template_daiel";
-const EMAILJS_PUBLIC_KEY = "public_key_daiel";
+const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || "";
+const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || "";
+const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || "";
 
 /**
  * Sends a branded 6-digit OTP email verification via Resend API / EmailJS
