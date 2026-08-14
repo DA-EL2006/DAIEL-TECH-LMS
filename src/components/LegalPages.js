@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { 
-  ArrowLeft, 
-  Search, 
-  BookOpen, 
-  ShieldAlert, 
-  UserCheck, 
-  Scale, 
-  ChevronRight, 
+import {
+  ArrowLeft,
+  Search,
+  BookOpen,
+  ShieldAlert,
+  UserCheck,
+  Scale,
+  ChevronRight,
   Info,
-  Receipt
+  Receipt,
 } from "lucide-react";
 import { legalData } from "../data/legalData";
 import "./LegalPages.css";
@@ -37,26 +37,26 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
         return {
           doc: legalData.documents.privacy_policy,
           icon: <UserCheck className="doc-type-icon" size={24} />,
-          key: "privacy"
+          key: "privacy",
         };
       case "conduct":
         return {
           doc: legalData.documents.code_of_conduct,
           icon: <ShieldAlert className="doc-type-icon" size={24} />,
-          key: "conduct"
+          key: "conduct",
         };
       case "refund":
         return {
           doc: legalData.documents.refund_policy,
           icon: <Receipt className="doc-type-icon" size={24} />,
-          key: "refund"
+          key: "refund",
         };
       case "terms":
       default:
         return {
           doc: legalData.documents.terms_and_conditions,
           icon: <Scale className="doc-type-icon" size={24} />,
-          key: "terms"
+          key: "terms",
         };
     }
   };
@@ -75,10 +75,12 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
     const parts = text.split(regex);
     return parts.map((part, index) =>
       part.toLowerCase() === query.toLowerCase() ? (
-        <mark key={index} className="legal-highlight">{part}</mark>
+        <mark key={index} className="legal-highlight">
+          {part}
+        </mark>
       ) : (
         part
-      )
+      ),
     );
   };
 
@@ -95,7 +97,7 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
@@ -106,27 +108,34 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
 
     const query = searchQuery.toLowerCase();
 
-    return doc.sections.map(section => {
-      // Check if section heading matches, or if any of its clauses match
-      const sectionHeadingMatches = section.heading.toLowerCase().includes(query);
-      
-      const filteredClauses = section.clauses.filter(clause => 
-        clause.topic.toLowerCase().includes(query) || 
-        clause.text.toLowerCase().includes(query)
-      );
+    return doc.sections
+      .map((section) => {
+        // Check if section heading matches, or if any of its clauses match
+        const sectionHeadingMatches = section.heading
+          .toLowerCase()
+          .includes(query);
 
-      // If either heading matches or there are matching clauses, include the section
-      if (sectionHeadingMatches || filteredClauses.length > 0) {
-        return {
-          ...section,
-          // If heading matched but no clauses matched, show all clauses; otherwise show filtered ones
-          clauses: filteredClauses.length > 0 ? filteredClauses : section.clauses,
-          isHeadingMatch: sectionHeadingMatches && filteredClauses.length === 0
-        };
-      }
+        const filteredClauses = section.clauses.filter(
+          (clause) =>
+            clause.topic.toLowerCase().includes(query) ||
+            clause.text.toLowerCase().includes(query),
+        );
 
-      return null;
-    }).filter(Boolean);
+        // If either heading matches or there are matching clauses, include the section
+        if (sectionHeadingMatches || filteredClauses.length > 0) {
+          return {
+            ...section,
+            // If heading matched but no clauses matched, show all clauses; otherwise show filtered ones
+            clauses:
+              filteredClauses.length > 0 ? filteredClauses : section.clauses,
+            isHeadingMatch:
+              sectionHeadingMatches && filteredClauses.length === 0,
+          };
+        }
+
+        return null;
+      })
+      .filter(Boolean);
   };
 
   const filteredSections = getFilteredSections();
@@ -143,9 +152,16 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
               <span>Back to Home</span>
             </button>
             <div className="legal-breadcrumbs">
-              <span className="crumb-link" onClick={onBack}>Home</span>
+              <span className="crumb-link" onClick={onBack}>
+                Home
+              </span>
               <ChevronRight size={14} className="crumb-sep" />
-              <span className="crumb-link" onClick={() => handleTabChange("terms")}>Legal</span>
+              <span
+                className="crumb-link"
+                onClick={() => handleTabChange("terms")}
+              >
+                Legal
+              </span>
               <ChevronRight size={14} className="crumb-sep" />
               <span className="crumb-active">{doc.title}</span>
             </div>
@@ -164,34 +180,36 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
             </div>
             <h1 className="legal-title">{doc.title}</h1>
             <p className="legal-intro">{doc.introduction}</p>
-            <span className="legal-brand-badge">Compliance Partner: {legalData.brand_name}</span>
+            <span className="legal-brand-badge">
+              Compliance Partner: {legalData.brand_name}
+            </span>
           </div>
         </header>
 
         {/* 3. DYNAMIC TAB CONTROL BAR */}
         <div className="legal-tabs-bar">
-          <button 
+          <button
             className={`legal-tab-btn ${activeTab === "terms" ? "active" : ""}`}
             onClick={() => handleTabChange("terms")}
           >
             <Scale size={18} />
             <span>Terms & Conditions</span>
           </button>
-          <button 
+          <button
             className={`legal-tab-btn ${activeTab === "privacy" ? "active" : ""}`}
             onClick={() => handleTabChange("privacy")}
           >
             <UserCheck size={18} />
             <span>Privacy Policy</span>
           </button>
-          <button 
+          <button
             className={`legal-tab-btn ${activeTab === "conduct" ? "active" : ""}`}
             onClick={() => handleTabChange("conduct")}
           >
             <ShieldAlert size={18} />
             <span>Code of Conduct</span>
           </button>
-          <button 
+          <button
             className={`legal-tab-btn ${activeTab === "refund" ? "active" : ""}`}
             onClick={() => handleTabChange("refund")}
           >
@@ -207,15 +225,18 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
             <div className="sidebar-sticky-panel">
               <div className="search-box-wrapper">
                 <Search className="search-icon" size={16} />
-                <input 
-                  type="text" 
-                  placeholder={`Search ${doc.title}...`} 
+                <input
+                  type="text"
+                  placeholder={`Search ${doc.title}...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="legal-search-input"
                 />
                 {searchQuery && (
-                  <button className="search-clear-btn" onClick={() => setSearchQuery("")}>
+                  <button
+                    className="search-clear-btn"
+                    onClick={() => setSearchQuery("")}
+                  >
                     ✕
                   </button>
                 )}
@@ -230,8 +251,8 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
                 <ul className="toc-list">
                   {doc.sections.map((section) => (
                     <li key={section.id}>
-                      <a 
-                        href={`#${section.id}`} 
+                      <a
+                        href={`#${section.id}`}
                         onClick={(e) => scrollToSection(e, section.id)}
                         className="toc-link"
                       >
@@ -247,7 +268,8 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
               <div className="legal-info-card">
                 <Info size={16} className="info-icon" />
                 <p>
-                  These documents form the legal framework of Daiel Tech LMS. For queries regarding compliance, contact our support team.
+                  These documents form the legal framework of Daiel Tech LMS.
+                  For queries regarding compliance, contact our support team.
                 </p>
                 <div className="version-tag">Version 2026.1</div>
               </div>
@@ -259,7 +281,8 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
             {/* Search feedback */}
             {searchQuery && (
               <div className="search-results-feedback">
-                Showing search results for "<strong>{searchQuery}</strong>". Found {filteredSections.length} matching sections.
+                Showing search results for "<strong>{searchQuery}</strong>".
+                Found {filteredSections.length} matching sections.
               </div>
             )}
 
@@ -267,16 +290,16 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
             {hasResults ? (
               <div className="legal-sections-container">
                 {filteredSections.map((section) => (
-                  <section 
-                    key={section.id} 
-                    id={section.id} 
+                  <section
+                    key={section.id}
+                    id={section.id}
                     className="legal-section-card"
                   >
                     <div className="section-glow-line"></div>
                     <h3 className="section-heading">
                       {highlightText(section.heading, searchQuery)}
                     </h3>
-                    
+
                     <div className="clauses-list">
                       {section.clauses.map((clause, idx) => (
                         <div key={idx} className="clause-item">
@@ -299,8 +322,15 @@ const LegalPages = ({ initialTab = "terms", onBack }) => {
               <div className="legal-no-results">
                 <ShieldAlert size={48} className="no-results-icon" />
                 <h3>No Matches Found</h3>
-                <p>We couldn't find any clauses or headings matching "{searchQuery}". Try different keywords or browse the full document.</p>
-                <button className="btn-clear-search" onClick={() => setSearchQuery("")}>
+                <p>
+                  We couldn't find any clauses or headings matching "
+                  {searchQuery}". Try different keywords or browse the full
+                  document.
+                </p>
+                <button
+                  className="btn-clear-search"
+                  onClick={() => setSearchQuery("")}
+                >
                   Reset Search
                 </button>
               </div>

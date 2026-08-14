@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { auth, db } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import './Signup.css';
 
-const Signup = ({ onBack, onLoginClick }) => {
+const Signup = ({ onBack, onLoginClick, onNavigate, prefilledData }) => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
+    fullName: prefilledData?.fullName || prefilledData?.name || '',
+    email: prefilledData?.email || '',
     phone: '',
     password: '',
     confirmPassword: '',
@@ -150,7 +150,14 @@ const Signup = ({ onBack, onLoginClick }) => {
         // 3. Save User Profile into Cloud Firestore
         await setDoc(doc(db, "users", user.uid), userProfile);
 
-        // 4. Save to local storage cache for immediate local UI sync
+        // 4. Send native Firebase email verification
+        try {
+          await sendEmailVerification(user);
+        } catch (emailErr) {
+          console.warn("Could not dispatch verification email:", emailErr);
+        }
+
+        // 5. Save to local storage cache for immediate local UI sync
         localStorage.setItem("daiel_logged_in_user", JSON.stringify(userProfile));
         localStorage.setItem("daiel_user_data", JSON.stringify(userProfile));
 
@@ -187,6 +194,10 @@ const Signup = ({ onBack, onLoginClick }) => {
               Congratulations! You've made the right choice by joining Daiel Tech. 
               Your journey to mastering tech skills starts now.
             </p>
+          </div>
+          <div className="email-verify-notice" style={{ margin: "16px 0", padding: "14px", background: "rgba(59, 130, 246, 0.12)", border: "1px solid rgba(59, 130, 246, 0.3)", borderRadius: "12px", color: "#38bdf8", fontSize: "0.95rem" }}>
+            📩 <strong>Firebase Verification Email Sent!</strong><br />
+            A verification link has been sent to <strong>{formData.email}</strong>. Please check your <u>Inbox</u> and <u>Spam / Junk</u> folder.
           </div>
           <button className="submit-btn-premium" onClick={onLoginClick}>
             Go to Login
@@ -425,7 +436,30 @@ const Signup = ({ onBack, onLoginClick }) => {
                 onChange={handleChange}
               />
               <span className="checkmark"></span>
-              I agree to Daiel Tech's <a href="#terms">Terms and Conditions</a> and <a href="#privacy">Privacy Policy</a>
+              I agree to Daiel Tech's{" "}
+              <span
+                className="auth-link-inline"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onNavigate) {
+                    onNavigate("legal", { tab: "terms" });
+                  }
+                }}
+              >
+                Terms and Conditions
+              </span>{" "}
+              and{" "}
+              <span
+                className="auth-link-inline"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onNavigate) {
+                    onNavigate("legal", { tab: "privacy" });
+                  }
+                }}
+              >
+                Privacy Policy
+              </span>
             </label>
             {errors.agreeToTerms && <p className="error-text">{errors.agreeToTerms}</p>}
 

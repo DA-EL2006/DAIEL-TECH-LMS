@@ -39,7 +39,7 @@ const WhatWeOffer = ({ onSignupClick }) => {
     <section className="what-we-offer" id="what-we-offer">
       <div className="offer-container">
         <div className="offer-header">
-          <span className="offer-badge">🌟 What We Offer at Daiel Tech</span>
+          <div className="offer-badge-text">🌟 What We Offer at Daiel Tech</div>
           <h2 className="offer-main-title">We don’t just teach tech. <span className="highlight">We ignite futures.</span></h2>
           <p className="offer-subtitle">
             At Daiel Tech, every program is a deliberate bridge from where you are to where the world needs you to be: equipped, confident, and competitive in the global digital economy.
@@ -49,7 +49,6 @@ const WhatWeOffer = ({ onSignupClick }) => {
         <div className="offer-grid">
           {offers.map((offer) => (
             <div key={offer.id} className="offer-card">
-              <div className="offer-card-glow"></div>
               <div className="offer-icon-wrapper">
                 <span className="offer-icon">{offer.icon}</span>
               </div>

@@ -23,33 +23,30 @@ const STORAGE_KEYS = {
  */
 export const getPurchasedCourseIds = () => {
   try {
-    // 1. Check logged-in user object in localStorage
-    const savedUser = localStorage.getItem("daiel_logged_in_user");
+    const savedUserStr = localStorage.getItem("daiel_logged_in_user");
+    if (!savedUserStr) return [];
+
+    const user = JSON.parse(savedUserStr);
+    const userUid = user.uid || user.email;
+    if (!userUid) return [];
+
+    // 1. Check user profile object purchased arrays
     let userPurchased = [];
-    if (savedUser) {
-      const parsedUser = JSON.parse(savedUser);
-      if (
-        parsedUser.purchasedCourseIds &&
-        Array.isArray(parsedUser.purchasedCourseIds)
-      ) {
-        userPurchased = parsedUser.purchasedCourseIds;
-      } else if (
-        parsedUser.enrolledCourses &&
-        Array.isArray(parsedUser.enrolledCourses)
-      ) {
-        userPurchased = parsedUser.enrolledCourses.map((c) =>
-          typeof c === "object" ? c.id : c,
-        );
-      }
+    if (user.purchasedCourseIds && Array.isArray(user.purchasedCourseIds)) {
+      userPurchased = user.purchasedCourseIds;
+    } else if (user.enrolledCourses && Array.isArray(user.enrolledCourses)) {
+      userPurchased = user.enrolledCourses.map((c) =>
+        typeof c === "object" ? c.id : c,
+      );
     }
 
-    // 2. Check standalone purchased list key
-    const rawList = localStorage.getItem(STORAGE_KEYS.PURCHASED_COURSES);
-    const standalonePurchased = rawList ? JSON.parse(rawList) : [];
+    // 2. Check user-scoped localStorage key
+    const userScopedKey = `daiel_purchased_courses_${userUid}`;
+    const rawUserList = localStorage.getItem(userScopedKey);
+    const userScopedPurchased = rawUserList ? JSON.parse(rawUserList) : [];
 
-    // Combine and deduplicate
     const combined = Array.from(
-      new Set([...userPurchased, ...standalonePurchased].map(Number)),
+      new Set([...userPurchased, ...userScopedPurchased].map(Number)),
     );
     return combined;
   } catch (error) {
@@ -95,25 +92,38 @@ export const isLessonFreePreview = (
 };
 
 /**
- * Record a successful Flutterwave course purchase
+ * Record a successful Flutterwave course purchase for the current user
  * @param {number|string} courseId
  * @param {object} transactionData
  */
 export const recordCoursePurchase = async (courseId, transactionData = {}) => {
   try {
     const numCourseId = Number(courseId);
+    const savedUserStr = localStorage.getItem("daiel_logged_in_user");
+    if (!savedUserStr) return false;
 
-    // 1. Update standalone list
-    const currentPurchased = getPurchasedCourseIds();
-    if (!currentPurchased.includes(numCourseId)) {
-      const updated = [...currentPurchased, numCourseId];
-      localStorage.setItem(
-        STORAGE_KEYS.PURCHASED_COURSES,
-        JSON.stringify(updated),
-      );
+    const user = JSON.parse(savedUserStr);
+    const userUid = user.uid || user.email;
+
+    // 1. Update user object purchasedCourseIds
+    const existingPurchases = user.purchasedCourseIds || [];
+    if (!existingPurchases.includes(numCourseId)) {
+      user.purchasedCourseIds = [...existingPurchases, numCourseId];
+    }
+    localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
+
+    // 2. Update user-scoped localStorage key
+    if (userUid) {
+      const userScopedKey = `daiel_purchased_courses_${userUid}`;
+      const rawUserList = localStorage.getItem(userScopedKey);
+      const userList = rawUserList ? JSON.parse(rawUserList) : [];
+      if (!userList.includes(numCourseId)) {
+        userList.push(numCourseId);
+        localStorage.setItem(userScopedKey, JSON.stringify(userList));
+      }
     }
 
-    // 2. Save transaction details log
+    // 3. Save transaction details log
     const savedTx = localStorage.getItem(STORAGE_KEYS.TRANSACTIONS);
     const transactions = savedTx ? JSON.parse(savedTx) : [];
     const newTxRecord = {
@@ -136,27 +146,18 @@ export const recordCoursePurchase = async (courseId, transactionData = {}) => {
       JSON.stringify(transactions),
     );
 
-    // 3. Update logged-in user object in localStorage
-    const savedUserStr = localStorage.getItem("daiel_logged_in_user");
-    if (savedUserStr) {
-      const user = JSON.parse(savedUserStr);
-      const userCourseIds = user.purchasedCourseIds || [];
-      if (!userCourseIds.includes(numCourseId)) {
-        user.purchasedCourseIds = [...userCourseIds, numCourseId];
-      }
-      localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
-    }
-
-    // 4. Update Firestore user document if user is authenticated in Firebase
+    // 4. Sync to Firestore user document
     const currentUser = auth.currentUser;
     if (currentUser) {
       try {
         const userRef = doc(db, "users", currentUser.uid);
         await updateDoc(userRef, {
           purchasedCourseIds: arrayUnion(numCourseId),
-          updatedAt: new Date().toISOString()
+          updatedAt: new Date().toISOString(),
         });
-        console.log(`Synced purchase of Course #${numCourseId} to Firestore user ${currentUser.uid}`);
+        console.log(
+          `Synced purchase of Course #${numCourseId} to Firestore user ${currentUser.uid}`,
+        );
       } catch (fsErr) {
         console.warn("Could not sync purchase to Firestore:", fsErr);
       }
@@ -172,7 +173,6 @@ export const recordCoursePurchase = async (courseId, transactionData = {}) => {
 
 /**
  * Reset all purchased courses in local storage for testing purposes.
- * Call this function or execute `window.resetTestPurchases()` in browser console to re-test payments.
  */
 export const resetTestPurchases = () => {
   try {
@@ -184,9 +184,12 @@ export const resetTestPurchases = () => {
       user.purchasedCourseIds = [];
       user.enrolledCourses = [];
       localStorage.setItem("daiel_logged_in_user", JSON.stringify(user));
+      if (user.uid || user.email) {
+        localStorage.removeItem(`daiel_purchased_courses_${user.uid || user.email}`);
+      }
     }
     console.log(
-      "All test purchases have been cleared! Courses are now locked again for testing.",
+      "All test purchases have been cleared for the user!",
     );
     return true;
   } catch (e) {

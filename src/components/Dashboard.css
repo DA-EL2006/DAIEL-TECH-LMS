@@ -344,6 +344,7 @@
 .progress-text .percent {
   font-size: 28px;
   font-weight: 700;
+  color: #38bdf8;
 }
 
 .progress-text .label {
@@ -619,8 +620,8 @@
 
 .progress-percent {
   font-size: 13px;
-  color: #ffffff;
-  font-weight: 600;
+  color: #38bdf8;
+  font-weight: 700;
 }
 
 .course-hover-actions {

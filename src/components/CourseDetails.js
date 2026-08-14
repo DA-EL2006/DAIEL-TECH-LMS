@@ -4,10 +4,20 @@ import './CourseDetails.css';
 import { coursesData } from '../data/coursesData';
 import { hasCourseAccess, isLessonFreePreview } from '../utils/payment';
 import FlutterwavePayButton from './FlutterwavePayButton';
+import Toast from './Toast';
 
 const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssignmentSelect, onProjectSelect, loggedInUser }) => {
   const [expandedModule, setExpandedModule] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [toast, setToast] = useState({ message: '', type: 'info' });
+  const [projectSubmissions, setProjectSubmissions] = useState(() => {
+    try {
+      const saved = localStorage.getItem(`daiel_project_submissions_${courseId}`);
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      return {};
+    }
+  });
 
   const course = coursesData[courseId];
   const isPurchased = hasCourseAccess(courseId);
@@ -22,6 +32,21 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId, refreshKey]);
+
+  // Flatten all lessons for sequential progression tracking
+  const allCourseLessons = React.useMemo(() => {
+    const list = [];
+    if (course && course.modules) {
+      course.modules.forEach((mod) => {
+        if (mod.lessons) {
+          mod.lessons.forEach((l) => {
+            list.push(l);
+          });
+        }
+      });
+    }
+    return list;
+  }, [course]);
 
   if (!course) {
     return (
@@ -55,6 +80,17 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
     );
   }
 
+  const handleSaveProjectSubmission = (submissionKey, link) => {
+    if (!link || !link.trim()) {
+      setToast({ message: "Please enter a valid GitHub repository or Gist link.", type: "warning" });
+      return;
+    }
+    const updated = { ...projectSubmissions, [submissionKey]: link.trim() };
+    setProjectSubmissions(updated);
+    localStorage.setItem(`daiel_project_submissions_${courseId}`, JSON.stringify(updated));
+    setToast({ message: "GitHub repository / Gist link submitted successfully!", type: "success" });
+  };
+
   const toggleModule = (moduleId) => {
     if (expandedModule === moduleId) {
       setExpandedModule(null);
@@ -63,9 +99,14 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
     }
   };
 
-  const handleAction = (type, data, isAllowed) => {
+  const handleAction = (type, data, isAllowed, isLockedByProgression) => {
+    if (isLockedByProgression) {
+      setToast({ message: "Lesson Locked! You must watch and complete the previous video lesson before advancing.", type: "warning" });
+      return;
+    }
+
     if (!isAllowed) {
-      alert("This content is locked. Please click 'Pay to Unlock Full Course' to get instant access via Flutterwave.");
+      setToast({ message: "This content is locked. Please click 'Pay to Unlock Full Course' to get instant access.", type: "warning" });
       return;
     }
 
@@ -186,8 +227,14 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
                 {mod.lessons && mod.lessons.length > 0 && (
                   <div className="lessons-timeline">
                     {mod.lessons.map((lesson, lessonIndex) => {
+                      const globalIdx = allCourseLessons.findIndex(l => l.id === lesson.id);
+                      const isFirstLesson = globalIdx === 0;
+                      const prevLessonId = globalIdx > 0 ? allCourseLessons[globalIdx - 1].id : null;
+                      const isCompleted = completedLessons.includes(lesson.id);
+                      const isSequentiallyUnlocked = isCompleted || isFirstLesson || (prevLessonId && completedLessons.includes(prevLessonId));
                       const isFreePreview = isLessonFreePreview(course.id, lesson.id, moduleIndex, lessonIndex);
-                      const isAllowed = isPurchased || isFreePreview;
+                      
+                      const isAllowed = isPurchased ? isSequentiallyUnlocked : isFreePreview;
 
                       return (
                         <div key={lesson.id} className="timeline-item">
@@ -197,7 +244,7 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
                             {/* Video Element */}
                             <div 
                               className="lesson-video-card"
-                              onClick={() => handleAction('video', lesson.id, isAllowed)}
+                              onClick={() => handleAction('video', lesson.id, isAllowed, isPurchased && !isSequentiallyUnlocked)}
                               style={{ opacity: isAllowed ? 1 : 0.75, cursor: 'pointer' }}
                             >
                               <div className="play-icon-wrapper" style={{
@@ -293,10 +340,34 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
                           </div>
                         )}
 
+                        <div className="project-github-submission" style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                          {Number(courseId) === 2 && (
+                            <div className="ml-task-folder-notice" style={{ background: "rgba(2, 132, 199, 0.12)", border: "2px solid #0284c7", padding: "14px 18px", borderRadius: "10px", color: "#0284c7", fontSize: "1rem", fontWeight: 800, lineHeight: 1.5, marginBottom: "14px" }}>
+                              📌 <strong>Machine Learning Task Guideline:</strong> Create a dedicated folder for all tasks in this module and push that folder to your GitHub repository alongside your module project submission.
+                            </div>
+                          )}
+                          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                            <input 
+                              type="url" 
+                              placeholder="Paste your GitHub repository or Gist link here..." 
+                              value={projectSubmissions[project.id] || ''}
+                              onChange={(e) => setProjectSubmissions(prev => ({ ...prev, [project.id]: e.target.value }))}
+                              style={{ flex: 1, minWidth: '240px', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--color-card-border)', background: 'var(--color-card-bg)', color: 'var(--color-text)', fontSize: '0.9rem' }}
+                            />
+                            <button 
+                              className="btn-submit-github-repo"
+                              onClick={() => handleSaveProjectSubmission(project.id, projectSubmissions[project.id])}
+                              style={{ padding: '10px 20px', borderRadius: '8px', background: 'var(--color-primary)', color: '#fff', border: 'none', fontWeight: 600, cursor: 'pointer' }}
+                            >
+                              Submit Project Link
+                            </button>
+                          </div>
+                        </div>
+
                         <button 
                           className="btn-start-assignment" 
                           onClick={() => handleAction('project', { ...project, moduleName: mod.subtitle })}
-                          style={{ marginTop: '10px' }}
+                          style={{ marginTop: '14px' }}
                         >
                           Start in Sandbox
                         </button>
@@ -311,9 +382,32 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
                     <div className="assignment-icon">
                       <Trophy size={32} />
                     </div>
-                    <div className="assignment-content">
+                    <div className="assignment-content" style={{ width: '100%' }}>
                       <h4>Module Assignment: {typeof mod.assignment === 'object' ? mod.assignment.title : ''}</h4>
                       <p>{typeof mod.assignment === 'object' ? mod.assignment.objective : mod.assignment}</p>
+
+                      {Number(courseId) === 2 && (
+                        <div className="ml-task-folder-notice" style={{ background: "rgba(2, 132, 199, 0.12)", border: "2px solid #0284c7", padding: "14px 18px", borderRadius: "10px", color: "#0284c7", fontSize: "1rem", fontWeight: 800, lineHeight: 1.5, margin: "14px 0" }}>
+                          📌 <strong>Machine Learning Task Guideline:</strong> Create a dedicated folder for all tasks in this module and push that folder to your GitHub repository alongside your module project.
+                        </div>
+                      )}
+
+                      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center', marginTop: '12px' }}>
+                        <input 
+                          type="url" 
+                          placeholder="Paste your GitHub repository or Gist link..." 
+                          value={projectSubmissions[`assignment_${mod.id}`] || ''}
+                          onChange={(e) => setProjectSubmissions(prev => ({ ...prev, [`assignment_${mod.id}`]: e.target.value }))}
+                          style={{ flex: 1, minWidth: '220px', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--color-card-border)', background: 'var(--color-card-bg)', color: 'var(--color-text)', fontSize: '0.85rem' }}
+                        />
+                        <button 
+                          className="btn-submit-github-repo"
+                          onClick={() => handleSaveProjectSubmission(`assignment_${mod.id}`, projectSubmissions[`assignment_${mod.id}`])}
+                          style={{ padding: '8px 16px', borderRadius: '8px', background: 'var(--color-primary)', color: '#fff', border: 'none', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}
+                        >
+                          Submit Assignment Link
+                        </button>
+                      </div>
                     </div>
                     <button className="btn-start-assignment" onClick={() => handleAction('assignment', { ...mod.assignment, moduleName: mod.subtitle })}>
                       Start Assignment
@@ -325,6 +419,7 @@ const CourseDetails = ({ courseId, onBack, onEnrollClick, onVideoSelect, onAssig
           ))}
         </div>
       </section>
+      <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: "", type: "info" })} />
     </div>
   );
 };

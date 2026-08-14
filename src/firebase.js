@@ -1,21 +1,30 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDbrXCYt16WeVu1P9J3E4imBcY0CxrDl10",
-  authDomain: "daiel-tech-lms.firebaseapp.com",
-  projectId: "daiel-tech-lms",
-  storageBucket: "daiel-tech-lms.firebasestorage.app",
-  messagingSenderId: "303324443122",
-  appId: "1:303324443122:web:b50c2b6614d0ebffebfb6b",
-  measurementId: "G-5WQ4FV9CG4",
+  apiKey:
+    process.env.REACT_APP_FIREBASE_API_KEY ||
+    "AIzaSyCLQ7W56nB8sOQ56dqmTvLrtUcnYogL3ZI",
+  authDomain:
+    process.env.REACT_APP_FIREBASE_AUTH_DOMAIN ||
+    "daiel-tech-lms.firebaseapp.com",
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "daiel-tech-lms",
+  storageBucket:
+    process.env.REACT_APP_FIREBASE_STORAGE_BUCKET ||
+    "daiel-tech-lms.firebasestorage.app",
+  messagingSenderId:
+    process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "303324443122",
+  appId:
+    process.env.REACT_APP_FIREBASE_APP_ID ||
+    "1:303324443122:web:b50c2b6614d0ebffebfb6b",
+  measurementId:
+    process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "G-5WQ4FV9CG4",
 };
 
 // Initialize Firebase
@@ -23,6 +32,6 @@ const app = initializeApp(firebaseConfig);
 const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
 const auth = getAuth(app);
 const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
 
-export { app, analytics, auth, db };
-
+export { app, analytics, auth, db, googleProvider };

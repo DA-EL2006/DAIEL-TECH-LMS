@@ -84,27 +84,19 @@
 /* --- HERO PANEL --- */
 .legal-hero-panel {
   position: relative;
-  background: linear-gradient(135deg, rgba(0, 83, 228, 0.1) 0%, rgba(79, 172, 254, 0.05) 100%);
+  background: var(--color-card-bg);
   border: 1px solid var(--color-card-border);
   border-radius: 20px;
   padding: 3rem 2.5rem;
   margin-bottom: 2.5rem;
   overflow: hidden;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px 0 var(--color-shadow);
   backdrop-filter: blur(4px);
   animation: fadeIn 0.8s ease-out;
 }
 
 .hero-glow-effect {
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 350px;
-  height: 350px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, transparent 70%);
-  filter: blur(40px);
-  pointer-events: none;
+  display: none;
 }
 
 .hero-content {
@@ -116,9 +108,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(0, 83, 228, 0.2);
-  color: var(--color-accent-light);
-  border: 1px solid rgba(0, 242, 254, 0.2);
+  background: var(--color-primary);
+  color: #ffffff;
+  border: none;
   padding: 0.35rem 0.85rem;
   border-radius: 50px;
   font-size: 0.75rem;
@@ -136,9 +128,9 @@
   font-size: 2.5rem;
   font-weight: 850;
   margin: 0 0 1rem 0;
-  background: linear-gradient(to right, var(--color-text), var(--color-accent-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-primary);
+  background: none;
+  -webkit-text-fill-color: initial;
   letter-spacing: -0.02em;
 }
 
@@ -196,7 +188,7 @@
 
 .legal-tab-btn.active {
   color: #fff;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  background: var(--color-primary);
   box-shadow: 0 4px 15px rgba(0, 83, 228, 0.3);
 }
 
@@ -410,7 +402,7 @@
   left: 30px;
   right: 30px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-primary-light), transparent);
+  background: var(--color-primary);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -449,7 +441,7 @@
 }
 
 .clause-bullet {
-  color: var(--color-primary-light);
+  color: var(--color-primary);
   font-weight: bold;
   font-size: 1.1rem;
 }
@@ -471,12 +463,12 @@
 
 /* Highlights */
 .legal-highlight {
-  background: rgba(0, 83, 228, 0.25);
-  color: #00f2fe;
-  padding: 0 2px;
+  background: rgba(0, 83, 228, 0.15);
+  color: var(--color-primary);
+  padding: 0 4px;
   border-radius: 3px;
   font-weight: 600;
-  border-bottom: 1px solid rgba(0, 242, 254, 0.4);
+  border-bottom: 1px solid var(--color-primary);
 }
 
 /* --- NO RESULTS STATE --- */
@@ -508,7 +500,7 @@
 }
 
 .btn-clear-search {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  background: var(--color-primary);
   color: #fff;
   border: none;
   border-radius: 8px;

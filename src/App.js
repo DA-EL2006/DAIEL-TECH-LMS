@@ -18,6 +18,7 @@ import EmailComposerModal from "./components/EmailComposerModal";
 import StudentProjectsModal from "./components/StudentProjectsModal";
 import BecomeMentorModal from "./components/BecomeMentorModal";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { getPurchasedCourseIds } from "./utils/payment";
 import EmailVerificationModal from "./components/EmailVerificationModal";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -28,6 +29,7 @@ function App() {
   const location = useLocation();
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [pendingVerificationUser, setPendingVerificationUser] = useState(null);
+  const [prefilledData, setPrefilledData] = useState(null);
 
   // Session Persistence: restore logged-in user from localStorage / Firebase
   const [loggedInUser, setLoggedInUser] = useState(() => {
@@ -58,6 +60,14 @@ function App() {
         }
         setLoggedInUser(userProfile);
         localStorage.setItem("daiel_logged_in_user", JSON.stringify(userProfile));
+
+        const savedView = localStorage.getItem("daiel_current_view");
+        if (!savedView || savedView === "login" || savedView === "signup" || savedView === "landing") {
+          setCurrentView("dashboard");
+          setActiveTab("dashboard");
+          localStorage.setItem("daiel_current_view", "dashboard");
+          localStorage.setItem("daiel_active_tab", "dashboard");
+        }
       } else {
         setLoggedInUser(null);
         localStorage.removeItem("daiel_logged_in_user");
@@ -68,7 +78,11 @@ function App() {
   }, []);
 
   const [currentView, setCurrentView] = useState(() => {
-    return localStorage.getItem("daiel_current_view") || (loggedInUser ? "dashboard" : "landing");
+    const saved = localStorage.getItem("daiel_current_view");
+    if (saved && saved !== "login" && saved !== "signup" && saved !== "landing") {
+      return saved;
+    }
+    return loggedInUser ? "dashboard" : "landing";
   });
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("daiel_active_tab") || "dashboard";
@@ -76,7 +90,9 @@ function App() {
   const [selectedCourse] = useState(null);
   const [selectedCourseDetails, setSelectedCourseDetails] = useState(() => {
     const saved = localStorage.getItem("daiel_selected_course_details");
-    return saved ? Number(saved) : 1;
+    if (saved) return Number(saved);
+    const purchased = getPurchasedCourseIds();
+    return purchased.length > 0 ? purchased[0] : 1;
   });
   const [selectedLessonId, setSelectedLessonId] = useState(() => {
     return localStorage.getItem("daiel_selected_lesson_id") || null;
@@ -220,13 +236,8 @@ function App() {
   };
 
   const handleCourseDetailsSelect = (courseId) => {
-    if (loggedInUser) {
-      navigateTo("course-details", { courseId });
-      window.scrollTo(0, 0);
-    } else {
-      navigateTo(getAuthRedirectTarget());
-      window.scrollTo(0, 0);
-    }
+    navigateTo("course-details", { courseId });
+    window.scrollTo(0, 0);
   };
 
   const handleCoursesNavigation = () => {
@@ -303,6 +314,8 @@ function App() {
                     <Signup
                       onBack={() => navigateTo("landing")}
                       onLoginClick={() => navigateTo("login")}
+                      onNavigate={navigateTo}
+                      prefilledData={prefilledData}
                     />
                   )}
 
@@ -310,6 +323,10 @@ function App() {
                     <Login
                       onBack={() => navigateTo("landing")}
                       onSignupClick={() => navigateTo("signup")}
+                      onRequireSignup={(data) => {
+                        setPrefilledData(data);
+                        navigateTo("signup");
+                      }}
                       onLoginSuccess={(user) => {
                         localStorage.setItem("daiel_has_registered", "true");
                         setLoggedInUser(user);
@@ -358,11 +375,16 @@ function App() {
                       } catch (err) {
                         console.error("SignOut error:", err);
                       }
-                      localStorage.setItem("daiel_has_registered", "true");
                       setLoggedInUser(null);
                       localStorage.removeItem("daiel_logged_in_user");
+                      localStorage.removeItem("daiel_user_data");
+                      localStorage.removeItem("daiel_purchased_courses");
+                      localStorage.removeItem("daiel_payment_transactions");
                       localStorage.removeItem("daiel_current_view");
-                      navigateTo("login");
+                      localStorage.removeItem("daiel_active_tab");
+                      localStorage.removeItem("daiel_selected_course_details");
+                      localStorage.removeItem("daiel_selected_lesson_id");
+                      navigateTo("landing", {}, false);
                       window.scrollTo(0, 0);
                     }}
                     theme={theme}

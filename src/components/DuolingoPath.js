@@ -21,7 +21,7 @@ const DuolingoPath = ({
   onAssignmentSelect,
   allCourses = []
 }) => {
-  const [activeCourseId] = useState(selectedCourseId);
+  const activeCourseId = selectedCourseId || 1;
   const [selectedNode, setSelectedNode] = useState(null); // Node popover modal
 
   const currentCourse = coursesData[activeCourseId] || coursesData[1];
@@ -247,7 +247,14 @@ const DuolingoPath = ({
                   <strong>Objective:</strong>
                   <p>{selectedNode.assignment.objective || selectedNode.assignment.description}</p>
                 </div>
-                <div className="modal-actions">
+
+                {Number(activeCourseId) === 2 && (
+                  <div className="ml-task-folder-notice" style={{ background: "rgba(2, 132, 199, 0.12)", border: "2px solid #0284c7", padding: "14px 18px", borderRadius: "10px", color: "#0284c7", fontSize: "0.95rem", fontWeight: 800, lineHeight: 1.5, margin: "14px 0", textAlign: "left" }}>
+                    📌 <strong>Machine Learning Task Guideline:</strong> Create a dedicated folder for all tasks in this module and push that folder to your GitHub repository alongside your module project submission.
+                  </div>
+                )}
+
+                <div className="modal-actions" style={{ flexDirection: "column", gap: "10px", width: "100%" }}>
                   <button
                     className="duo-btn-primary"
                     onClick={() => {
@@ -282,6 +289,7 @@ const DuolingoPath = ({
                     className={`duo-btn-secondary ${selectedNode.isCompleted ? 'active' : ''}`}
                     onClick={() => {
                       if (toggleLessonComplete) toggleLessonComplete(activeCourseId, selectedNode.lesson.id);
+                      window.dispatchEvent(new Event("daiel_lesson_completed"));
                       setSelectedNode((prev) => ({ ...prev, isCompleted: !prev.isCompleted }));
                     }}
                   >

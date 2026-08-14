@@ -12,6 +12,7 @@ import {
 import { coursesData } from "../data/coursesData";
 import { hasCourseAccess, isLessonFreePreview } from "../utils/payment";
 import FlutterwavePayButton from "./FlutterwavePayButton";
+import Toast from "./Toast";
 import "./VideoPlayer.css";
 
 const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
@@ -22,6 +23,7 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
   const [hasWatched75, setHasWatched75] = useState(false);
   const [checkedTasks, setCheckedTasks] = useState({});
   const [refreshKey, setRefreshKey] = useState(0);
+  const [toast, setToast] = useState({ message: "", type: "info" });
 
   const course = coursesData[courseId];
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -168,18 +170,13 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
         delete timestamps[activeLessonId];
       }
       localStorage.setItem("daiel_completion_timestamps", JSON.stringify(timestamps));
+      window.dispatchEvent(new Event("daiel_lesson_completed"));
     } catch (e) {
       console.error(e);
     }
   };
 
-  const handleSubmitTask = (e) => {
-    e.preventDefault();
-    if (!isCompleted) {
-      handleToggleComplete();
-    }
-    alert("Task submitted successfully! Lesson marked as completed.");
-  };
+
 
   // Load notes when lesson changes
   useEffect(() => {
@@ -213,11 +210,17 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
     setSaveStatus("saving");
   };
 
-  const isNextLocked = false;
+  const isNextUnlocked = isCompleted || hasWatched75;
+  const isNextLocked = isPurchased ? !isNextUnlocked : false;
 
   const handleNavigate = (newLessonId) => {
     if (!newLessonId) return;
+    if (newLessonId === nextLessonId && isNextLocked) {
+      setToast({ message: "Next Lesson Locked! Complete at least 75% of this video or click 'Mark as Completed' to unlock.", type: "warning" });
+      return;
+    }
     setCurrentLessonId(newLessonId);
+    setWatchProgress(0);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -477,9 +480,11 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
                 </ul>
 
                 <div className="task-submission-section">
-                  <p className="submission-note">
-                    Ensure your code works before submitting here 😂
-                  </p>
+                  {Number(courseId) === 2 && (
+                    <div className="ml-task-folder-notice" style={{ background: "rgba(2, 132, 199, 0.12)", border: "2px solid #0284c7", padding: "14px 18px", borderRadius: "10px", color: "#0284c7", fontSize: "1rem", fontWeight: 800, lineHeight: 1.5, marginBottom: "14px" }}>
+                      📌 <strong>Machine Learning Task Guideline:</strong> Create a dedicated folder for all tasks in each module and push that folder to your GitHub repository alongside your main module project submission.
+                    </div>
+                  )}
 
                   <div className="feedback-input-group">
                     <label htmlFor="task-feedback" className="feedback-label">
@@ -491,20 +496,6 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
                       className="feedback-textarea"
                       rows="2"
                     ></textarea>
-                  </div>
-
-                  <div className="submission-input-group">
-                    <input
-                      type="url"
-                      placeholder="Paste your GitHub repository or Gist link here..."
-                      className="github-link-input"
-                    />
-                    <button
-                      className="submit-link-btn"
-                      onClick={handleSubmitTask}
-                    >
-                      Submit Task
-                    </button>
                   </div>
                 </div>
               </div>
@@ -537,6 +528,7 @@ const VideoPlayer = ({ courseId, initialLessonId, onBack, loggedInUser }) => {
           </div>
         </div>
       </div>
+      <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: "", type: "info" })} />
     </div>
   );
 };

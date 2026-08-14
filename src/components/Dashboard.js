@@ -21,10 +21,18 @@ import FlutterwavePayButton from "./FlutterwavePayButton";
 import { getPurchasedCourseIds, hasCourseAccess } from "../utils/payment";
 import DashboardSidebar from "./dashboard/DashboardSidebar";
 import DashboardHeader from "./dashboard/DashboardHeader";
+import PaymentRequiredModal from "./PaymentRequiredModal";
 
 import pythonImg from "../assets/python_banner.png";
 import mlImg from "../assets/ml_banner.png";
 import frontendImg from "../assets/frontend_banner.png";
+
+const getCourseTypeForId = (courseId) => {
+  const id = Number(courseId);
+  if (id === 3) return "frontend";
+  if (id === 2) return "ml";
+  return "python";
+};
 // import graphicsImg from '../assets/graphics_banner.png';
 // import photoshopImg from '../assets/photoshop_banner.png';
 
@@ -109,6 +117,7 @@ const Dashboard = ({
   const [currentTime, setCurrentTime] = useState(new Date());
   const [searchFocused, setSearchFocused] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [unpaidCourseModal, setUnpaidCourseModal] = useState(null);
 
   const [completedLessons, setCompletedLessons] = useState(() => {
     try {
@@ -222,9 +231,30 @@ const Dashboard = ({
   const timeInvestedValue = `${h}h ${m}m`;
 
   const maxCount = Math.max(...weekCounts, 1);
-  const barHeights = weekCounts.map((count) => `${(count / maxCount) * 80}%`);
+  const barHeights = weekCounts.map((count) => {
+    if (count === 0) return "10%";
+    return `${Math.min(Math.max((count / maxCount) * 85, 22), 100)}%`;
+  });
   const currentDayOfWeekIndex =
     new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+
+  useEffect(() => {
+    const handleSync = () => {
+      try {
+        const saved = localStorage.getItem("daiel_completed_lessons");
+        setCompletedLessons(saved ? JSON.parse(saved) : {});
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    window.addEventListener("storage", handleSync);
+    window.addEventListener("daiel_lesson_completed", handleSync);
+    return () => {
+      window.removeEventListener("storage", handleSync);
+      window.removeEventListener("daiel_lesson_completed", handleSync);
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -264,16 +294,31 @@ const Dashboard = ({
         })
       : [];
 
+  const activeLessons = getCourseLessons(selectedCourseDetails || (purchasedIds.length > 0 ? purchasedIds[0] : 1));
+  const activeCompleted = completedLessons[selectedCourseDetails || (purchasedIds.length > 0 ? purchasedIds[0] : 1)] || [];
+  const activeCompletionRate = activeLessons.length > 0
+    ? Math.round((activeCompleted.length / activeLessons.length) * 100)
+    : 0;
+
   const user = {
     name: firstName,
     streak: totalCompletedCount,
-    completionRate:
-      enrolledCoursesList.length > 0 ? enrolledCoursesList[0].progress : 0,
+    completionRate: activeCompletionRate,
     enrolledCourses: enrolledCoursesList,
   };
 
   return (
     <div className="dash-container">
+      <PaymentRequiredModal
+        isOpen={!!unpaidCourseModal}
+        course={unpaidCourseModal}
+        loggedInUser={loggedInUser}
+        onClose={() => setUnpaidCourseModal(null)}
+        onPaymentSuccess={(cId) => {
+          setUnpaidCourseModal(null);
+          setSelectedCourseDetails(cId);
+        }}
+      />
       {/* MOBILE DASHBOARD TOP BAR */}
       <div className="dash-mobile-header font-mono">
         <button
@@ -307,7 +352,7 @@ const Dashboard = ({
         onLogout={onLogout}
       />
 
-      {currentView === "dashboard" ? (
+      {(!currentView || currentView === "dashboard" || !["course-details", "video-player", "certificate", "sandbox", "legal"].includes(currentView)) ? (
         <>
           <main className="dash-main-area">
             {/* Top HUD Area */}
@@ -324,7 +369,7 @@ const Dashboard = ({
             />
 
             <div className="dash-content-wrapper">
-              {activeTab === "dashboard" && (
+              {(activeTab === "dashboard" || activeTab === "overview" || !["explore", "courses", "achievements"].includes(activeTab)) && (
                 <>
                   {/* 2. THE "HERO" INTERACTIVE WELCOME BENTO CARD */}
                   <section className="bento-hero dash-glass-panel">
@@ -342,11 +387,11 @@ const Dashboard = ({
                         <button
                           className="btn-resume-learning"
                           onClick={() => {
-                            if (purchasedIds.length > 0) {
-                              if (onResumeCourse)
-                                onResumeCourse(purchasedIds[0]);
+                            const courseToResume = selectedCourseDetails || (purchasedIds.length > 0 ? purchasedIds[0] : 1);
+                            if (onResumeCourse) {
+                              onResumeCourse(courseToResume);
                             } else {
-                              setActiveTab("explore");
+                              setActiveTab("courses");
                             }
                           }}
                         >
@@ -565,7 +610,10 @@ const Dashboard = ({
 
               {activeTab === "courses" &&
                 (() => {
-                  const currentCourseId = selectedCourseDetails || 1;
+                  const purchasedCourseIds = getPurchasedCourseIds();
+                  const defaultCourseId = purchasedCourseIds.length > 0 ? purchasedCourseIds[0] : 1;
+                  const currentCourseId = selectedCourseDetails || defaultCourseId;
+
                   const isCoursePurchased = hasCourseAccess(currentCourseId);
                   const currentCourseData = coursesData[currentCourseId] || {
                     id: currentCourseId,
@@ -573,122 +621,218 @@ const Dashboard = ({
                     price: 5000,
                   };
 
-                  if (!isCoursePurchased) {
-                    return (
+                  return (
+                    <div className="dash-learning-path-wrapper">
+                      {/* Course Switcher Tabs */}
                       <div
-                        className="locked-course-path-container"
+                        className="learning-course-switcher dash-glass-panel"
                         style={{
-                          padding: "60px 24px",
-                          textAlign: "center",
+                          display: "flex",
+                          gap: "10px",
+                          marginBottom: "20px",
+                          padding: "12px 18px",
+                          borderRadius: "16px",
                           background: "var(--dash-surface)",
-                          borderRadius: "24px",
                           border: "1px solid var(--dash-border)",
-                          margin: "20px auto",
-                          maxWidth: "680px",
-                          boxShadow: "0 10px 30px var(--color-shadow)",
+                          overflowX: "auto",
                         }}
                       >
-                        <div
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            width: "72px",
-                            height: "72px",
-                            borderRadius: "50%",
-                            background: "rgba(239, 68, 68, 0.12)",
-                            color: "#ef4444",
-                            marginBottom: "20px",
-                          }}
-                        >
-                          <Lock size={36} />
-                        </div>
-                        <h2
-                          style={{
-                            fontSize: "1.8rem",
-                            fontWeight: "800",
-                            marginBottom: "12px",
-                            color: "var(--dash-text-main)",
-                          }}
-                        >
-                          Learning Path Locked
-                        </h2>
-                        <p
-                          style={{
-                            opacity: "0.85",
-                            marginBottom: "28px",
-                            fontSize: "1rem",
-                            lineHeight: "1.6",
-                            color: "var(--dash-text-muted)",
-                            maxWidth: "520px",
-                            margin: "0 auto 28px",
-                          }}
-                        >
-                          The interactive step-by-step learning map for{" "}
-                          <strong>{currentCourseData.title}</strong> is locked.
-                          Purchase this course to unlock all interactive
-                          modules, video lessons, and projects!
-                        </p>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "12px",
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          <FlutterwavePayButton
-                            course={currentCourseData}
-                            user={loggedInUser}
-                            onSuccess={() => {
-                              setActiveTab("courses");
-                            }}
-                            buttonText={`Pay ₦${(currentCourseData.price || 5000).toLocaleString()} - Unlock Full Course`}
-                            style={{ padding: "14px 28px", fontSize: "1rem" }}
-                          />
-                          <button
-                            className="btn-view-path"
-                            onClick={() => setActiveTab("explore")}
-                            style={{ padding: "14px 24px" }}
-                          >
-                            Explore Other Courses
-                          </button>
-                        </div>
+                        {allCourses.map((c) => {
+                          const isSelected = Number(c.id) === Number(currentCourseId);
+                          const isPurchased = hasCourseAccess(c.id);
+                          return (
+                            <button
+                              key={c.id}
+                              onClick={() => {
+                                if (isPurchased) {
+                                  setSelectedCourseDetails(c.id);
+                                  if (onNavigate) {
+                                    onNavigate("dashboard", { tab: "courses", courseId: c.id });
+                                  }
+                                } else {
+                                  setUnpaidCourseModal(coursesData[c.id] || c);
+                                }
+                              }}
+                              style={{
+                                padding: "10px 18px",
+                                borderRadius: "10px",
+                                border: isSelected
+                                  ? "1px solid #0053e4"
+                                  : "1px solid var(--dash-border)",
+                                background: isSelected
+                                  ? "rgba(0, 83, 228, 0.25)"
+                                  : "var(--dash-surface-hover)",
+                                color: isSelected ? "#38bdf8" : "var(--dash-text-muted)",
+                                fontWeight: isSelected ? "700" : "500",
+                                fontSize: "0.9rem",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                whiteSpace: "nowrap",
+                                transition: "all 0.2s ease",
+                              }}
+                            >
+                              <span>{c.title}</span>
+                              {isPurchased ? (
+                                <span
+                                  style={{
+                                    fontSize: "0.7rem",
+                                    background: "rgba(34, 197, 94, 0.2)",
+                                    color: "#4ade80",
+                                    padding: "2px 6px",
+                                    borderRadius: "4px",
+                                  }}
+                                >
+                                  Enrolled
+                                </span>
+                              ) : (
+                                <span
+                                  style={{
+                                    fontSize: "0.7rem",
+                                    background: "rgba(249, 115, 22, 0.2)",
+                                    color: "#fb923c",
+                                    padding: "2px 6px",
+                                    borderRadius: "4px",
+                                  }}
+                                >
+                                  Preview
+                                </span>
+                              )}
+                            </button>
+                          );
+                        })}
                       </div>
-                    );
-                  }
 
-                  return (
-                    <DuolingoPath
-                      selectedCourseId={currentCourseId}
-                      onSelectCourse={(courseId) =>
-                        setSelectedCourseDetails(courseId)
-                      }
-                      completedLessons={completedLessons}
-                      toggleLessonComplete={toggleLessonComplete}
-                      onVideoSelect={(courseId, lessonId) => {
-                        setSelectedCourseDetails(courseId);
-                        setSelectedLessonId(lessonId);
-                        setCurrentView("video-player");
-                        window.scrollTo(0, 0);
-                      }}
-                      onAssignmentSelect={(assignment) => {
-                        setActiveSandboxTask({
-                          courseType:
-                            currentCourseId === 1 ? "python" : "frontend",
-                          module: assignment.moduleName || "Assignment",
-                          title: assignment.title,
-                          description: assignment.objective,
-                          objectives: assignment.steps || [],
-                          hint: assignment.hints
-                            ? assignment.hints.join("\n\n")
-                            : "",
-                        });
-                        setCurrentView("sandbox");
-                        window.scrollTo(0, 0);
-                      }}
-                      allCourses={allCourses}
-                    />
+                      {!isCoursePurchased ? (
+                        <div
+                          className="locked-course-path-container"
+                          style={{
+                            padding: "60px 24px",
+                            textAlign: "center",
+                            background: "var(--dash-surface)",
+                            borderRadius: "24px",
+                            border: "1px solid var(--dash-border)",
+                            margin: "20px auto",
+                            maxWidth: "680px",
+                            boxShadow: "0 10px 30px var(--color-shadow)",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "72px",
+                              height: "72px",
+                              borderRadius: "50%",
+                              background: "rgba(239, 68, 68, 0.12)",
+                              color: "#ef4444",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <Lock size={36} />
+                          </div>
+                          <h2
+                            style={{
+                              fontSize: "1.8rem",
+                              fontWeight: "800",
+                              marginBottom: "12px",
+                              color: "var(--dash-text-main)",
+                            }}
+                          >
+                            Learning Path Locked
+                          </h2>
+                          <p
+                            style={{
+                              opacity: "0.85",
+                              marginBottom: "28px",
+                              fontSize: "1rem",
+                              lineHeight: "1.6",
+                              color: "var(--dash-text-muted)",
+                              maxWidth: "520px",
+                              margin: "0 auto 28px",
+                            }}
+                          >
+                            The interactive step-by-step learning map for{" "}
+                            <strong>{currentCourseData.title}</strong> is locked.
+                            Purchase this course to unlock all interactive
+                            modules, video lessons, and projects!
+                          </p>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: "12px",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <FlutterwavePayButton
+                              course={currentCourseData}
+                              user={loggedInUser}
+                              onSuccess={() => {
+                                setActiveTab("courses");
+                              }}
+                              buttonText={`Pay ₦${(currentCourseData.price || 5000).toLocaleString()} - Unlock Full Course`}
+                              style={{ padding: "14px 28px", fontSize: "1rem" }}
+                            />
+                            <button
+                              className="btn-view-path"
+                              onClick={() => {
+                                setSelectedCourseDetails(currentCourseId);
+                                if (onNavigate) {
+                                  onNavigate("course-details", { courseId: currentCourseId });
+                                } else {
+                                  setCurrentView("course-details");
+                                }
+                              }}
+                              style={{ padding: "14px 24px" }}
+                            >
+                              View Course Details & Preview
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <DuolingoPath
+                          selectedCourseId={currentCourseId}
+                          onSelectCourse={(courseId) =>
+                            setSelectedCourseDetails(courseId)
+                          }
+                          completedLessons={completedLessons}
+                          toggleLessonComplete={toggleLessonComplete}
+                          onVideoSelect={(courseId, lessonId) => {
+                            setSelectedCourseDetails(courseId);
+                            setSelectedLessonId(lessonId);
+                            if (onNavigate) {
+                              onNavigate("video-player", { courseId, lessonId });
+                            } else {
+                              setCurrentView("video-player");
+                            }
+                            window.scrollTo(0, 0);
+                          }}
+                          onAssignmentSelect={(assignment) => {
+                            setActiveSandboxTask({
+                              courseId: currentCourseId,
+                              courseType: getCourseTypeForId(currentCourseId),
+                              module: assignment.moduleName || "Assignment",
+                              title: assignment.title,
+                              description: assignment.objective,
+                              objectives: assignment.steps || [],
+                              hint: assignment.hints
+                                ? assignment.hints.join("\n\n")
+                                : "",
+                            });
+                            if (onNavigate) {
+                              onNavigate("sandbox", { courseId: currentCourseId });
+                            } else {
+                              setCurrentView("sandbox");
+                            }
+                            window.scrollTo(0, 0);
+                          }}
+                          allCourses={allCourses}
+                        />
+                      )}
+                    </div>
                   );
                 })()}
 
@@ -735,8 +879,8 @@ const Dashboard = ({
               }}
               onAssignmentSelect={(assignment) => {
                 setActiveSandboxTask({
-                  courseType:
-                    selectedCourseDetails === 1 ? "python" : "frontend",
+                  courseId: selectedCourseDetails,
+                  courseType: getCourseTypeForId(selectedCourseDetails),
                   module: assignment.moduleName || "Assignment",
                   title: assignment.title,
                   description: assignment.objective,
@@ -756,8 +900,8 @@ const Dashboard = ({
                       ? `Specifications:\n${project.architectural_concept_map.specifications.map((s) => `• ${s}`).join("\n")}`
                       : "";
                 setActiveSandboxTask({
-                  courseType:
-                    selectedCourseDetails === 1 ? "python" : "frontend",
+                  courseId: selectedCourseDetails,
+                  courseType: getCourseTypeForId(selectedCourseDetails),
                   module: project.moduleName || "Capstone Project",
                   title: project.title,
                   description: project.description,
@@ -795,13 +939,9 @@ const Dashboard = ({
           {currentView === "sandbox" &&
             (() => {
               const currentCourseId =
-                activeSandboxTask?.courseType === "python"
-                  ? 1
-                  : activeSandboxTask?.courseType === "frontend"
-                    ? 3
-                    : activeSandboxTask?.courseType === "ml"
-                      ? 2
-                      : selectedCourseDetails || 1;
+                activeSandboxTask?.courseId ||
+                selectedCourseDetails ||
+                (getPurchasedCourseIds()[0] || 1);
 
               const isPurchased = hasCourseAccess(currentCourseId);
               const courseData = coursesData[currentCourseId] || {
@@ -898,13 +1038,16 @@ const Dashboard = ({
                 );
               }
 
+              const effectiveCourseType = activeSandboxTask?.courseType || getCourseTypeForId(currentCourseId);
+              const effectiveTask = activeSandboxTask || {
+                courseId: currentCourseId,
+                courseType: effectiveCourseType,
+              };
+
               return (
                 <SandboxIDE
-                  activeTask={activeSandboxTask}
-                  courseType={
-                    activeSandboxTask?.courseType ||
-                    (selectedCourseDetails === 1 ? "python" : "frontend")
-                  }
+                  activeTask={effectiveTask}
+                  courseType={effectiveCourseType}
                   onBack={() => {
                     if (selectedCourseDetails) {
                       setCurrentView("course-details");

@@ -260,6 +260,18 @@ select option {
     transition: color 0.3s;
 }
 
+.auth-link-inline {
+    color: var(--color-primary);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.auth-link-inline:hover {
+    color: var(--color-primary-dark);
+}
+
 .auth-link:hover {
     color: var(--color-primary-dark);
     text-decoration: underline;

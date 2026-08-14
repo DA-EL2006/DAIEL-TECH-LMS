@@ -451,9 +451,63 @@
   border-top: 2px solid var(--color-primary);
 }
 
-.monaco-container {
+.codemirror-container {
   flex: 1;
   position: relative;
+}
+
+/* Pyodide Loader Bar & Spinner */
+.pyodide-loader-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  background: rgba(2, 132, 199, 0.1);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  border-radius: 8px;
+  color: #38bdf8;
+  font-size: 12px;
+}
+
+.pyodide-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(56, 189, 248, 0.3);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: pyodide-spin 0.8s linear infinite;
+}
+
+@keyframes pyodide-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pyodide-plot-box {
+  margin-top: 8px;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.pyodide-plot-box .plot-title {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.pyodide-plot-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  display: block;
 }
 
 /* 4. RIGHT PANE */
