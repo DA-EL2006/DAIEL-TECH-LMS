@@ -174,6 +174,9 @@ const Signup = ({ onBack, onLoginClick, onNavigate, prefilledData }) => {
         } else if (error.code === 'auth/weak-password') {
           errorMsg = "Password is too weak. Please fulfill all security criteria.";
           setErrors({ password: errorMsg });
+        } else if (error.code === 'auth/unauthorized-domain') {
+          errorMsg = `Google Sign-in domain (${window.location.hostname}) is not authorized in Firebase. Please add "${window.location.hostname}" in Firebase Console -> Authentication -> Settings -> Authorized Domains.`;
+          setErrors({ general: errorMsg });
         } else {
           setErrors({ general: error.message });
         }

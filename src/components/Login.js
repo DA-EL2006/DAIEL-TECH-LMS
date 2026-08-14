@@ -132,7 +132,9 @@ const Login = ({ onBack, onSignupClick, onRequireSignup, onLoginSuccess }) => {
       }
     } catch (error) {
       console.error("Google Auth error:", error);
-      if (error.code !== 'auth/popup-closed-by-user') {
+      if (error.code === 'auth/unauthorized-domain') {
+        setErrors({ general: `Google Sign-in domain (${window.location.hostname}) is not authorized in Firebase. Please add "${window.location.hostname}" in Firebase Console -> Authentication -> Settings -> Authorized Domains.` });
+      } else if (error.code !== 'auth/popup-closed-by-user') {
         setErrors({ general: `Google sign-in failed: ${error.message}` });
       }
     } finally {
