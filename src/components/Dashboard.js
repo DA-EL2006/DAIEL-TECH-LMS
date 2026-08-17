@@ -23,9 +23,9 @@ import DashboardSidebar from "./dashboard/DashboardSidebar";
 import DashboardHeader from "./dashboard/DashboardHeader";
 import PaymentRequiredModal from "./PaymentRequiredModal";
 
-import pythonImg from "../assets/python_banner.png";
-import mlImg from "../assets/ml_banner.png";
-import frontendImg from "../assets/frontend_banner.png";
+import pythonImg from "../assets/python_banner.avif";
+import mlImg from "../assets/ml_banner.avif";
+import frontendImg from "../assets/frontend_banner.avif";
 
 const getCourseTypeForId = (courseId) => {
   const id = Number(courseId);
@@ -33,8 +33,8 @@ const getCourseTypeForId = (courseId) => {
   if (id === 2) return "ml";
   return "python";
 };
-// import graphicsImg from '../assets/graphics_banner.png';
-// import photoshopImg from '../assets/photoshop_banner.png';
+// import graphicsImg from '../assets/graphics_banner.avif';
+// import photoshopImg from '../assets/photoshop_banner.avif';
 
 const allCourses = [
   {

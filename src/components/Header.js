@@ -1,6 +1,6 @@
 import React from "react";
 import { Sun, Moon } from "lucide-react";
-import logo from "../assets/logo-removebg-preview.png";
+import logo from "../assets/logo-removebg-preview.avif";
 import "./Header.css";
 
 const Header = ({

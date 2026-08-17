@@ -8,7 +8,7 @@ import {
   HeartHandshake,
   Award,
 } from "lucide-react";
-import logo from "../assets/logo-removebg-preview.png";
+import logo from "../assets/logo-removebg-preview.avif";
 
 const Footer = ({
   onLegalSelect,

@@ -4,9 +4,9 @@ import { hasCourseAccess } from "../utils/payment";
 import PaymentRequiredModal from "./PaymentRequiredModal";
 
 // Using the generated images (placeholders for now, will be updated if needed)
-import pythonImg from "../assets/python_banner.png";
-import mlImg from "../assets/ml_banner.png";
-import frontendImg from "../assets/frontend_banner.png";
+import pythonImg from "../assets/python_banner.avif";
+import mlImg from "../assets/ml_banner.avif";
+import frontendImg from "../assets/frontend_banner.avif";
 
 const courses = [
   {

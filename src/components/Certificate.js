@@ -8,7 +8,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { coursesData } from "../data/coursesData";
-import logo from "../assets/logo-removebg-preview.png";
+import logo from "../assets/logo-removebg-preview.avif";
 import "./Certificate.css";
 
 const Certificate = ({ courseId = 1, loggedInUser, onBack }) => {
